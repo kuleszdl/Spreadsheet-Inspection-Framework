@@ -3,122 +3,224 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-
-<project basedir="." default="build" name="spreadsheet_inspection_framework">
-	<property environment="env" />
-	<property name="debuglevel" value="source,lines,vars" />
-	<property name="target" value="1.6" />
-	<property name="source" value="1.6" />
-	<property name="jar.dir" value="jar" />
-
-	<property name="folderpath" value="C:/Dokumente und Einstellungen/Administrator/Eigene Dateien/phase2/" />
-	<property name="maxNumberOfOperands" value="" />
-	<property name="maxNestingLevel" value="" />
-	<property name="allowedConstants" value="" />
-	<property name="ignoredFunctions" value="" />
-
-	<path id="spreadsheet_inspection_framework.classpath">
-		<pathelement location="bin" />
-		<pathelement location="libs/commons-logging-1.1.jar" />
-		<pathelement location="libs/dom4j-1.6.1.jar" />
-		<pathelement location="libs/guava-10.0.1.jar" />
-		<pathelement location="libs/jsr173_1.0_api.jar" />
-		<pathelement location="libs/junit-3.8.1.jar" />
-		<pathelement location="libs/log4j-1.2.13.jar" />
-		<pathelement location="libs/poi-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-examples-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-excelant-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-ooxml-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-ooxml-schemas-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-scratchpad-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/resolver.jar" />
-		<pathelement location="libs/stax-api-1.0.1.jar" />
-		<pathelement location="libs/xbean_xpath.jar" />
-		<pathelement location="libs/xbean.jar" />
-		<pathelement location="libs/xmlbeans-2.3.0.jar" />
-		<pathelement location="libs/xmlbeans-qname.jar" />
-		<pathelement location="libs/xmlpublic.jar" />
-		<pathelement location="libs/ant.jar" />
-	</path>
-
-
-	<target name="init">
-		<mkdir dir="bin" />
-
-		<copy includeemptydirs="false" todir="bin">
-			<fileset dir="src">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-		<copy includeemptydirs="false" todir="bin">
-			<fileset dir="test">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-
-		<copy includeemptydirs="false" todir="${jar.dir}/libs">
-			<fileset dir="libs">
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="clean">
-		<delete dir="bin" />
-		<delete dir="jar" />
-	</target>
-
-
-	<target depends="build-subprojects,build-project" name="build" />
-
-	<target name="build-subprojects" />
-
-	<target depends="clean,init" name="build-project">
-		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
-			<src path="src" />
-			<classpath refid="spreadsheet_inspection_framework.classpath" />
-		</javac>
-		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
-			<src path="test" />
-			<classpath refid="spreadsheet_inspection_framework.classpath" />
-		</javac>
-
-		<path id="build-classpath">
-			<fileset dir="${jar.dir}/libs">
-				<include name="*.jar" />
-			</fileset>
-		</path>
-		<manifestclasspath property="lib.list" jarfile="${jar.dir}/sif.jar">
-			<classpath refid="build-classpath" />
-		</manifestclasspath>
-		<jar jarfile="${jar.dir}/sif.jar" basedir="bin" update="true">
-			<manifest>
-				<attribute name="Class-Path" value="${lib.list}" />
-			</manifest>
-		</jar>
-
-	</target>
-
-
-	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
-	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-		<copy todir="${ant.library.dir}">
-			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
-		</copy>
-		<unzip dest="${ant.library.dir}">
-			<patternset includes="jdtCompilerAdapter.jar" />
-			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
-		</unzip>
-	</target>
-	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
-		<antcall target="build" />
-	</target>
-
-
-
-
-
-
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Spreadsheet-Inspection-Framework">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../Program Files/eclipse"/>
+    <property name="Examples.location" value="../Examples"/>
+    <property name="sif-start.location" value="../sif-start"/>
+    <property name="sif-ui.location" value="../sif-ui"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.10.0.v4_10_0_v20120426-0900/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="Spreadsheet-Inspection-Framework.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="libs"/>
+        <pathelement location="libs/commons-logging-1.1.jar"/>
+        <pathelement location="libs/dom4j-1.6.1.jar"/>
+        <pathelement location="libs/guava-10.0.1.jar"/>
+        <pathelement location="libs/jsr173_1.0_api.jar"/>
+        <pathelement location="libs/junit-3.8.1.jar"/>
+        <pathelement location="libs/log4j-1.2.13.jar"/>
+        <pathelement location="libs/poi-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/poi-examples-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/poi-excelant-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/poi-ooxml-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/poi-ooxml-schemas-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/poi-scratchpad-3.8-beta4-20110826.jar"/>
+        <pathelement location="libs/resolver.jar"/>
+        <pathelement location="libs/stax-api-1.0.1.jar"/>
+        <pathelement location="libs/xbean_xpath.jar"/>
+        <pathelement location="libs/xbean.jar"/>
+        <pathelement location="libs/xmlbeans-2.3.0.jar"/>
+        <pathelement location="libs/xmlbeans-qname.jar"/>
+        <pathelement location="libs/xmlpublic.jar"/>
+        <pathelement location="libs/ant-1.8.4.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="libs/commons-codec-1.7.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.ucls"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${Examples.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Examples.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${sif-start.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${sif-start.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${sif-ui.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${sif-ui.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="ConditionCheckerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.ConditionCheckerTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="CreateIoCellInfo">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.CreateIoCellInfo" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="DataFacadeTest">
+        <java classname="sif.IO.DataFacadeTest" failonerror="true" fork="yes">
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </java>
+    </target>
+    <target name="DynamicScenario">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.evaluation.DynamicScenario" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="InputOutputCellScannerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.InputOutputCellScannerTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="IntermediateCellScannerTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.IntermediateCellScannerTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="POIWriterTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.IO.POIWriterTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="POIWriterTest.testInsertTestInput">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.IO.POIWriterTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="PolicyTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.PolicyTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="PreparatorTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.PreparatorTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="SpreadsheetCreationTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.SpreadsheetCreationTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="SpreadsheetNumericReadTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.IO.SpreadsheetNumericReadTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="TestFacilityTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.inspection.TestFacilityTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="XMLReadTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.IO.XMLReadTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="XMLWriteTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="sif.IO.XMLWriteTest" todir="${junit.output.dir}"/>
+            <classpath refid="Spreadsheet-Inspection-Framework.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
 </project>
