@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dynamicPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test_schema1.xsd" name="TestPolicy1">
+	<rules>
+		<rule name="EqualAndInterval1">
+			<invariants>
+				<compare>
+					<elementType>InputCell</elementType>
+					<value>0</value>
+					<relation>greaterThan</relation>
+				</compare>
+			</invariants>
+			<testInputs>
+				<testInput>
+					<target>C5</target>
+					<type>NUMERIC</type>
+					<value>1</value>
+				</testInput>
+			</testInputs>
+			<postconditions>
+				<compare>
+					<elementType>OutputCell</elementType>
+					<value>0</value>
+					<relation>greaterThan</relation>
+				</compare>			
+				<compare>
+					<target>D5</target>
+					<value>0</value>
+					<relation>equal</relation>
+				</compare>
+				<compare>
+					<target>E5</target>
+					<value>0</value>
+					<relation>equal</relation>
+				</compare>				
+				<interval>
+					<target>D41</target>
+					<value>0</value>
+					<value2>1</value2>
+				</interval>
+			</postconditions>
+		</rule>
+	</rules>
+	<inputCells></inputCells>
+	<outputCells></outputCells>
+	<spreadsheetFileName>input03_s1.xls</spreadsheetFileName>
+</dynamicPolicy>

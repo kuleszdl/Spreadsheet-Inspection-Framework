@@ -11,7 +11,6 @@ import sif.model.policy.policyrule.configuration.ConfigurableParameter;
  * @author Sebastian Zitzelsberger
  * 
  */
-@SuppressWarnings("unused")
 public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 
 	@ConfigurableParameter(parameterClass = Object[].class, displayedName = "Ignored contstants", description = "Configures constants that will be ignored when checking this policy rule.")

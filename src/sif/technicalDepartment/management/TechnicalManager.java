@@ -4,7 +4,9 @@ import java.util.TreeMap;
 
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.technicalDepartment.equipment.scanning.ElementScanner;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 
 /***
@@ -54,6 +56,12 @@ public class TechnicalManager {
 			Class<? extends MonolithicTestFacility> testFacilityClass) {
 		testBayManager.register(ruleClass, testFacilityClass);
 	}
+	
+	public void registerCondition(Class<? extends AbstractCondition> conditionClass,
+			Class<? extends IConditionChecker> checkerClass) {
+		testBayManager.registerCondition(conditionClass, checkerClass);
+	}
+	
 
 	public void run(InspectionRequest inspection) throws Exception {
 		testBayManager.run(inspection);

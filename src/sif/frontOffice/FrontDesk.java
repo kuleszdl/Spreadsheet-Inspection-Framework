@@ -4,10 +4,27 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import sif.IO.DataFacade;
+import sif.IO.spreadsheet.ISpreadsheetIO;
+import sif.model.elements.basic.address.AbstractAddress;
+import sif.model.elements.basic.cell.ICellElement;
+import sif.model.elements.containers.AbstractElementList;
+import sif.model.elements.custom.InputCell;
+import sif.model.elements.custom.OutputCell;
+import sif.model.inspection.DynamicInspectionRequest;
 import sif.model.inspection.InspectionRequest;
+import sif.model.policy.DynamicPolicy;
 import sif.model.policy.Policy;
 import sif.model.policy.policyrule.AbstractPolicyRule;
+import sif.model.policy.policyrule.CompositePolicyRule;
+import sif.model.policy.policyrule.DynamicPolicyRule;
+import sif.model.policy.policyrule.IOCellInfo;
+import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.technicalDepartment.equipment.scanning.ElementScanner;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.AbstractConditionChecker;
+import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 import sif.technicalDepartment.management.TechnicalManager;
 
 /***
@@ -16,10 +33,13 @@ import sif.technicalDepartment.management.TechnicalManager;
  * {@link PolicyManager}, {@link TechnicalManager} or {@link InspectionManager}.
  * Implements the Facade and Singleton pattern.
  * 
- * @author Sebastian Zitzelsberger
+ * @author Sebastian Zitzelsberger, Manuel Lemcke
  * 
  */
 public class FrontDesk {
+
+	private final static String inputCellName = "SIF_InputCell_%s";
+	private final static String outputCellName = "SIF_OutputCell_%s";
 
 	/***
 	 * Gets the instance of the front desk.
@@ -44,6 +64,94 @@ public class FrontDesk {
 		policyManager = new PolicyManager();
 		inspectionManager = new InspectionManager();
 		technicalManager = TechnicalManager.getInstance();
+	}
+
+	/**
+	 * Scans a spreadsheet and creates a policy with information about the input
+	 * cells, output cells and spreadsheet file name.
+	 * 
+	 * @param name
+	 * @param spreadsheet
+	 * @return
+	 * @throws Exception
+	 *             Throws an exception if the given spreadsheet file is invalid.
+	 */
+	public DynamicPolicy scanAndCreatePolicy(String name, File spreadsheet)
+			throws Exception {
+		InspectionRequest request = this.requestNewDynamicInspection(name,
+				spreadsheet);
+		FrontDesk.getInstance().scan();
+		DynamicPolicy policy = new DynamicPolicy();
+
+		policy.setSpreadsheetFileName(spreadsheet.getPath());
+
+		// get input cells and write them in the policy
+		AbstractElementList<InputCell> inputCells;
+		ArrayList<IOCellInfo> inputCellInfos = new ArrayList<IOCellInfo>();
+		inputCells = request.getInventory().getListFor(InputCell.class);
+		if (inputCells != null) {
+			for (Integer i = 0; i < inputCells.getNumberOfElements(); i++) {
+				IOCellInfo info = new IOCellInfo();
+				InputCell cell = inputCells.getElements().get(i);
+				info.setA1Address(createA1Address(cell));
+				info.setName(String.format(inputCellName, i.toString()));
+				inputCellInfos.add(info);
+			}
+		}
+		policy.setInputCells(inputCellInfos);
+
+		// get output cells and write them in the policy
+		AbstractElementList<OutputCell> outputCells;
+		ArrayList<IOCellInfo> outputCellInfos = new ArrayList<IOCellInfo>();
+		outputCells = request.getInventory().getListFor(OutputCell.class);
+		if (outputCells != null) {
+			for (Integer i = 0; i < outputCells.getNumberOfElements(); i++) {
+				IOCellInfo info = new IOCellInfo();
+				OutputCell cell = outputCells.getElements().get(i);
+				info.setA1Address(createA1Address(cell));
+				info.setName(String.format(outputCellName, i.toString()));
+				outputCellInfos.add(info);
+			}
+		}
+		policy.setOutputCells(outputCellInfos);
+
+		return policy;
+	}
+
+	private String createA1Address(ICellElement cell) {
+		String a1 = "";
+		String sheet = cell.getCell().getAbstractAddress().getWorksheet()
+				.getName();
+		Integer rowIndex = cell.getCell().getRowIndex();
+		Integer columnIndex = cell.getCell().getColumnIndex();
+		String column = AbstractAddress.getCharacterFor(columnIndex);
+
+		a1 = sheet + "." + column + rowIndex;
+		return a1;
+	}
+
+	/**
+	 * Requests a new inspection, scans the spreadsheet file and runs the
+	 * inspection.
+	 * 
+	 * @param name
+	 *            The name of the inspection
+	 * @param spreadsheet
+	 *            The spreadsheet file which is scanned
+	 * @param policy
+	 *            The policy against which is checked
+	 * @return The inspection request including the findings
+	 * @throws Exception
+	 */
+	public InspectionRequest createAndRunDynamicInspectionRequest(String name,
+			File spreadsheet, Policy policy) throws Exception {
+		InspectionRequest request = this.requestNewDynamicInspection(name,
+				spreadsheet);
+		FrontDesk.getInstance().scan();
+		FrontDesk.getInstance().register(policy);
+		FrontDesk.getInstance().setPolicy(policy);
+		FrontDesk.getInstance().run();
+		return request;
 	}
 
 	/***
@@ -98,6 +206,41 @@ public class FrontDesk {
 		this.policyManager.register(policy);
 	}
 
+	/**
+	 * Register a new {@link AbstractConditionChecker} Class and the
+	 * {@link AbstractCondition} class it is responsible for with SIF so it can
+	 * be used in {@link DynamicPolicyRule} instances.
+	 * 
+	 * @param conditionClass
+	 * @param checkerClass
+	 */
+	public void registerCondition(
+			Class<? extends AbstractCondition> conditionClass,
+			Class<? extends AbstractConditionChecker> checkerClass) {
+		this.policyManager.registerCondition(conditionClass, checkerClass);
+	}
+
+	//TODO Write Test for register Methods
+	/***
+	 * Registers the given policy rule class with the {@link PolicyManager} and 
+	 * associates it with the given test facility class.
+	 * 
+	 * @param policyRuleClass
+	 *            The given policy rule class.
+	 * @param testFacilityClass
+	 *            The given test facility class.
+	 */
+	public void registerMonolithicFacility(
+			Class<? extends MonolithicPolicyRule> ruleClass,
+			Class<? extends MonolithicTestFacility> facilityClass) {
+		this.policyManager.register(ruleClass, facilityClass);
+	}
+	
+	public void registerCompositeFacility(
+			Class<? extends CompositePolicyRule> ruleClass) {
+		this.policyManager.register(ruleClass);
+	}
+
 	/***
 	 * Creates a new inspection request with the given request name for the
 	 * given spreadsheet file.
@@ -117,6 +260,25 @@ public class FrontDesk {
 	}
 
 	/***
+	 * Creates a new {@link DynamicInspectionRequest} with the given request
+	 * name for the given spreadsheet file.
+	 * 
+	 * @param requestName
+	 *            The given request name. May not be null or empty.
+	 * @param spreadsheetFile
+	 *            The given spreadsheet file.
+	 * @return The created inspection request.
+	 * @throws Exception
+	 *             Throws an exception if the given spreadsheet file is invalid.
+	 */
+	public DynamicInspectionRequest requestNewDynamicInspection(
+			String requestName, File spreadsheetFile) throws Exception {
+		ISpreadsheetIO ssIO = DataFacade.getInstance().createSpreadsheetIO(spreadsheetFile.getName());
+		return inspectionManager.createNewDynamicInspectionRequest(requestName,
+				spreadsheetFile, ssIO);
+	}
+
+	/***
 	 * Runs the inspection for the last created inspection request.
 	 * 
 	 * @throws Exception
@@ -133,7 +295,9 @@ public class FrontDesk {
 	}
 
 	/***
-	 * Sets the given policy for the last created inspection request.
+	 * Sets the given policy for the last created inspection request. YOU STILL
+	 * NEED TO REGISTER THE POLICY AS LONG AS YOU DON'T CREATE THE CONFIGURATION
+	 * YOURSELF!
 	 * 
 	 * @param policy
 	 *            The given policy

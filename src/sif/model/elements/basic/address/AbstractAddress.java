@@ -11,6 +11,18 @@ import sif.model.elements.basic.worksheet.Worksheet;
  */
 public abstract class AbstractAddress {
 
+	
+	/**
+	 * Calculates the columnindex from a A1 notion string
+	 * 
+	 * @param character
+	 * @return
+	 */
+	public static int getColumnIndexFor(char character) {
+		return Character.getNumericValue(character)
+				- Character.getNumericValue('A');
+	}
+
 	/**
 	 * Converts the given column index to its responding character.
 	 * 

@@ -4,7 +4,12 @@ import java.io.File;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
 import sif.IO.DataFacade;
+import sif.IO.spreadsheet.ISpreadsheetIO;
+import sif.model.elements.basic.spreadsheet.Spreadsheet;
+import sif.model.inspection.DynamicInspectionRequest;
 import sif.model.inspection.InspectionRequest;
 import sif.model.inspection.InspectionStateEnum;
 import sif.model.inspection.SpreadsheetInventory;
@@ -84,10 +89,36 @@ public class InspectionManager {
 		currentInspectionRequest = inspectionRequest;
 		return inspectionRequest;
 	}
+	
+	/***
+	 * Creates a new {@link DynamicInspectionRequest} for the given spreadsheet file with the
+	 * given request name which also stores the POI {@link Workbook} which is created during 
+	 * creation of the {@link Spreadsheet}
+	 * 
+	 * @param requestName
+	 *            The given name for the request.
+	 * @param spreadsheetFile
+	 *            The given spreadsheet file.
+	 * @return The newly created inspection request.
+	 * @throws Exception
+	 *             Throws an exception if the given spreadsheet file is invalid.
+	 */
+	protected DynamicInspectionRequest<?> createNewDynamicInspectionRequest(String requestName,
+			File spreadsheetFile, ISpreadsheetIO spreadsheetIO) throws Exception {
+		// Create request
+		stateOfCurrenInspectionRequest = InspectionStateEnum.INITIAL;
+		
+		DynamicInspectionRequest<?> inspectionRequest = spreadsheetIO.createInspectionRequest(requestName, spreadsheetFile);
+		
+		inspectionList.put(inspectionRequest.getId(), inspectionRequest);
+		currentInspectionRequest = inspectionRequest;
+		return inspectionRequest;
+	}
 
 	public InspectionRequest getCurrentInspectionRequest() {
 		return this.currentInspectionRequest;
 	}
+
 
 	/***
 	 * Executes the last created inspection request, based on the scanned

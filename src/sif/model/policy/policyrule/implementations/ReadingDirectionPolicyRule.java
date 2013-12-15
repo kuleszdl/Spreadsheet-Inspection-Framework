@@ -11,7 +11,6 @@ import sif.model.policy.policyrule.configuration.ConfigurableParameter;
  * @author Sebastian Zitzelsberger
  * 
  */
-@SuppressWarnings("unused")
 public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 
 	@ConfigurableParameter(parameterClass = Boolean.class, displayedName = "Readable from left to right.", description = "Defines if the spreadsheet must be readable from left to right.")

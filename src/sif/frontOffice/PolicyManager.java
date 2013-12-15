@@ -7,16 +7,26 @@ import java.util.TreeMap;
 import sif.model.policy.Policy;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.CompositePolicyRule;
+import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.model.policy.policyrule.configuration.ParameterConfiguration;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
+import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
+import sif.model.policy.policyrule.dynamicConditions.BinaryCondition;
+import sif.model.policy.policyrule.dynamicConditions.ElementCountCondition;
+import sif.model.policy.policyrule.dynamicConditions.TernaryCondition;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.DynamicTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.ReadingDirectionTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.BinaryConditionChecker;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.ElementCountChecker;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.TernaryConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 import sif.technicalDepartment.management.TechnicalManager;
 
@@ -46,8 +56,15 @@ public class PolicyManager {
 				ReadingDirectionTestFacility.class);
 		register(FormulaComplexityPolicyRule.class,
 				FormulaComplexityTestFacility.class);
-
-		// Create and register available policy.
+		register(DynamicPolicyRule.class, DynamicTestFacility.class);
+		
+		// Register available conditions
+		registerCondition(BinaryCondition.class, BinaryConditionChecker.class);
+		registerCondition(TernaryCondition.class, TernaryConditionChecker.class);
+		registerCondition(ElementCountCondition.class, ElementCountChecker.class);
+		//TODO registerCondition(PropertyCondition.class, PropertyConditionChecker.class);
+		
+		// Create and register available policies.
 		Policy policy = new Policy();
 		policy.setName("Basic Policy");
 		policy.setAuthor("Sebastian Zitzelsberger");
@@ -56,7 +73,15 @@ public class PolicyManager {
 		policy.add(new NoConstantsInFormulasPolicyRule());
 		policy.add(new ReadingDirectionPolicyRule());
 		policy.add(new FormulaComplexityPolicyRule());
+		//policy.add(new DynamicPolicyRule());
 		register(policy);
+		
+		Policy dynPolicy = new Policy();
+		dynPolicy.setName("Dynamic Policy");
+		dynPolicy.setAuthor("Manuel Lemcke");
+		dynPolicy.setDescription("A policy that also supports dynamic inspection of spreadsheets."); //TODO Beschreibung um aktuell implementierte Rules ergänzen
+		dynPolicy.add(new DynamicPolicyRule());
+		register(dynPolicy);
 	}
 
 	/**
@@ -70,6 +95,8 @@ public class PolicyManager {
 	private Boolean containsOnlyRegisteredPolicyRules(Policy policy) {
 		Boolean result = true;
 
+		//TODO Entweder auch DynamicPolicy.rules überprüfen oder .rules und 
+		// .abstractPolicyRules mergen
 		for (AbstractPolicyRule policyRule : policy.getPolicyRules().values()) {
 			if (!availablePolicyRules.values().contains(policyRule.getClass())) {
 				result = false;
@@ -195,6 +222,22 @@ public class PolicyManager {
 				testFacilityClass);
 		this.availablePolicyRules.put(policyRuleClass.getCanonicalName(),
 				policyRuleClass);
+	}
+	
+	/***
+	 * Registers the given policy rule class and associates it with the given
+	 * test facility class.
+	 * 
+	 * @param policyRuleClass
+	 *            The given policy rule class.
+	 * @param testFacilityClass
+	 *            The given test facility class.
+	 */
+	protected void registerCondition(
+			Class<? extends AbstractCondition> conditionClass,
+			Class<? extends IConditionChecker> checkerClass) {
+		TechnicalManager.getInstance().registerCondition(conditionClass,
+				checkerClass);
 	}
 
 	/***

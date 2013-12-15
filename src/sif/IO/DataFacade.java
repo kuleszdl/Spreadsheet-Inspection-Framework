@@ -5,11 +5,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.apache.poi.ss.usermodel.Workbook;
+
+import sif.IO.spreadsheet.IPOIOutput;
 import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
+import sif.IO.spreadsheet.poi.EPOISpreadsheetType;
+import sif.IO.spreadsheet.poi.POIOutput;
 import sif.IO.spreadsheet.poi.POISpreadsheetIO_HSSF;
 import sif.IO.spreadsheet.poi.POISpreadsheetIO_XSSF;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
+import sif.model.elements.containers.AbstractElementList;
+import sif.model.elements.custom.InputCell;
+import sif.model.elements.custom.IntermediateCell;
+import sif.model.elements.custom.OutputCell;
 import sif.model.inspection.InspectionRequest;
 import sif.model.violations.Findings;
 import sif.model.violations.ISingleViolation;
@@ -23,7 +32,7 @@ import sif.model.violations.lists.ViolationList;
  * for a given inspection request. Implements the Facade and Singleton pattern.
  * 
  * 
- * @author Sebastian Zitzelsberger
+ * @author Sebastian Zitzelsberger, Manuel Lemcke
  * 
  */
 public final class DataFacade {
@@ -42,6 +51,76 @@ public final class DataFacade {
 		return theInstance;
 	}
 
+	// /**
+	// * Creates a POI Workbook and writes it as a File. Depending on the file
+	// * extension it's a HSSF (for .xls) or a XSSF (else) Workbook.
+	// *
+	// * @param spreadsheet
+	// * @param filename
+	// * @return
+	// */
+	// public boolean createAndWriteWorkbook(Spreadsheet spreadsheet,
+	// String filename) {
+	// Workbook workbook;
+	// if (filename.endsWith("xls")) {
+	// workbook = createHSSFWorkbook(spreadsheet);
+	// } else {
+	// workbook = createXSSFWorkbook(spreadsheet);
+	// }
+	// return writePOIWorkbook(workbook, filename);
+	// }
+
+	/**
+	 * Creates a POI XSSF Workbook from a SIF Spreadsheet
+	 * 
+	 * @param spreadsheet
+	 *            The SIF {@link Spreadsheet}
+	 * @return A XSSF {@link Workbook}
+	 */
+	public Workbook createXSSFWorkbook(Spreadsheet spreadsheet) {
+		IPOIOutput poiOutput = new POIOutput(EPOISpreadsheetType.XSSF);
+		Workbook result = poiOutput.createPOIWorkbook(spreadsheet);
+
+		return result;
+	}
+
+	/**
+	 * Creates a POI HSSF Workbook from a SIF Spreadsheet
+	 * 
+	 * @param spreadsheet
+	 *            The SIF {@link Spreadsheet}
+	 * @return A HSSF {@link Workbook}
+	 */
+	public Workbook createHSSFWorkbook(Spreadsheet spreadsheet) {
+		IPOIOutput poiOutput = new POIOutput(EPOISpreadsheetType.HSSF);
+		Workbook result = poiOutput.createPOIWorkbook(spreadsheet);
+		return result;
+	}
+
+	// /**
+	// * Writes a POI Workbook to a file
+	// *
+	// * @param workbook
+	// * @return
+	// */
+	// public boolean writePOIWorkbook(Workbook workbook, String filename) {
+	// boolean result = false;
+	// FileOutputStream fileOut;
+	//
+	// try {
+	// fileOut = new FileOutputStream(filename);
+	// workbook.write(fileOut);
+	// fileOut.close();
+	// result = true;
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// return result;
+	// }
+
 	/***
 	 * 
 	 * Calls the corresponding {@link ISpreadsheetIO} to create a
@@ -50,19 +129,56 @@ public final class DataFacade {
 	 * @param spreadsheetFile
 	 *            The given spreadsheet file.
 	 * @return The spreadsheet for the given spreadsheet spreadsheet file.
-	 * @throws InvalidSpreadsheetFileException
-	 *             Throws an exception if the spreadsheet file can't be
-	 *             transformed to the internal model.
+	 * @throws Exception
 	 */
-	public Spreadsheet createSpreadsheet(File spreadsheetFile)
+	public Spreadsheet createSpreadsheet(File spreadsheetFile) throws Exception {
+		ISpreadsheetIO spreadsheetIO = null;
+
+		spreadsheetIO = createSpreadsheetIO(spreadsheetFile.getName());
+
+		return spreadsheetIO.createSpreadsheet(spreadsheetFile);
+	}
+
+	public Spreadsheet createSpreadsheet(Workbook workbook, String fileName)
+			throws Exception {
+		ISpreadsheetIO spreadsheetIO = null;
+		String[] fileNameParts;
+		String name = "";
+		Spreadsheet spreadsheet = null;
+
+		spreadsheetIO = createSpreadsheetIO(fileName);
+
+		fileNameParts = fileName.split("\\.");
+		if (fileNameParts.length > 1) {
+			name = fileNameParts[fileNameParts.length - 2];
+		} else {
+			name = fileName;
+		}
+
+		// if (fileName.endsWith(".xlsx")) {
+		// name = fileName.replace(".xlsx", "");
+		// }
+		// else if (fileName.endsWith(".xls")) {
+		// name = fileName.replace(".xls", "");
+		// }
+		// else {
+		// throw new Exception("Invalid Filename");
+		// }
+
+		spreadsheet = spreadsheetIO.createSpreadsheet(workbook, name);
+
+		return spreadsheet;
+	}
+
+	public ISpreadsheetIO createSpreadsheetIO(String fileExtension)
 			throws InvalidSpreadsheetFileException {
 		ISpreadsheetIO spreadsheetIO = null;
 
 		// .xls Files are handled by the POISpreadsheetIO_HSSF;
-		if (spreadsheetFile.getPath().endsWith(".xls")) {
+		if (fileExtension.endsWith("xls")) {
 			spreadsheetIO = new POISpreadsheetIO_HSSF();
 			// .xlsx files are handled by the POISpreadsheetIO_XSSF;
-		} else if (spreadsheetFile.getPath().endsWith(".xlsx")) {
+		} else if (fileExtension.endsWith("xlsx")) {
 			spreadsheetIO = new POISpreadsheetIO_XSSF();
 			// Other files are not supported yet.
 		} else {
@@ -70,8 +186,7 @@ public final class DataFacade {
 					"Unsupported spreadsheet file format.");
 		}
 
-		return spreadsheetIO.createSpreadsheet(spreadsheetFile);
-
+		return spreadsheetIO;
 	}
 
 	/***
@@ -165,7 +280,94 @@ public final class DataFacade {
 		builder.append("</label>\n");
 		builder.append(inspectionRequest.getPolicy().getDescription() + "\n");
 		builder.append("\n");
+		
+		// Write Input-, Intermediate & Outpucells
+		builder.append("<h1>\n");
+		builder.append("Input cells\n");
+		builder.append("</h1>\n");
 
+		builder.append("<br>\n");
+
+		builder.append("<table border=\"1px\" style=\"overflow: scroll\" >\n");
+
+		builder.append("<thead style=\"table-layout:fixed;\">\n");
+		builder.append(" <tr style=\"font-family:Tahoma; fontweight=bold; font-size:120%\">\n");
+		builder.append("<th>Number</th>\n");
+		builder.append("<th>Location</th>\n");
+		builder.append("<th>Content</th>\n");
+		builder.append(" </tr>\n");
+		builder.append("</thead>\n");
+
+		builder.append("<tbody>\n");
+		
+		AbstractElementList<InputCell> inputCells = inspectionRequest.getInventory().getListFor(InputCell.class);
+		for (int i = 0; i < inputCells.getNumberOfElements(); i++) {
+			InputCell currentCell = inputCells.getElements().get(i);
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
+					+ currentCell.getStringRepresentation() + "</td></tr>");
+		}
+		builder.append("</tbody>\n");
+		builder.append("</table>\n");
+
+		
+		// Write Intermediate Cells
+		builder.append("<h1>\n");
+		builder.append("Intermediate cells\n");
+		builder.append("</h1>\n");
+
+		builder.append("<br>\n");
+
+		builder.append("<table border=\"1px\" style=\"overflow: scroll\" >\n");
+
+		builder.append("<thead style=\"table-layout:fixed;\">\n");
+		builder.append(" <tr style=\"font-family:Tahoma; fontweight=bold; font-size:120%\">\n");
+		builder.append("<th>Number</th>\n");
+		builder.append("<th>Location</th>\n");
+		builder.append("<th>Content</th>\n");
+		builder.append(" </tr>\n");
+		builder.append("</thead>\n");
+
+		builder.append("<tbody>\n");
+		
+		AbstractElementList<IntermediateCell> intermediateCells = inspectionRequest.getInventory().getListFor(IntermediateCell.class);
+		for (int i = 0; i < intermediateCells.getNumberOfElements(); i++) {
+			IntermediateCell currentCell = intermediateCells.getElements().get(i);
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
+					+ currentCell.getStringRepresentation() + "</td></tr>");
+		}
+		
+		builder.append("</tbody>\n");
+		builder.append("</table>\n");
+		
+		// Write OutputCells
+		builder.append("<h1>\n");
+		builder.append("Output cells\n");
+		builder.append("</h1>\n");
+
+		builder.append("<br>\n");
+
+		builder.append("<table border=\"1px\" style=\"overflow: scroll\" >\n");
+
+		builder.append("<thead style=\"table-layout:fixed;\">\n");
+		builder.append(" <tr style=\"font-family:Tahoma; fontweight=bold; font-size:120%\">\n");
+		builder.append("<th>Number</th>\n");
+		builder.append("<th>Location</th>\n");
+		builder.append("<th>Content</th>\n");
+		builder.append(" </tr>\n");
+		builder.append("</thead>\n");
+
+		builder.append("<tbody>\n");
+		
+		AbstractElementList<OutputCell> outputCells = inspectionRequest.getInventory().getListFor(OutputCell.class);
+		for (int i = 0; i < outputCells.getNumberOfElements(); i++) {
+			OutputCell currentCell = outputCells.getElements().get(i);
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
+					+ currentCell.getStringRepresentation() + "</td></tr>");
+		}
+		
+		builder.append("</tbody>\n");
+		builder.append("</table>\n");
+		
 		// Write Findings
 		builder.append("<h1>\n");
 		builder.append("Findings\n");
@@ -226,19 +428,28 @@ public final class DataFacade {
 					counter++;
 					builder.append(" <tr>\n");
 					builder.append("<td>\n" + counter + "</td>\n");
-					builder.append("<td>\n"
-							+ singleViolation.getCausingElement()
-									.getStringRepresentation() + "</td>\n");
-					builder.append("<td>\n"
-							+ singleViolation.getCausingElement().getLocation()
-							+ "</td>\n");
-					builder.append("<td>" + singleViolation.getDescription()
-							+ "</td>\n");
-
+					if (singleViolation.getCausingElement() != null) {
+						builder.append("<td>\n"
+								+ singleViolation.getCausingElement()
+										.getStringRepresentation() + "</td>\n");
+						builder.append("<td>\n"
+								+ singleViolation.getCausingElement().getLocation()
+								+ "</td>\n");
+						builder.append("<td>" + singleViolation.getDescription()
+								+ "</td>\n");
+	
+					} else {
+						builder.append("<td>\n"
+								+ "unknown source" + "</td>\n");
+						builder.append("<td>\n"
+								+ "-"
+								+ "</td>\n");
+						builder.append("<td>" + singleViolation.getDescription()
+								+ "</td>\n");
+					}
 					builder.append("<td>"
 							+ singleViolation.getWeightedSeverityValue()
 							+ "</td>\n");
-
 					builder.append(" </tr>\n");
 				} else {
 					// Write a violation group;
@@ -248,14 +459,24 @@ public final class DataFacade {
 					builder.append("<tr align=\"left\"\n>");
 					counter++;
 					builder.append("<th>" + counter + "</th>\n");
-					builder.append("<th>\n"
-							+ violationGroup.getCausingElement()
-									.getStringRepresentation() + "</th>\n");
-					builder.append("<th>\n"
-							+ violationGroup.getCausingElement().getLocation()
-							+ "</th>\n");
-					builder.append("<th>" + violationGroup.getDescription()
-							+ "</th>\n");
+					if (violationGroup.getCausingElement() != null) {
+						builder.append("<th>\n"
+								+ violationGroup.getCausingElement()
+										.getStringRepresentation() + "</th>\n");
+						builder.append("<th>\n"
+								+ violationGroup.getCausingElement().getLocation()
+								+ "</th>\n");
+						builder.append("<th>" + violationGroup.getDescription()
+								+ "</th>\n");
+					} else {
+						builder.append("<td>\n"
+								+ "unknown source" + "</td>\n");
+						builder.append("<td>\n"
+								+ "-"
+								+ "</td>\n");
+						builder.append("<td>" + "-"
+								+ "</td>\n");
+					}
 					builder.append("<th>"
 							+ violationGroup.getWeightedSeverityValue()
 							+ "</th>\n");

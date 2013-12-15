@@ -24,14 +24,21 @@ public class Findings {
 	}
 
 	/***
-	 * Adds the given violation list.
+	 * Adds the given violation list. If the {@link ViolationList} has a name
+	 * this name is used as the key in the {@link TreeMap}. Else the canonical 
+	 * classname of the {@link AbstractPolicyRule} is used as key.
 	 * 
 	 * @param violationList
 	 *            The given violation list.
 	 */
 	public void add(ViolationList violationList) {
-		violationLists.put(violationList.getPolicyRule().getClass()
-				.getCanonicalName(), violationList);
+		if (violationList.getPolicyRule().getName() != null 
+				&& violationList.getPolicyRule().getName() != "") {
+			violationLists.put(violationList.getPolicyRule().getName(), violationList);	
+		} else {
+			String ruleClass = violationList.getClass().getCanonicalName();
+			violationLists.put(ruleClass, violationList);
+		}
 	}
 
 	/***

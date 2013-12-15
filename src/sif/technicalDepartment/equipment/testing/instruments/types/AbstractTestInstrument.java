@@ -16,6 +16,10 @@ public abstract class AbstractTestInstrument<ElementType extends IElement> {
 		switch (determinant) {
 		case MUST_NOT:
 			isViolated = true ^ violated;
+		case MUST:
+			break;
+		default:
+			break;
 		}
 		return isViolated;
 	}

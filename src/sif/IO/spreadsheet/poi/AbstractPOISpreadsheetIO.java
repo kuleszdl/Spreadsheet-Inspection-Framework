@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import sif.IO.DataFacade;
 import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.model.elements.basic.cell.Cell;
@@ -17,6 +18,9 @@ import sif.model.elements.basic.spreadsheet.Spreadsheet;
 import sif.model.elements.basic.spreadsheet.SpreadsheetProperties;
 import sif.model.elements.basic.worksheet.Row;
 import sif.model.elements.basic.worksheet.Worksheet;
+import sif.model.inspection.DynamicInspectionRequest;
+import sif.model.inspection.InspectionStateEnum;
+import sif.model.inspection.SpreadsheetInventory;
 
 /***
  * Common {@link ISpreadsheetIO} for .xls and .xlx spreadsheet files that uses
@@ -59,12 +63,48 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 
 	@Override
 	public Spreadsheet createSpreadsheet(File spreadsheetFile)
-			throws InvalidSpreadsheetFileException {
+			throws Exception {
 
+		Workbook workbook = createWorkbook(spreadsheetFile);		
+		this.createSpreadsheet(workbook, spreadsheetFile.getName());
+		
+		return this.spreadsheet;
+	}
+
+	/* (non-Javadoc)
+	 * @see sif.IO.spreadsheet.ISpreadsheetIO#createSpreadsheet(org.apache.poi.ss.usermodel Workbook, java.lang.String)
+	 */
+	@Override
+	public Spreadsheet createSpreadsheet(Object workbook, String fileName)
+			throws Exception {
+		if (workbook instanceof Workbook) {
+			this.poiWorkbook = (Workbook) workbook;	
+			
+			// Create instances of SpreadsheetInventory and Spreadsheet.
+			spreadsheet = new Spreadsheet();
+			spreadsheet.setName(fileName);
+
+			// Transform POI-workbook to internal model.
+			this.transformWorkbook();
+			
+			return this.spreadsheet;
+		} else {
+			throw new Exception("Wrong spreadsheet class");
+		}
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see sif.IO.spreadsheet.ISpreadsheetIO#createWorkbook(java.io.File)
+	 */
+	@Override
+	public Workbook createWorkbook(File spreadsheetFile) 
+			throws InvalidSpreadsheetFileException {		
+		
 		// Create a POI-workbook from the spreadsheet file.
 		try {
 			FileInputStream inp = new FileInputStream(spreadsheetFile);
-			poiWorkbook = WorkbookFactory.create(inp);
+			this.poiWorkbook = WorkbookFactory.create(inp);
 		} catch (Exception e) {
 			// Throw an exception if the spreadsheet can't be read by the
 			// POI-library.
@@ -73,14 +113,8 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 			exception.setStackTrace(e.getStackTrace());
 			throw exception;
 		}
-
-		// Create instances of SpreadsheetInventory and Spreadsheet.
-		spreadsheet = new Spreadsheet();
-		spreadsheet.setName(spreadsheetFile.getName());
-
-		// Transform POI-workbook to internal model.
-		this.transformWorkbook();
-		return spreadsheet;
+		
+		return this.poiWorkbook;
 	}
 
 	/***
@@ -268,10 +302,10 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 			Worksheet worksheet = new Worksheet();
 			worksheet.setSpreadsheet(spreadsheet);
 			worksheet.setIndex(i + 1);
-			spreadsheet.add(worksheet);
 			Sheet poiSheet = poiWorkbook.getSheetAt(i);
 			// Transform attributes and structure.
 			transformAttributesAndStructure(worksheet, poiSheet);
+			spreadsheet.add(worksheet);
 		}
 
 		// Transform cell contents. Needs to be done after structure is created
@@ -284,5 +318,42 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 			transformCellContents(worksheet, poiSheet);
 		}
 
+	}
+	
+	/***
+	 * Creates a new {@link DynamicInspectionRequest} for the given spreadsheet file with the
+	 * given request name which also stores the POI {@link Workbook} which is created during 
+	 * creation of the {@link Spreadsheet}
+	 * 
+	 * @param requestName
+	 *            The given name for the request.
+	 * @param spreadsheetFile
+	 *            The given spreadsheet file.
+	 * @return The newly created inspection request.
+	 * @throws Exception
+	 *             Throws an exception if the given spreadsheet file is invalid.
+	 */
+	public DynamicInspectionRequest<?> createInspectionRequest(String requestName,
+			File spreadsheetFile) throws Exception {
+		// Create request		
+		Spreadsheet spreadsheet = null;
+		
+		Workbook workbook = this.createWorkbook(spreadsheetFile);
+		
+		DynamicInspectionRequest<Workbook> inspectionRequest = new DynamicInspectionRequest<Workbook>(workbook.getClass());
+		inspectionRequest.setName(requestName);
+		inspectionRequest.setSpreadsheetFile(spreadsheetFile);
+		inspectionRequest.setExternalSpreadsheet(workbook);
+		
+		spreadsheet = this.createSpreadsheet(workbook, spreadsheetFile.getName());		
+		
+		// Create initial inventory.
+		SpreadsheetInventory inventory = new SpreadsheetInventory();
+		inventory.setSpreadsheet(spreadsheet);
+		inventory.setSpreadsheetFile(spreadsheetFile);
+		inspectionRequest.setInventory(inventory);
+
+		// Add to list and set as current request;
+		return inspectionRequest;
 	}
 }

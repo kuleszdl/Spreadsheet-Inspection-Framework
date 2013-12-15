@@ -35,7 +35,7 @@ public class POISpreadsheetIO_HSSF extends AbstractPOISpreadsheetIO {
 		spreadsheetProperties.setKeywords(sumInfo.getKeywords());
 		spreadsheetProperties.setRevision(sumInfo.getRevNumber());
 		spreadsheetProperties.setTitle(sumInfo.getTitle());
-
+		
 		spreadsheet.setProperties(spreadsheetProperties);
 	}
 
@@ -46,5 +46,4 @@ public class POISpreadsheetIO_HSSF extends AbstractPOISpreadsheetIO {
 				.create(hssfWorkbook);
 
 	}
-
 }

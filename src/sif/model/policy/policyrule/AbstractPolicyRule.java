@@ -1,5 +1,9 @@
 package sif.model.policy.policyrule;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import sif.model.policy.classification.ILeafCategory;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
 import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
@@ -15,15 +19,30 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractPolicyRule {
-
+	@XmlAttribute(required=true)
 	private String name = "N.A.";
+	
+	@XmlTransient
 	private String description = "N.A.";
+	
+	@XmlTransient
 	private String background = "N.A.";
+	
+	@XmlAttribute
 	private String author = "N.A.";
+	
+	@XmlTransient
 	private String possibleSolution = "N.A.";
+	
+	@XmlTransient
 	private ILeafCategory category;
+	
+	@XmlAttribute
 	private Double severityWeight = 1.0;
+	
+	@XmlTransient
 	private PolicyRuleConfiguration configuration = null;
 
 	/**

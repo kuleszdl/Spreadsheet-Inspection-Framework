@@ -3,12 +3,35 @@ package sif.model.policy;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import sif.model.policy.policyrule.AbstractPolicyRule;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import sif.IO.xml.DynamicPolicyRuleMapAdapter;
+import sif.model.policy.policyrule.AbstractPolicyRule;
+import sif.model.policy.policyrule.DynamicPolicyRule;
+import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
+import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
+import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+
+@XmlSeeAlso({ DynamicPolicyRule.class, FormulaComplexityPolicyRule.class,
+		NoConstantsInFormulasPolicyRule.class, ReadingDirectionPolicyRule.class })
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Policy {
+	@XmlAttribute(required = false)
 	private String name;
+
+	@XmlAttribute(required = false)
 	private String description;
+
+	@XmlAttribute(required = false)
 	private String author;
+	
+	@XmlElement(name="rules")
+	@XmlJavaTypeAdapter(DynamicPolicyRuleMapAdapter.class)
 	TreeMap<String, AbstractPolicyRule> abstractPolicyRules = new TreeMap<String, AbstractPolicyRule>();
 
 	public void add(AbstractPolicyRule abstractPolicyRule) {

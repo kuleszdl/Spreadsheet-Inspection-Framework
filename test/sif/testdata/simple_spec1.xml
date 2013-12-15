@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dynamicPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../NewXMLSchema1.xsd">
+    <rules name="TechnikGewichtung">
+        <testInputs>
+            <testInput>
+                <target>C5</target>
+                <value>0</value>
+            </testInput>
+        </testInputs>
+        <postconditions>
+            <compare>
+                <target>D6</target>
+                <value>0</value>
+                <relation>equal</relation>
+            </compare>
+        </postconditions>
+    </rules>
+</dynamicPolicy>

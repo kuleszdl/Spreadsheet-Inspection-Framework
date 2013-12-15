@@ -16,7 +16,6 @@ import sif.model.policy.policyrule.configuration.ConfigurableParameter;
  * @author Sebastian Zitzelsberger
  * 
  */
-@SuppressWarnings("unused")
 public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 
 	@ConfigurableParameter(parameterClass = Integer.class, displayedName = "Maximum nesting level", description = "Configures the highest allowed nesting level for formulas.")

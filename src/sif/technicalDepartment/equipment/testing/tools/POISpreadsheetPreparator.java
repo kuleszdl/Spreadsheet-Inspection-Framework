@@ -1,0 +1,116 @@
+package sif.technicalDepartment.equipment.testing.tools;
+
+import org.apache.poi.ss.usermodel.Workbook;
+
+import sif.IO.DataFacade;
+import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
+import sif.IO.spreadsheet.poi.ISpreadsheetWriter;
+import sif.IO.spreadsheet.poi.POIWriter;
+import sif.model.elements.basic.spreadsheet.Spreadsheet;
+import sif.model.inspection.DynamicInspectionRequest;
+import sif.model.policy.policyrule.DynamicPolicyRule;
+
+/**
+ * Evaluates the formulae of the POI spreadsheet contained in the
+ * DynamicInspectionRequest. This implementation requires a
+ * {@link DynamicInspectionRequest}.
+ * 
+ * @author Manuel Lemcke
+ * 
+ */
+public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
+
+	private DynamicInspectionRequest request;
+	private IWorkbookCloner cloner;
+	private Workbook workbook;
+
+	@SuppressWarnings("unused")
+	private POISpreadsheetPreparator() {
+
+	}
+
+	public Workbook writeTestInput(DynamicPolicyRule rule, Workbook workbook) {
+		Workbook wb = workbook;
+		ISpreadsheetWriter writer = new POIWriter();
+		Workbook testWorkbook = cloner.cloneWorkbook(wb);
+
+		try {
+			writer.insertTestInput(rule, testWorkbook);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return testWorkbook;
+	}
+
+	public POISpreadsheetPreparator(DynamicInspectionRequest inspectionRequest) {
+		this.request = inspectionRequest;
+		this.cloner = new WorkbookFileCloner();
+	}
+
+	public POISpreadsheetPreparator(
+			DynamicInspectionRequest inspectionRequest,
+			IWorkbookCloner workbookCloner) {
+		this.request = inspectionRequest;
+		this.cloner = workbookCloner;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * sif.technicalDepartment.equipment.testing.tools.IDynamicSpreadsheetRunner
+	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
+	 */
+	@Override
+	public Spreadsheet prepare(DynamicPolicyRule rule, Object poiSpreadsheet)
+			throws InvalidSpreadsheetFileException {
+		if (poiSpreadsheet instanceof Workbook) {
+			Workbook workbook = (Workbook) poiSpreadsheet;
+			String name = this.request.getSpreadsheetFile().getName();
+			
+			Spreadsheet spreadsheet = null;
+			this.workbook = writeTestInput(rule, workbook);
+			
+			try {
+				spreadsheet = DataFacade.getInstance().createSpreadsheet(this.workbook,
+						name);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			return spreadsheet;
+		} else {
+			throw new InvalidSpreadsheetFileException("The parameter spreadsheet is not of the Type Workbook.");
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * sif.technicalDepartment.equipment.testing.tools.IDynamicSpreadsheetRunner
+	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
+	 */
+	@Override
+	public Spreadsheet evaluate() {
+		Spreadsheet spreadsheet = null;
+		String name = this.request.getSpreadsheetFile().getName();
+		if (this.workbook != null) {
+			this.workbook.getCreationHelper().createFormulaEvaluator()
+					.evaluateAll();
+		}
+
+		try {
+			spreadsheet = DataFacade.getInstance().createSpreadsheet(this.workbook,
+					name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return spreadsheet;
+	}
+
+}

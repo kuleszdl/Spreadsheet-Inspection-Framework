@@ -32,7 +32,7 @@ public class InputCell extends CustomAbstractElement implements ICellElement {
 	@Override
 	public String getLocation() {
 		// TODO Auto-generated method stub
-		return null;
+		return cell.getLocation();
 	}
 
 	@Override
