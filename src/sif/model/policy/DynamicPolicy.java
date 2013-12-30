@@ -89,9 +89,9 @@ public class DynamicPolicy extends Policy {
 //	}
 
 	/**
-	 * @return the spreadsheetFilePath
+	 * @return the spreadsheetFileName
 	 */
-	@XmlElement(name="spreadsheet")
+	@XmlElement(name="spreadsheetFilePath")
 	public String getSpreadsheetFileName() {
 		return spreadsheetFileName;
 	}

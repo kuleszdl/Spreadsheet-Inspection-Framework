@@ -32,7 +32,7 @@ import sif.model.violations.lists.ViolationList;
  * for a given inspection request. Implements the Facade and Singleton pattern.
  * 
  * 
- * @author Sebastian Zitzelsberger, Manuel Lemcke
+ * @author Sebastian Zitzelsberger, Manuel Lemcke, Ehssan Doust
  * 
  */
 public final class DataFacade {
@@ -190,7 +190,39 @@ public final class DataFacade {
 	}
 
 	/***
-	 * Creates a hmtl-report for the given inspection request at the given path,
+	 * Creates a report for the given inspection request into the given file,
+	 * using the request's name as a filename.
+	 * 
+	 * @param inspectionRequest
+	 *            The given inspection request.
+	 * @param file
+	 *            The given file.
+	 * @throws IOException
+	 *             Throws an IOExcpetion if the file can't be created at the
+	 *             given path.
+	 */
+	public void export(InspectionRequest inspectionRequest, File file,
+			ReportFormat format) throws IOException {
+
+		String content = null;
+
+		switch (format) {
+		case HTML:
+			content = getFindingsAsHtmlString(inspectionRequest);
+			break;
+		case XML:
+			content = getFindingsAsXmlString(inspectionRequest);
+			break;
+		}
+
+		FileWriter outFile = new FileWriter(file);
+		PrintWriter out = new PrintWriter(outFile);
+		out.append(content);
+		out.close();
+	}
+
+	/***
+	 * Creates a report for the given inspection request at the given path,
 	 * using the request's name as a filename.
 	 * 
 	 * @param inspectionRequest
@@ -201,19 +233,220 @@ public final class DataFacade {
 	 *             Throws an IOExcpetion if the file can't be created at the
 	 *             given path.
 	 */
-	public void export(InspectionRequest inspectionRequest, String path)
-			throws IOException {
-
+	public void export(InspectionRequest inspectionRequest, String path,
+			ReportFormat format) throws IOException {
 		String filePath = path;
 		if (!filePath.endsWith(File.pathSeparator)) {
 			filePath = filePath + File.separator;
 		}
 
-		FileWriter outFile = new FileWriter(filePath
-				+ inspectionRequest.getName() + ".html");
-		PrintWriter out = new PrintWriter(outFile);
-		out.append(getFindingsAsHtmlString(inspectionRequest));
-		out.close();
+		String extension = null;
+
+		switch (format) {
+		case HTML:
+			extension = ".html";
+			break;
+		case XML:
+			extension = ".xml";
+			break;
+		}
+
+		File file = new File(filePath + inspectionRequest.getName() + extension);
+		this.export(inspectionRequest, file, format);
+	}
+
+	/***
+	 * Creates a report for the given inspection request
+	 * 
+	 * @param inspectionRequest
+	 *            The given inspection request.
+	 * @throws IOException
+	 *             Throws an IOExcpetion if the file can't be created at the
+	 *             given path.
+	 */
+	public String export(InspectionRequest inspectionRequest,
+			ReportFormat format) {
+
+		switch (format) {
+		case HTML:
+			return this.getFindingsAsHtmlString(inspectionRequest);
+		case XML:
+			return this.getFindingsAsXmlString(inspectionRequest);
+		default:
+			return null;
+		}
+
+	}
+
+	private String getFindingsAsXmlString(InspectionRequest inspectionRequest) {
+		StringBuilder builder = new StringBuilder();
+		Findings findings = inspectionRequest.getFindings();
+		builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+		builder.append("<test title=\""
+				+ inspectionRequest.getSpreadsheetFile().getName()
+				+ "\" file=\""
+				+ inspectionRequest.getInventory().getSpreadsheetFile()
+						.getAbsolutePath() + "\">\n");
+
+		builder.append("<policy author=\""
+				+ inspectionRequest.getPolicy().getAuthor()
+				+ "\" description=\""
+				+ inspectionRequest.getPolicy().getDescription() + "\" name=\""
+				+ inspectionRequest.getPolicy().getName() + "\" />\n");
+
+		// Write Input-, Intermediate & Outputcells
+		builder.append("<cells>\n");
+
+		builder.append("<input>\n");
+
+		AbstractElementList<InputCell> inputCells = inspectionRequest
+				.getInventory().getListFor(InputCell.class);
+		for (int i = 0; i < inputCells.getNumberOfElements(); i++) {
+			InputCell currentCell = inputCells.getElements().get(i);
+			builder.append("<cell number=\"" + i + "\" location=\""
+					+ currentCell.getLocation() + "\" content=\""
+					+ currentCell.getStringRepresentation() + "\" />\n");
+		}
+
+		builder.append("</input>\n");
+
+		builder.append("<intermediate>\n");
+
+		AbstractElementList<IntermediateCell> intermediateCells = inspectionRequest
+				.getInventory().getListFor(IntermediateCell.class);
+		for (int i = 0; i < intermediateCells.getNumberOfElements(); i++) {
+			IntermediateCell currentCell = intermediateCells.getElements().get(
+					i);
+			builder.append("<cell number=\"" + i + "\" location=\""
+					+ currentCell.getLocation() + "\" content=\""
+					+ currentCell.getStringRepresentation() + "\" />\n");
+		}
+
+		builder.append("</intermediate>\n");
+
+		builder.append("<output>\n");
+
+		AbstractElementList<OutputCell> outputCells = inspectionRequest
+				.getInventory().getListFor(OutputCell.class);
+		for (int i = 0; i < outputCells.getNumberOfElements(); i++) {
+			OutputCell currentCell = outputCells.getElements().get(i);
+			builder.append("<cell number=\"" + i + "\" location=\""
+					+ currentCell.getLocation() + "\" content=\""
+					+ currentCell.getStringRepresentation() + "\" />\n");
+		}
+
+		builder.append("</output>\n");
+
+		builder.append("</cells>\n");
+
+		// Write Findings
+		builder.append("<findings>\n");
+
+		for (ViolationList violationsList : findings.getViolationLists()) {
+
+			builder.append("<rule name=\""
+					+ violationsList.getPolicyRule().getName()
+					+ "\" author=\""
+					+ violationsList.getPolicyRule().getAuthor()
+					+ "\" description=\""
+					+ violationsList.getPolicyRule().getDescription()
+							.replace('"', '\'') + "\" background=\""
+					+ violationsList.getPolicyRule().getBackground()
+					+ "\" severity=\""
+					+ violationsList.getPolicyRule().getSeverityWeight()
+					+ "\" solution=\""
+					+ violationsList.getPolicyRule().getPossibleSolution()
+					+ "\">\n");
+
+			Integer counter = 0;
+			for (IViolation violation : violationsList.getViolations()) {
+				// Write a single violation.
+				if (violation instanceof ISingleViolation) {
+					ISingleViolation singleViolation = (ISingleViolation) violation;
+					counter++;
+
+					String causingElement = "unknown";
+					String location = "unknown";
+
+					if (singleViolation.getCausingElement() != null) {
+						causingElement = singleViolation.getCausingElement()
+								.getStringRepresentation();
+						location = singleViolation.getCausingElement()
+								.getLocation();
+					}
+
+					builder.append("<singleviolation number=\"" + counter
+							+ "\" causingelement=\"" + causingElement
+							+ "\" location=\"" + location + "\" description=\""
+							+ singleViolation.getDescription()
+							+ "\" severity=\""
+							+ singleViolation.getWeightedSeverityValue()
+							+ "\" />\n");
+
+				} else {
+					// Write a violation group;
+					IViolationGroup violationGroup = (IViolationGroup) violation;
+
+					String causingElement = "unknown";
+					String location = "unknown";
+
+					if (violationGroup.getCausingElement() != null) {
+						causingElement = violationGroup.getCausingElement()
+								.getStringRepresentation();
+						location = violationGroup.getCausingElement()
+								.getLocation();
+					}
+
+					builder.append("<violationgroup number=\"" + counter
+							+ "\" causingelement=\"" + causingElement
+							+ "\" location=\"" + location + "\" description=\""
+							+ violationGroup.getDescription()
+							+ "\" severity=\""
+							+ violationGroup.getWeightedSeverityValue()
+							+ "\">\n");
+					counter++;
+
+					Integer groupCounter = 0;
+					for (ISingleViolation singleViolation : violationGroup
+							.getMembers()) {
+
+						groupCounter++;
+
+						String innerCausingElement = "unknown";
+						String innerLocation = "unknown";
+
+						if (singleViolation.getCausingElement() != null) {
+							innerCausingElement = singleViolation
+									.getCausingElement()
+									.getStringRepresentation();
+							innerLocation = singleViolation.getCausingElement()
+									.getLocation();
+						}
+
+						builder.append("<singleviolation number=\"" + counter
+								+ "." + groupCounter + "\" causingelement=\""
+								+ innerCausingElement + "\" location=\""
+								+ innerLocation + "\" description=\""
+								+ singleViolation.getDescription()
+								+ "\" severity=\""
+								+ singleViolation.getWeightedSeverityValue()
+								+ "\" />\n");
+
+					}
+
+					builder.append("</violationgroup>\n");
+				}
+			}
+
+			builder.append("</rule>\n");
+
+		}
+
+		builder.append("</findings>\n");
+
+		builder.append("</test>\n");
+
+		return builder.toString();
 	}
 
 	private String getFindingsAsHtmlString(InspectionRequest inspectionRequest) {
@@ -280,7 +513,7 @@ public final class DataFacade {
 		builder.append("</label>\n");
 		builder.append(inspectionRequest.getPolicy().getDescription() + "\n");
 		builder.append("\n");
-		
+
 		// Write Input-, Intermediate & Outpucells
 		builder.append("<h1>\n");
 		builder.append("Input cells\n");
@@ -299,17 +532,18 @@ public final class DataFacade {
 		builder.append("</thead>\n");
 
 		builder.append("<tbody>\n");
-		
-		AbstractElementList<InputCell> inputCells = inspectionRequest.getInventory().getListFor(InputCell.class);
+
+		AbstractElementList<InputCell> inputCells = inspectionRequest
+				.getInventory().getListFor(InputCell.class);
 		for (int i = 0; i < inputCells.getNumberOfElements(); i++) {
 			InputCell currentCell = inputCells.getElements().get(i);
-			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
-					+ currentCell.getStringRepresentation() + "</td></tr>");
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation()
+					+ "</td><td>" + currentCell.getStringRepresentation()
+					+ "</td></tr>");
 		}
 		builder.append("</tbody>\n");
 		builder.append("</table>\n");
 
-		
 		// Write Intermediate Cells
 		builder.append("<h1>\n");
 		builder.append("Intermediate cells\n");
@@ -328,17 +562,20 @@ public final class DataFacade {
 		builder.append("</thead>\n");
 
 		builder.append("<tbody>\n");
-		
-		AbstractElementList<IntermediateCell> intermediateCells = inspectionRequest.getInventory().getListFor(IntermediateCell.class);
+
+		AbstractElementList<IntermediateCell> intermediateCells = inspectionRequest
+				.getInventory().getListFor(IntermediateCell.class);
 		for (int i = 0; i < intermediateCells.getNumberOfElements(); i++) {
-			IntermediateCell currentCell = intermediateCells.getElements().get(i);
-			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
-					+ currentCell.getStringRepresentation() + "</td></tr>");
+			IntermediateCell currentCell = intermediateCells.getElements().get(
+					i);
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation()
+					+ "</td><td>" + currentCell.getStringRepresentation()
+					+ "</td></tr>");
 		}
-		
+
 		builder.append("</tbody>\n");
 		builder.append("</table>\n");
-		
+
 		// Write OutputCells
 		builder.append("<h1>\n");
 		builder.append("Output cells\n");
@@ -357,17 +594,19 @@ public final class DataFacade {
 		builder.append("</thead>\n");
 
 		builder.append("<tbody>\n");
-		
-		AbstractElementList<OutputCell> outputCells = inspectionRequest.getInventory().getListFor(OutputCell.class);
+
+		AbstractElementList<OutputCell> outputCells = inspectionRequest
+				.getInventory().getListFor(OutputCell.class);
 		for (int i = 0; i < outputCells.getNumberOfElements(); i++) {
 			OutputCell currentCell = outputCells.getElements().get(i);
-			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation() + "</td><td>" 
-					+ currentCell.getStringRepresentation() + "</td></tr>");
+			builder.append("<td>" + i + "</td><td>" + currentCell.getLocation()
+					+ "</td><td>" + currentCell.getStringRepresentation()
+					+ "</td></tr>");
 		}
-		
+
 		builder.append("</tbody>\n");
 		builder.append("</table>\n");
-		
+
 		// Write Findings
 		builder.append("<h1>\n");
 		builder.append("Findings\n");
@@ -433,19 +672,16 @@ public final class DataFacade {
 								+ singleViolation.getCausingElement()
 										.getStringRepresentation() + "</td>\n");
 						builder.append("<td>\n"
-								+ singleViolation.getCausingElement().getLocation()
-								+ "</td>\n");
-						builder.append("<td>" + singleViolation.getDescription()
-								+ "</td>\n");
-	
+								+ singleViolation.getCausingElement()
+										.getLocation() + "</td>\n");
+						builder.append("<td>"
+								+ singleViolation.getDescription() + "</td>\n");
+
 					} else {
-						builder.append("<td>\n"
-								+ "unknown source" + "</td>\n");
-						builder.append("<td>\n"
-								+ "-"
-								+ "</td>\n");
-						builder.append("<td>" + singleViolation.getDescription()
-								+ "</td>\n");
+						builder.append("<td>\n" + "unknown source" + "</td>\n");
+						builder.append("<td>\n" + "-" + "</td>\n");
+						builder.append("<td>"
+								+ singleViolation.getDescription() + "</td>\n");
 					}
 					builder.append("<td>"
 							+ singleViolation.getWeightedSeverityValue()
@@ -464,18 +700,14 @@ public final class DataFacade {
 								+ violationGroup.getCausingElement()
 										.getStringRepresentation() + "</th>\n");
 						builder.append("<th>\n"
-								+ violationGroup.getCausingElement().getLocation()
-								+ "</th>\n");
+								+ violationGroup.getCausingElement()
+										.getLocation() + "</th>\n");
 						builder.append("<th>" + violationGroup.getDescription()
 								+ "</th>\n");
 					} else {
-						builder.append("<td>\n"
-								+ "unknown source" + "</td>\n");
-						builder.append("<td>\n"
-								+ "-"
-								+ "</td>\n");
-						builder.append("<td>" + "-"
-								+ "</td>\n");
+						builder.append("<td>\n" + "unknown source" + "</td>\n");
+						builder.append("<td>\n" + "-" + "</td>\n");
+						builder.append("<td>" + "-" + "</td>\n");
 					}
 					builder.append("<th>"
 							+ violationGroup.getWeightedSeverityValue()

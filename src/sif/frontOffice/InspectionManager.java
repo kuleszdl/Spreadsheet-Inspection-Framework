@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import sif.IO.DataFacade;
+import sif.IO.ReportFormat;
 import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
 import sif.model.inspection.DynamicInspectionRequest;
@@ -24,7 +25,7 @@ import sif.technicalDepartment.management.TechnicalManager;
  * {@link #setPolicy(Policy)} {@link #run()} (
  * {@link #createInspectionReport(String)}) optional.
  * 
- * @author Sebastian Zitzelsberger
+ * @author Sebastian Zitzelsberger, Ehssan Doust
  * 
  */
 public class InspectionManager {
@@ -40,6 +41,22 @@ public class InspectionManager {
 	}
 
 	/***
+	 * Creates an inspection report for the findings of the last created
+	 * inspection request.
+	 * 
+	 * @throws Exception
+	 */
+	public String createInspectionReport(ReportFormat format) throws Exception {
+		switch (stateOfCurrenInspectionRequest) {
+		case VIOLATIONS_DETECTED:
+			return DataFacade.getInstance().export(currentInspectionRequest,
+					format);
+		default:
+			throw new Exception("Violations have not been detected yet.");
+		}
+	}
+
+	/***
 	 * Creates an inspection report at the given path for the findings of the
 	 * last created inspection request.
 	 * 
@@ -47,10 +64,12 @@ public class InspectionManager {
 	 *            The given path.
 	 * @throws Exception
 	 */
-	public void createInspectionReport(String path) throws Exception {
+	public void createInspectionReport(String path, ReportFormat format)
+			throws Exception {
 		switch (stateOfCurrenInspectionRequest) {
 		case VIOLATIONS_DETECTED:
-			DataFacade.getInstance().export(currentInspectionRequest, path);
+			DataFacade.getInstance().export(currentInspectionRequest, path,
+					format);
 			break;
 		default:
 			throw new Exception("Violations have not been detected yet.");
@@ -89,11 +108,12 @@ public class InspectionManager {
 		currentInspectionRequest = inspectionRequest;
 		return inspectionRequest;
 	}
-	
+
 	/***
-	 * Creates a new {@link DynamicInspectionRequest} for the given spreadsheet file with the
-	 * given request name which also stores the POI {@link Workbook} which is created during 
-	 * creation of the {@link Spreadsheet}
+	 * Creates a new {@link DynamicInspectionRequest} for the given spreadsheet
+	 * file with the given request name which also stores the POI
+	 * {@link Workbook} which is created during creation of the
+	 * {@link Spreadsheet}
 	 * 
 	 * @param requestName
 	 *            The given name for the request.
@@ -103,13 +123,15 @@ public class InspectionManager {
 	 * @throws Exception
 	 *             Throws an exception if the given spreadsheet file is invalid.
 	 */
-	protected DynamicInspectionRequest<?> createNewDynamicInspectionRequest(String requestName,
-			File spreadsheetFile, ISpreadsheetIO spreadsheetIO) throws Exception {
+	protected DynamicInspectionRequest<?> createNewDynamicInspectionRequest(
+			String requestName, File spreadsheetFile,
+			ISpreadsheetIO spreadsheetIO) throws Exception {
 		// Create request
 		stateOfCurrenInspectionRequest = InspectionStateEnum.INITIAL;
-		
-		DynamicInspectionRequest<?> inspectionRequest = spreadsheetIO.createInspectionRequest(requestName, spreadsheetFile);
-		
+
+		DynamicInspectionRequest<?> inspectionRequest = spreadsheetIO
+				.createInspectionRequest(requestName, spreadsheetFile);
+
 		inspectionList.put(inspectionRequest.getId(), inspectionRequest);
 		currentInspectionRequest = inspectionRequest;
 		return inspectionRequest;
@@ -118,7 +140,6 @@ public class InspectionManager {
 	public InspectionRequest getCurrentInspectionRequest() {
 		return this.currentInspectionRequest;
 	}
-
 
 	/***
 	 * Executes the last created inspection request, based on the scanned

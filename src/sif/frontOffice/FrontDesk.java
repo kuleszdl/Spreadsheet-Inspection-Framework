@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import sif.IO.DataFacade;
+import sif.IO.ReportFormat;
 import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.model.elements.basic.address.AbstractAddress;
 import sif.model.elements.basic.cell.ICellElement;
@@ -23,7 +24,6 @@ import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.technicalDepartment.equipment.scanning.ElementScanner;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.AbstractConditionChecker;
-import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 import sif.technicalDepartment.management.TechnicalManager;
 
@@ -33,7 +33,7 @@ import sif.technicalDepartment.management.TechnicalManager;
  * {@link PolicyManager}, {@link TechnicalManager} or {@link InspectionManager}.
  * Implements the Facade and Singleton pattern.
  * 
- * @author Sebastian Zitzelsberger, Manuel Lemcke
+ * @author Sebastian Zitzelsberger, Manuel Lemcke, Ehssan Doust
  * 
  */
 public class FrontDesk {
@@ -155,6 +155,16 @@ public class FrontDesk {
 	}
 
 	/***
+	 * Creates an Inspection report for the last created inspection request.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	public String createInspectionReport(ReportFormat format) throws Exception {
+		return inspectionManager.createInspectionReport(format);
+	}
+
+	/***
 	 * Creates an Inspection report for the last created inspection request at
 	 * the given path.
 	 * 
@@ -163,8 +173,9 @@ public class FrontDesk {
 	 * @throws Exception
 	 * 
 	 */
-	public void createInspectionReport(String path) throws Exception {
-		inspectionManager.createInspectionReport(path);
+	public void createInspectionReport(String path, ReportFormat format)
+			throws Exception {
+		inspectionManager.createInspectionReport(path, format);
 	}
 
 	/***
@@ -220,9 +231,9 @@ public class FrontDesk {
 		this.policyManager.registerCondition(conditionClass, checkerClass);
 	}
 
-	//TODO Write Test for register Methods
+	// TODO Write Test for register Methods
 	/***
-	 * Registers the given policy rule class with the {@link PolicyManager} and 
+	 * Registers the given policy rule class with the {@link PolicyManager} and
 	 * associates it with the given test facility class.
 	 * 
 	 * @param policyRuleClass
@@ -235,7 +246,7 @@ public class FrontDesk {
 			Class<? extends MonolithicTestFacility> facilityClass) {
 		this.policyManager.register(ruleClass, facilityClass);
 	}
-	
+
 	public void registerCompositeFacility(
 			Class<? extends CompositePolicyRule> ruleClass) {
 		this.policyManager.register(ruleClass);
@@ -273,7 +284,8 @@ public class FrontDesk {
 	 */
 	public DynamicInspectionRequest requestNewDynamicInspection(
 			String requestName, File spreadsheetFile) throws Exception {
-		ISpreadsheetIO ssIO = DataFacade.getInstance().createSpreadsheetIO(spreadsheetFile.getName());
+		ISpreadsheetIO ssIO = DataFacade.getInstance().createSpreadsheetIO(
+				spreadsheetFile.getName());
 		return inspectionManager.createNewDynamicInspectionRequest(requestName,
 				spreadsheetFile, ssIO);
 	}
