@@ -1,6 +1,7 @@
 package sif.main;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -21,7 +22,7 @@ import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
  * 
  */
 public class Application {
-
+	private static final boolean DEBUG = false;
 	/**
 	 * @param args
 	 * 
@@ -85,11 +86,25 @@ public class Application {
 
 					}
 
+				} catch (IOException e){
+					// silently ignore the IOException when it is closed
 				} catch (Throwable e) {
-
-					// General error while the transmission
-					// System.out.println("Error while communicating");
-
+					if (DEBUG){
+						// show a window with the exceptions from the application
+						e.printStackTrace();
+						for (Throwable e2 : e.getSuppressed())
+							e2.printStackTrace();
+						DebugConsole con = new DebugConsole();
+						con.addStackTrace(e);
+						if (e.getCause() != null)
+							con.addStackTrace(e.getCause());
+						for (Throwable e2 : e.getSuppressed()){
+							con.addStackTrace(e2);
+							if (e2.getCause() != null)
+								con.addStackTrace(e2.getCause());
+						}
+						new Thread(con).start();
+					}
 				}
 
 			} catch (NumberFormatException e) {

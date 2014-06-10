@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.IOCellInfo;
+import sif.model.policy.policyrule.SanityPolicyRule;
+import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 
 /**
  * @author Manuel Lemcke
@@ -22,13 +24,25 @@ import sif.model.policy.policyrule.IOCellInfo;
 @XmlRootElement
 @XmlSeeAlso({DynamicPolicyRule.class})
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(name = "dynamicPolicy", propOrder = {"spreadsheetFileName", "inputCells", "outputCells"})
+@XmlType(name = "dynamicPolicy", propOrder = {"spreadsheetFileName", "inputCells", "outputCells", "sanityRules"})
 public class DynamicPolicy extends Policy {
 	
 	private String spreadsheetFileName = null;
 	private List<IOCellInfo> inputCells;
 	private List<IOCellInfo> outputCells;
 
+	@ConfigurableParameter(parameterClass = SanityPolicyRule.class, displayedName = "Sanity rules", description = "Configures the cells relevant for the sanity checks.")
+	private SanityPolicyRule sanityRules = new SanityPolicyRule();
+	
+	@XmlElement(name = "sanityRules", type = SanityPolicyRule.class)
+	public SanityPolicyRule getSanityRules() {
+		return sanityRules;
+	}
+
+	public void setSanityRules(SanityPolicyRule sanityRules) {
+		this.sanityRules = sanityRules;
+		add(sanityRules);
+	}
 	/**
 	 * 
 	 */

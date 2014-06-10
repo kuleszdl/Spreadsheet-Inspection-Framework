@@ -10,6 +10,7 @@ import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.CompositePolicyRule;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.SanityPolicyRule;
 import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
@@ -19,6 +20,7 @@ import sif.technicalDepartment.equipment.testing.facilities.implementations.Dyna
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.ReadingDirectionTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.SanityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.exceptions.CheckerCreationException;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.exceptions.IncompleteConditionException;
@@ -52,6 +54,9 @@ class TestBayManager {
 		monolithicTestFacilites.put(
 				FormulaComplexityPolicyRule.class.getCanonicalName(),
 				FormulaComplexityTestFacility.class);
+		monolithicTestFacilites.put(
+				SanityPolicyRule.class.getCanonicalName(),
+				SanityTestFacility.class);
 		testBays = new TreeMap<UUID, TestBay>();
 		conditionCheckers = new TreeMap<String, Class<? extends IConditionChecker>>();
 	}

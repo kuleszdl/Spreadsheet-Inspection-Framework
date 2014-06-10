@@ -214,7 +214,7 @@ public class TernaryConditionChecker extends AbstractConditionChecker {
 			break;
 		}
 
-		if (!conditionIsOk) {
+		if (!conditionIsOk && numericConditionValue1 != null && numericConditionValue2 != null) {
 			violation = new TernaryConditionSingleViolation();
 			violation.setExpectedValue(numericConditionValue1.toString());
 			violation.setExpectedHigherValue(numericConditionValue2.toString());
