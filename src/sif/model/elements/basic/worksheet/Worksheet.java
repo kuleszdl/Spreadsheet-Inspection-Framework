@@ -54,6 +54,7 @@ public class Worksheet extends BasicAbstractElement {
 		Column column = getColumnAt(cell.getColumnIndex());
 		if (column == null) {
 			column = new Column();
+			column.setWorksheet(this);
 			column.setIndex(cell.getColumnIndex());
 			columns.put(column.getIndex(), column);
 		}

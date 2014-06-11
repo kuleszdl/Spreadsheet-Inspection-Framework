@@ -111,6 +111,7 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 			InvalidSpreadsheetFileException exception = new InvalidSpreadsheetFileException(
 					"Invalid spreadsheet file.");
 			exception.setStackTrace(e.getStackTrace());
+			exception.addSuppressed(e);
 			throw exception;
 		}
 		

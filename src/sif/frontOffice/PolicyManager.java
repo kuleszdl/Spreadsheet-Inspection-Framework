@@ -9,6 +9,7 @@ import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.CompositePolicyRule;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.SanityPolicyRule;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.model.policy.policyrule.configuration.ParameterConfiguration;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
@@ -23,6 +24,7 @@ import sif.technicalDepartment.equipment.testing.facilities.implementations.Dyna
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.ReadingDirectionTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.SanityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.BinaryConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.ElementCountChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
@@ -57,6 +59,7 @@ public class PolicyManager {
 		register(FormulaComplexityPolicyRule.class,
 				FormulaComplexityTestFacility.class);
 		register(DynamicPolicyRule.class, DynamicTestFacility.class);
+		register(SanityPolicyRule.class, SanityTestFacility.class);
 		
 		// Register available conditions
 		registerCondition(BinaryCondition.class, BinaryConditionChecker.class);
@@ -82,6 +85,13 @@ public class PolicyManager {
 		dynPolicy.setDescription("A policy that also supports dynamic inspection of spreadsheets."); //TODO Beschreibung um aktuell implementierte Rules ergänzen
 		dynPolicy.add(new DynamicPolicyRule());
 		register(dynPolicy);
+		
+		Policy sanePolicy = new Policy();
+		sanePolicy.setName("Sanity Policy");
+		sanePolicy.setAuthor("Wolfgang Kraus");
+		sanePolicy.setDescription("A policy which supports basic sanity checks");
+		sanePolicy.add(new SanityPolicyRule());
+		register(sanePolicy);
 	}
 
 	/**

@@ -2,6 +2,8 @@ package sif.utilities;
 
 import sif.model.elements.IElement;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
+import sif.model.elements.basic.tokencontainers.ITokenContainer;
+import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.elements.basic.worksheet.Row;
 import sif.model.elements.basic.worksheet.Worksheet;
 import sif.model.elements.containers.AbstractElementList;
@@ -152,4 +154,25 @@ public final class PrintUtilities {
 			print(violation);
 		}
 	}
+
+	/**
+	 * Prints the token and it's subtokens as a simple horizontal tree <br>
+	 * token <br> - subtoken <br> -- subsubtoken <br>
+	 * and so on
+	 * @param depth to start, usually 0
+	 * @param form the "root" token to print
+	 */
+	public static void printTree(int depth, ITokenElement form){
+		
+		for (int k = 0; k < depth; k++)
+			System.out.print("-");
+		
+		System.out.println(" " + form.getStringRepresentation());
+		if (form instanceof ITokenContainer){
+			for (ITokenElement ele : ((ITokenContainer) form).getTokens())
+				printTree(depth + 1, ele);
+
+		}
+	}
+
 }

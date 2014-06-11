@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import sif.IO.spreadsheet.IPOIOutput;
@@ -345,17 +346,17 @@ public final class DataFacade {
 		for (ViolationList violationsList : findings.getViolationLists()) {
 
 			builder.append("<rule name=\""
-					+ violationsList.getPolicyRule().getName()
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getName())
 					+ "\" author=\""
-					+ violationsList.getPolicyRule().getAuthor()
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getAuthor())
 					+ "\" description=\""
-					+ violationsList.getPolicyRule().getDescription()
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getDescription())
 							.replace('"', '\'') + "\" background=\""
-					+ violationsList.getPolicyRule().getBackground()
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getBackground())
 					+ "\" severity=\""
-					+ violationsList.getPolicyRule().getSeverityWeight()
+					+ violationsList.getPolicyRule().getSeverityWeight() // nn escaping a double
 					+ "\" solution=\""
-					+ violationsList.getPolicyRule().getPossibleSolution()
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getPossibleSolution())
 					+ "\">\n");
 
 			Integer counter = 0;
@@ -369,16 +370,19 @@ public final class DataFacade {
 					String location = "unknown";
 
 					if (singleViolation.getCausingElement() != null) {
-						causingElement = singleViolation.getCausingElement()
-								.getStringRepresentation();
+						causingElement = StringEscapeUtils.escapeXml
+								(singleViolation.getCausingElement().getStringRepresentation());
 						location = singleViolation.getCausingElement()
 								.getLocation();
 					}
 
 					builder.append("<singleviolation number=\"" + counter
-							+ "\" causingelement=\"" + causingElement
-							+ "\" location=\"" + location + "\" description=\""
-							+ singleViolation.getDescription()
+							+ "\" causingelement=\"" 
+							+ StringEscapeUtils.escapeXml(causingElement)
+							+ "\" location=\"" 
+							+ StringEscapeUtils.escapeXml(location) 
+							+ "\" description=\""
+							+ StringEscapeUtils.escapeXml(singleViolation.getDescription())
 							+ "\" severity=\""
 							+ singleViolation.getWeightedSeverityValue()
 							+ "\" />\n");

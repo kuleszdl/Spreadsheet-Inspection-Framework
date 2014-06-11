@@ -16,6 +16,7 @@ import sif.model.elements.basic.cell.Cell;
 public class Column extends BasicAbstractElement {
 	Integer index;
 	TreeMap<Integer, Cell> cells;
+	private Worksheet worksheet;
 
 	public Column() {
 		cells = new TreeMap<Integer, Cell>();
@@ -89,6 +90,14 @@ public class Column extends BasicAbstractElement {
 
 	public void setIndex(Integer index) {
 		this.index = index;
+	}
+
+	public Worksheet getWorksheet() {
+		return worksheet;
+	}
+
+	public void setWorksheet(Worksheet worksheet) {
+		this.worksheet = worksheet;
 	}
 
 }
