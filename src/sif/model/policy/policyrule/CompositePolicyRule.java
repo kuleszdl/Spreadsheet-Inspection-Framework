@@ -30,4 +30,9 @@ public class CompositePolicyRule extends AbstractPolicyRule {
 	public String getRuleRepresentation() {
 		return this.pExp.getStringRepresentation();
 	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.COMPOSITE;
+	}
 }

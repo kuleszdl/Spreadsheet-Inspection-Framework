@@ -1,6 +1,7 @@
 package sif.model.policy.policyrule.implementations;
 
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 
 public class SanityPolicyRule extends MonolithicPolicyRule{
@@ -17,5 +18,10 @@ public class SanityPolicyRule extends MonolithicPolicyRule{
 	public SanityPolicyRule() {
 		super();
 		setDescription("Performs basic sanity checks");
+	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.SANITY;
 	}
 }

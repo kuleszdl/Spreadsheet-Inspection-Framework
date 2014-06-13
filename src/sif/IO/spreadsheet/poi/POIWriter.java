@@ -77,7 +77,7 @@ public class POIWriter implements ISpreadsheetWriter {
 						break;
 					case NUMERIC:
 						double doubleValue = Double.parseDouble(testInput
-								.getValue());
+								.getValue().replace(',', '.'));
 						cell.setCellValue(doubleValue);
 						break;
 					case TEXT:

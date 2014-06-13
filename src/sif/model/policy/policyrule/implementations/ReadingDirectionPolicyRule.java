@@ -2,6 +2,7 @@ package sif.model.policy.policyrule.implementations;
 
 import sif.model.elements.basic.cell.Cell;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 
 /**
@@ -25,8 +26,13 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 	public ReadingDirectionPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("Policy Rule: Reading direction - References");
+		setName("Reading direction - References");
 		setDescription("Checks whether the spreadsheet can be read in configurable directions.");
+	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.STATIC;
 	}
 
 }
