@@ -16,6 +16,7 @@ import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.utilities.XML_Constants;
 
 @XmlSeeAlso({ DynamicPolicyRule.class, FormulaComplexityPolicyRule.class,
 		NoConstantsInFormulasPolicyRule.class, ReadingDirectionPolicyRule.class })
@@ -30,7 +31,7 @@ public class Policy {
 	@XmlAttribute(required = false)
 	private String author;
 	
-	@XmlElement(name="rules")
+	@XmlElement(name= XML_Constants.NAME_DYNAMIC_POLICY_RULE)
 	@XmlJavaTypeAdapter(DynamicPolicyRuleMapAdapter.class)
 	TreeMap<String, AbstractPolicyRule> abstractPolicyRules = new TreeMap<String, AbstractPolicyRule>();
 

@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 import org.xml.sax.SAXParseException;
 
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 
 /**
@@ -32,10 +33,10 @@ public class SifMarshaller {
 	 * @throws Exception
 	 */
 	public static String createTextReport(File file) throws Exception {
-		DynamicPolicy dynPolicy = unmarshal(file);
+		PolicyList dynPolicy = unmarshal(file);
 
-		Iterator<?> ruleIterator = dynPolicy.getPolicyRules().values()
-				.iterator();
+		Iterator<?> ruleIterator = dynPolicy.getDynamicPolicy().getPolicyRules().values()
+				.iterator(); 
 		Integer currentPos = 0;
 		String outputString = "";
 		AbstractPolicyRule currentRule = null;
@@ -64,9 +65,9 @@ public class SifMarshaller {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	public static DynamicPolicy unmarshal(StringReader xmlReader)
+	public static PolicyList unmarshal(StringReader xmlReader)
 			throws SAXParseException, JAXBException, IOException {
-		DynamicPolicy dynPolicy = null;
+		PolicyList dynPolicy = null;
 
 		JAXBContext jc = JAXBContext.newInstance("sif.model.policy");
 
@@ -76,13 +77,13 @@ public class SifMarshaller {
 		// Wenn ein JAXBElement erzeugt wurde und dies eine DynamicRule ist
 		if (o instanceof JAXBElement
 				&& ((JAXBElement<?>) o).getDeclaredType().equals(
-						DynamicPolicy.class)) {
+						PolicyList.class)) {
 
-			dynPolicy = ((JAXBElement<DynamicPolicy>) o).getValue();
+			dynPolicy = ((JAXBElement<PolicyList>) o).getValue();
 
-		} else if (o instanceof DynamicPolicy) {
+		} else if (o instanceof PolicyList) {
 
-			dynPolicy = (DynamicPolicy) o;
+			dynPolicy = (PolicyList) o;
 
 		} else {
 
@@ -109,7 +110,7 @@ public class SifMarshaller {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("resource")
-	public static DynamicPolicy unmarshal(File file) throws SAXParseException,
+	public static PolicyList unmarshal(File file) throws SAXParseException,
 			JAXBException, IOException {
 
 		return unmarshal(new StringReader(new Scanner(file).useDelimiter("\\Z")
