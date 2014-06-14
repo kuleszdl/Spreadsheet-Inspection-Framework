@@ -99,4 +99,9 @@ public class DynamicPolicyRule extends MonolithicPolicyRule {
 		setPossibleSolution("Check the formulae in the causing cell or region.");
 	}
 
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.DYNAMIC;
+	}
+
 }

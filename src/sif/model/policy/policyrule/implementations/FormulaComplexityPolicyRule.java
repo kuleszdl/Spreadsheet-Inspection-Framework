@@ -3,6 +3,7 @@ package sif.model.policy.policyrule.implementations;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.tokens.IOperationTokenElement;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 
 /***
@@ -27,8 +28,13 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 	public FormulaComplexityPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("Policy Rule: Formula Complexity");
+		setName("Formula Complexity");
 		setDescription("Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations");
+	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.STATIC;
 	}
 
 }

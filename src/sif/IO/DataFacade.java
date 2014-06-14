@@ -357,6 +357,8 @@ public final class DataFacade {
 					+ violationsList.getPolicyRule().getSeverityWeight() // nn escaping a double
 					+ "\" solution=\""
 					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getPossibleSolution())
+					+ "\" type=\""
+					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getType().toString())
 					+ "\">\n");
 
 			Integer counter = 0;
