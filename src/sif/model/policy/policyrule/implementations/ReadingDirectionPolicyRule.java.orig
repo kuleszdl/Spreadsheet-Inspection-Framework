@@ -43,11 +43,7 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 		setDescription("Checks whether the spreadsheet can be read in configurable directions.");
 	}
 
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.STATIC;
-	}
-
+<<<<<<< HEAD
 	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_LEFT_TO_RIGHT, type = Boolean.class)
 	public Boolean getMustBeLeftToRightReadable() {
 		return mustBeLeftToRightReadable;
@@ -74,6 +70,11 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 
 	public void setIgnoredCells(String[] ignoredCells) {
 		this.ignoredCells = ignoredCells;
+=======
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.STATIC;
+>>>>>>> upstream/master
 	}
 
 }

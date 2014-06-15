@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
 
@@ -38,7 +39,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 	public NoConstantsInFormulasPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("Policy Rule: No Constants In Formulas");
+		setName("No Constants In Formulas");
 		setDescription("Checks whether formulas contain constant values.");
 		setBackground("Constant values are not alyways as constant as they seem in the beginning."
 				+ " In case their values change, its hard to adjust the constants consistently in the spreadsheet if they are not located in individual cells.");
@@ -73,6 +74,11 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 
 	public void setIgnoredCells(String[] ignoredCells) {
 		this.ignoredCells = ignoredCells;
+	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.STATIC;
 	}
 
 }

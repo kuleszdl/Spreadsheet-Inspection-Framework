@@ -42,13 +42,8 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 		setName("Formula Complexity");
 		setDescription("Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations");
 	}
-	
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.STATIC;
-	}
 
-
+<<<<<<< HEAD
 	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NESTING, type = Integer.class)
 	public Integer getMaxNestingLevel() {
 		return maxNestingLevel;
@@ -65,6 +60,11 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 
 	public void setMaxNumberOfOperations(Integer maxNumberOfOperations) {
 		this.maxNumberOfOperations = maxNumberOfOperations;
+=======
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.STATIC;
+>>>>>>> upstream/master
 	}
 
 }

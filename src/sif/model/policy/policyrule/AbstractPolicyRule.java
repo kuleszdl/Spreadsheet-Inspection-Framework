@@ -162,5 +162,12 @@ public abstract class AbstractPolicyRule {
 		}
 
 	}
+	
+	/**
+	 * Gets the type of the rule
+	 * 
+	 * @return the type
+	 */
+	public abstract PolicyRuleType getType();
 
 }

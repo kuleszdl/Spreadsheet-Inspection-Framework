@@ -99,4 +99,9 @@ public class SanityPolicyRule extends MonolithicPolicyRule{
 		setDescription("Checks whether the to be checked values are conform with the given plausible combinations are.");
 		setPossibleSolution("Correcting obvious typing mistakes, consult the explanation or additional research is required.");
 	}
+
+	@Override
+	public PolicyRuleType getType() {
+		return PolicyRuleType.SANITY;
+	}
 }
