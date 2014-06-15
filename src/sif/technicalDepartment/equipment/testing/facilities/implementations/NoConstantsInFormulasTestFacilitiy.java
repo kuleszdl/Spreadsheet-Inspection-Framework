@@ -1,6 +1,5 @@
 package sif.technicalDepartment.equipment.testing.facilities.implementations;
 
-import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.tokencontainers.Function;
 import sif.model.elements.basic.tokencontainers.ITokenContainer;
@@ -18,7 +17,7 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 
 	private Object[] ignoredConstants;
 
-	private Cell[] ignoredCells;
+	private String[] ignoredCells;
 
 	private void checkForViolation(
 			NoConstantsInFormulaSingleViolation violation, ITokenElement token) {
@@ -64,8 +63,11 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 
 	private Boolean isIgnored(Formula formula) {
 		Boolean isIgnored = false;
-		for (Cell cell : ignoredCells) {
-			if (formula.getCell().equals(cell)) {
+		// getting the cell address into worksheet!Address
+		String location = formula.getCell().getLocation().replace("[", "").replace("]", "!");
+		for (String cell : ignoredCells) {
+			// discarding existent "$" chars from SIFEI
+			if (location.equals(cell.replace("$", ""))) {
 				isIgnored = true;
 				break;
 			}

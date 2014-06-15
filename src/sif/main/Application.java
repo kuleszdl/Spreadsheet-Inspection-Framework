@@ -1,6 +1,10 @@
 package sif.main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.InetAddress;
@@ -9,10 +13,8 @@ import java.net.Socket;
 import sif.IO.ReportFormat;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
-import sif.model.policy.DynamicPolicy;
-import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
-import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
-import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.Policy;
+import sif.model.policy.PolicyList;
 
 /***
  * This is the application class of the Spreadsheet Inspection Framework.
@@ -22,7 +24,7 @@ import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
  * 
  */
 public class Application {
-	private static final boolean DEBUG = false;
+	private static boolean DEBUG = true;
 	/**
 	 * @param args
 	 * 
@@ -30,10 +32,14 @@ public class Application {
 	public static void main(String[] args) {
 
 		// Check for correct command line parameters
-		if (args != null && args.length == 1) {
+		if (args != null && args.length >= 1) {
 
 			try {
-
+				if (args.length >= 2){
+					if (args[1].equalsIgnoreCase("-debug")){
+						DEBUG = true;
+					}
+				}
 				int port = Integer.parseInt(args[0]);
 
 				// Try and open a socket connection to the server
@@ -51,6 +57,12 @@ public class Application {
 						 */
 						String policyFile = Utils.readString(clientSocket);
 
+						if (DEBUG) {
+							BufferedWriter out = new BufferedWriter(new FileWriter(new File("C:\\Spreadsheet Inspection Framework\\dynPol.xml")));
+							out.write(policyFile);
+							out.close();
+//							return;
+						}
 						/*
 						 * Read the spreadsheet file
 						 */
@@ -66,19 +78,36 @@ public class Application {
 
 						FrontDesk desk = FrontDesk.getInstance();
 
-						DynamicPolicy policy = SifMarshaller
+						PolicyList policyList = SifMarshaller
 								.unmarshal(new StringReader(policyFile));
-
-						policy.add(new NoConstantsInFormulasPolicyRule());
-						policy.add(new ReadingDirectionPolicyRule());
-						policy.add(new FormulaComplexityPolicyRule());
+						
+						Policy policy = policyList.getDynamicPolicy();
+						if (policy == null){
+							policy = new Policy();
+						}
+						if (policyList.getFormulaComplexityRule() != null){
+							policy.add(policyList.getFormulaComplexityRule());
+						}
+						if (policyList.getNoConstantsRule() != null){
+							policy.add(policyList.getNoConstantsRule());
+						}
+						if (policyList.getReadingPolicyRule() != null){
+							policy.add(policyList.getReadingPolicyRule());
+						}
+						if (policyList.getSanityPolicyRule() != null){
+							policy.add(policyList.getSanityPolicyRule());
+						}
 
 						desk.createAndRunDynamicInspectionRequest(requestName,
 								spreadsheetFile, policy);
 
 						String xmlReport = desk
 								.createInspectionReport(ReportFormat.XML);
-
+						if (DEBUG){
+							BufferedWriter out = new BufferedWriter(new FileWriter(new File("C:\\Spreadsheet Inspection Framework\\findings.xml")));
+							out.write(policyFile);
+							out.close();
+						}
 						/*
 						 * Send the report
 						 */
@@ -103,6 +132,17 @@ public class Application {
 							if (e2.getCause() != null)
 								con.addStackTrace(e2.getCause());
 						}
+						// Close the socket so SIFEI can continue to work, or rather fail
+						// the parsing due to no root element
+						// TODO: report why it failed
+						if (!clientSocket.isClosed()){
+							try {
+								clientSocket.close();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
 						new Thread(con).start();
 					}
 				}
@@ -116,8 +156,54 @@ public class Application {
 			}
 
 		} else {
+			// debugging procedure, reads the policy.xml and runs on checking.xls
+			// in the project root (eclipse) or working directory (jar)
+			try {
+				StringBuilder build = new StringBuilder();
+				BufferedReader in = new BufferedReader(new FileReader(new File("policy.xml")));
+				String akt = null;
+				while ((akt = in.readLine()) != null){
+					build.append(akt);
+				}
+				in.close();
 
-			// System.out.println("No parameters or wrong number of parameter");
+				PolicyList policyList = SifMarshaller
+						.unmarshal(new StringReader(build.toString()));
+
+				Policy policy = policyList.getDynamicPolicy(); 
+				if (policy == null){
+					policy = new Policy();
+				}
+				if (policyList.getFormulaComplexityRule() != null){
+					policy.add(policyList.getFormulaComplexityRule());
+				}
+				if (policyList.getNoConstantsRule() != null){
+					policy.add(policyList.getNoConstantsRule());
+				}
+				if (policyList.getReadingPolicyRule() != null){
+					policy.add(policyList.getReadingPolicyRule());
+				}
+				if (policyList.getSanityPolicyRule() != null){
+					policy.add(policyList.getSanityPolicyRule());
+				}
+				
+				FrontDesk desk = FrontDesk.getInstance();
+				
+				desk.createAndRunDynamicInspectionRequest("Debug",
+						new File("checking.xls"), policy);
+
+				String xmlReport = desk
+						.createInspectionReport(ReportFormat.XML);
+
+				
+				System.out.println(xmlReport);
+
+			} catch (Exception e){
+				e.printStackTrace();
+				for (Throwable t : e.getSuppressed()){
+					t.printStackTrace();
+				}
+			}
 
 		}
 

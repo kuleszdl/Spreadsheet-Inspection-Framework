@@ -1,5 +1,6 @@
 package sif.main;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -63,7 +64,8 @@ public class Utils {
 		int length = (int) Utils.readLong(socket);
 
 		byte[] buffer = new byte[length];
-		socket.getInputStream().read(buffer, 0, length);
+		BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
+		in.read(buffer);
 		return buffer;
 
 	}
@@ -74,16 +76,18 @@ public class Utils {
 		byte[] bytes = value.getBytes("UTF-8");
 		socket.getOutputStream().write(
 				Utils.reverseByteArray(Utils.toByteArray(bytes.length)));
-		socket.getOutputStream().write(bytes);
+		socket.getOutputStream().write(bytes, 0, bytes.length);
+		socket.getOutputStream().flush();
 	}
 
 	public static File writeToTempFile(byte[] value) throws Exception {
 
-		File file = File.createTempFile("sif", "xls");
+		File file = File.createTempFile("sif", ".xls");
 		file.deleteOnExit();
 
 		FileOutputStream outputStream = new FileOutputStream(file);
 		outputStream.write(value);
+		outputStream.flush();
 		outputStream.close();
 
 		return file;

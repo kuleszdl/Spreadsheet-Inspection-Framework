@@ -18,14 +18,17 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 
 	private Boolean mustBeTopToBottomReadable = true;
 
-	private Cell[] ignoredCells = null;
+	private String[] ignoredCells = null;
 
 	public Boolean isIngored(AbstractReference reference) {
 		Boolean isIgnored = false;
 		if (reference.getReferencingElement() instanceof Cell) {
 			Cell cell = (Cell) reference.getReferencingElement();
-			for (Cell ignoredCell : ignoredCells) {
-				if (cell.equals(ignoredCell)) {
+			// getting the location as worksheet!address
+			String location = cell.getLocation().replace("[", "").replace("]", "!");
+			for (String ignoredCell : ignoredCells) {
+				// discarding existent "$" chars from SIFEI
+				if (location.equals(ignoredCell.replace("$", ""))) {
 					isIgnored = true;
 					break;
 				}
