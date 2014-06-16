@@ -16,3 +16,6 @@ SIF uses the Apache POI framework http://poi.apache.org/  which also requires XM
 The required jar-libraries are located in the folder *libs*. However please note that these library have their own licences which are located in the subfolder *licenses*.
 
 
+Bugs and Suggestions
+---------------------------
+SIF and its Integration Component SIFEI use a combined Issue tracker which can be found here: https://github.com/kuleszdl/SIFEI/issues
