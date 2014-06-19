@@ -24,7 +24,7 @@ import sif.model.policy.PolicyList;
  * 
  */
 public class Application {
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 	/**
 	 * @param args
 	 * 
@@ -39,7 +39,12 @@ public class Application {
 					if (args[1].equalsIgnoreCase("-debug")){
 						DEBUG = true;
 					}
-				}
+				} else if (args.length == 1){
+					File debugFile = new File("C:\\Spreadsheet Inspection Framework\\debug");
+					if (debugFile.exists()){
+						DEBUG = true;
+					}
+					}
 				int port = Integer.parseInt(args[0]);
 
 				// Try and open a socket connection to the server
@@ -105,7 +110,7 @@ public class Application {
 								.createInspectionReport(ReportFormat.XML);
 						if (DEBUG){
 							BufferedWriter out = new BufferedWriter(new FileWriter(new File("C:\\Spreadsheet Inspection Framework\\findings.xml")));
-							out.write(policyFile);
+							out.write(xmlReport);
 							out.close();
 						}
 						/*
@@ -159,6 +164,8 @@ public class Application {
 			// debugging procedure, reads the policy.xml and runs on checking.xls
 			// in the project root (eclipse) or working directory (jar)
 			try {
+
+
 				StringBuilder build = new StringBuilder();
 				BufferedReader in = new BufferedReader(new FileReader(new File("policy.xml")));
 				String akt = null;
