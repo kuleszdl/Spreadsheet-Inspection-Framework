@@ -118,7 +118,7 @@
 		<antcall target="build" />
 	</target>
 	
-	<target name="test" depends="build">
+	<target name="test" depends="build"> 
 		<!-- placeholder for running travis, just depends on default task -->
 	</target>
 
