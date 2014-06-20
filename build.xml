@@ -10,7 +10,7 @@
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
-	<property name="jar.dir" value="jar" />
+	<property name="dist.dir" value="dist" />
 
 	<property name="folderpath" value="C:/Dokumente und Einstellungen/Administrator/Eigene Dateien/phase2/" />
 	<property name="maxNumberOfOperands" value="" />
@@ -58,7 +58,7 @@
 			</fileset>
 		</copy>
 
-		<copy includeemptydirs="false" todir="${jar.dir}/libs">
+		<copy includeemptydirs="false" todir="${dist.dir}/libs">
 			<fileset dir="libs">
 			</fileset>
 		</copy>
@@ -86,14 +86,14 @@
 		</javac>-->
 
 		<path id="build-classpath">
-			<fileset dir="${jar.dir}/libs">
+			<fileset dir="${dist.dir}/libs">
 				<include name="*.jar" />
 			</fileset>
 		</path>
-		<manifestclasspath property="lib.list" jarfile="${jar.dir}/sif.jar">
+		<manifestclasspath property="lib.list" jarfile="${dist.dir}/sif.jar">
 			<classpath refid="build-classpath" />
 		</manifestclasspath>
-		<jar jarfile="${jar.dir}/sif.jar" basedir="bin" update="true">
+		<jar jarfile="${dist.dir}/sif.jar" basedir="bin" update="true">
 			<manifest>
 				<attribute name="Main-Class" value="sif.main.Application" />
 				<attribute name="Class-Path" value="${lib.list}" />
