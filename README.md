@@ -1,5 +1,7 @@
 Spreadsheet Inspection Framework SIF
 =================
+Build Status: [![Build Status](https://travis-ci.org/kuleszdl/Spreadsheet-Inspection-Framework.svg?branch=master)](https://travis-ci.org/kuleszdl/Spreadsheet-Inspection-Framework)
+
 SIF is a Java-Framework for checking spreadsheets against definable policy rules.
 It was created by Sebastian Zitzelsberger and later extended by Manuel Lemcke as part of their diploma theses "Error Detection in Spreadsheets" and "Dynamic testing of spreadsheets". The first one can be downloaded at http://elib.uni-stuttgart.de/opus/frontdoor.php?source_opus=7056](http://elib.uni-stuttgart.de/opus/frontdoor.php?source_opus=7056 "here") (German language).
 
