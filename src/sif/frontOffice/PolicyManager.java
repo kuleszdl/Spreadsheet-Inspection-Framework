@@ -82,7 +82,7 @@ public class PolicyManager {
 		Policy dynPolicy = new Policy();
 		dynPolicy.setName("Dynamic Policy");
 		dynPolicy.setAuthor("Manuel Lemcke");
-		dynPolicy.setDescription("A policy that also supports dynamic inspection of spreadsheets."); //TODO Beschreibung um aktuell implementierte Rules ergänzen
+		dynPolicy.setDescription("A policy that also supports dynamic inspection of spreadsheets."); //TODO Beschreibung um aktuell implementierte Rules ergaenzen
 		dynPolicy.add(new DynamicPolicyRule());
 		register(dynPolicy);
 		
@@ -105,7 +105,7 @@ public class PolicyManager {
 	private Boolean containsOnlyRegisteredPolicyRules(Policy policy) {
 		Boolean result = true;
 
-		//TODO Entweder auch DynamicPolicy.rules überprüfen oder .rules und 
+		//TODO Entweder auch DynamicPolicy.rules ueberpruefen oder .rules und 
 		// .abstractPolicyRules mergen
 		for (AbstractPolicyRule policyRule : policy.getPolicyRules().values()) {
 			if (!availablePolicyRules.values().contains(policyRule.getClass())) {
