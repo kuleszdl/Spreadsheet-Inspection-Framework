@@ -1,8 +1,6 @@
 package sif.main;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
 
 import sif.IO.ReportFormat;
@@ -21,10 +19,17 @@ public class Application {
 	private static final String MODESOCKET = "socket";
 	private static final String MODEFILE = "file";
 	
+	/**
+	 * Wheter debug messages should be shown
+	 * @return
+	 */
 	public static boolean isDebug(){
 		return DEBUG;
 	}
 	
+	/**
+	 * Tries and sets the parent folder of the jar
+	 */
 	private static void checkParentFolder(){
 		try {
 			parentFolder = new File(
@@ -32,11 +37,15 @@ public class Application {
 					.getCodeSource().getLocation()
 					.toURI().getPath()
 			).getParentFile();
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
+			// Security / URI or other exceptions
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Checks for a file "debug" in the jar folder and sets the DEBUG flag when appropriate
+	 */
 	private static void checkDebug(){
 		File debugFile = new File(parentFolder, DEBUGFILENAME);
 		if (debugFile.exists()){
@@ -116,11 +125,10 @@ public class Application {
 		if (reason != null){
 			sb += reason + "\n";
 		}	
-		sb += "Usage: ";
-		sb += "sif [MODE] [PARAMETERS]. ";
-		sb += "Currently supported modes:\n";
-		sb += "sif socket [portnumber]\n";
-		sb += "sif file [html | xml] [path/to/policyFile] [path/to/spreadsheetFile]\n";
+		sb += "Usage: sif [MODE] [PARAMETERS]. "
+		+ "Currently supported modes:\n"
+		+ "sif socket [portnumber]\n"
+		+ "sif file [html | xml] [path/to/policyFile] [path/to/spreadsheetFile]\n";
 		if (isDebug()){
 			sb += "To disable the debug mode remove or rename the file called 'debug' in the "
 					+ "same folder as the jar";
