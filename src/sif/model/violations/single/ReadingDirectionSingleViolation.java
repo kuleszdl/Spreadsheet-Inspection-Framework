@@ -1,5 +1,8 @@
 package sif.model.violations.single;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -23,6 +26,7 @@ public class ReadingDirectionSingleViolation implements ISingleViolation {
 	private HashMap<AbstractReference, Integer> nonLeftToRightreferences;
 	private HashMap<AbstractReference, Integer> nonTopToBottomreferences;
 	private AbstractPolicyRule policyRule;
+	private Comparator<AbstractReference> sortingComparator;
 
 	public ReadingDirectionSingleViolation() {
 		nonLeftToRightreferences = new HashMap<AbstractReference, Integer>();
@@ -90,11 +94,12 @@ public class ReadingDirectionSingleViolation implements ISingleViolation {
 
 		// Write description for all non left to right references.
 		if (!nonLeftToRightreferences.isEmpty()) {
-			description
-					.append("The following references cannot be read from left to right: ");
+			description.append("The following references cannot be read from left to right: ");
 
-			Iterator<AbstractReference> refLeftIterator = nonLeftToRightreferences
-					.keySet().iterator();
+			ArrayList<AbstractReference> sorted = 
+					new ArrayList<AbstractReference>(nonLeftToRightreferences.keySet());
+			Collections.sort(sorted, createComparator());
+			Iterator<AbstractReference> refLeftIterator = sorted.iterator();
 
 			while (refLeftIterator.hasNext()) {
 				AbstractReference reference = refLeftIterator.next();
@@ -113,11 +118,15 @@ public class ReadingDirectionSingleViolation implements ISingleViolation {
 
 		// Write description for all non top to bottom references.
 		if (!nonTopToBottomreferences.isEmpty()) {
-			description
-					.append("\n The following references cannot be read from top to bottom: ");
+			if (description.length() > 0){
+				description.append("\n");
+			}
+			description.append("The following references cannot be read from top to bottom: ");
 
-			Iterator<AbstractReference> refTopIterator = nonTopToBottomreferences
-					.keySet().iterator();
+			ArrayList<AbstractReference> sorted = 
+					new ArrayList<AbstractReference>(nonTopToBottomreferences.keySet());
+			Collections.sort(sorted, createComparator());
+			Iterator<AbstractReference> refTopIterator = sorted.iterator();
 
 			while (refTopIterator.hasNext()) {
 				AbstractReference reference = refTopIterator.next();
@@ -134,6 +143,19 @@ public class ReadingDirectionSingleViolation implements ISingleViolation {
 		}
 
 		return description.toString();
+	}
+
+	private Comparator<AbstractReference> createComparator() {
+		if (sortingComparator == null){
+			sortingComparator = new Comparator<AbstractReference>() {
+
+				@Override
+				public int compare(AbstractReference o1, AbstractReference o2) {
+					return o1.getValueAsString().compareTo(o2.getValueAsString());
+				}
+			};
+		}
+		return sortingComparator;
 	}
 
 	@Override

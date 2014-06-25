@@ -1,5 +1,8 @@
 package sif.model.violations.single;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -33,7 +36,7 @@ public class NoConstantsInFormulaSingleViolation implements ISingleViolation {
 	 * by one.
 	 * 
 	 * @param constant
-	 *            Teh given constant.
+	 *            The given constant.
 	 */
 	public void add(ScalarConstant constant) {
 
@@ -58,21 +61,27 @@ public class NoConstantsInFormulaSingleViolation implements ISingleViolation {
 	public IElement getCausingElement() {
 		return causingFormula;
 	}
+	
+	private String getScalarDescription(ScalarConstant constant){
+		if (constants.get(constant) > 1){
+			return constant.getStringRepresentation() + " (" + constants.get(constant) + "x)";
+		}
+		return constant.getStringRepresentation();
+	}
 
 	@Override
 	public String getDescription() {
 		StringBuilder description = new StringBuilder();
 		description.append("The following constants were found: ");
-		Iterator<ScalarConstant> constantIterator = constants.keySet()
+		ArrayList<ScalarConstant> sorted = new ArrayList<ScalarConstant>(constants.keySet());
+		Collections.sort(sorted, createComparator());
+		Iterator<ScalarConstant> constantIterator = sorted
 				.iterator();
 
 		while (constantIterator.hasNext()) {
 			ScalarConstant constant = constantIterator.next();
 
-			description.append(constant.getStringRepresentation());
-			if (constants.get(constant) > 1) {
-				description.append(" (" + constants.get(constant) + "x)");
-			}
+			description.append(getScalarDescription(constant));
 			if (constantIterator.hasNext()) {
 				description.append(", ");
 			}
@@ -131,4 +140,12 @@ public class NoConstantsInFormulaSingleViolation implements ISingleViolation {
 		this.policyRule = policyRule;
 	}
 
+	private Comparator<ScalarConstant> createComparator(){
+		return new Comparator<ScalarConstant>() {
+			@Override
+			public int compare(ScalarConstant o1, ScalarConstant o2) {
+				return getScalarDescription(o1).compareTo(getScalarDescription(o2));
+			}
+		};
+	}
 }

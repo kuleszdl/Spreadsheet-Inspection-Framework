@@ -57,7 +57,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTIONS_WRAPPER)
-	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTION_NAME, type = Object.class) })
+	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTION_NAME, type = String.class) })
 	public String[] getIgnoredFunctions() {
 		return ignoredFunctions;
 	}
