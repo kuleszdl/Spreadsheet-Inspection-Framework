@@ -53,7 +53,8 @@ public class ScalarConstant extends BasicAbstractElement implements
 		builder.append(getType().toString().toLowerCase());
 		builder.replace(0, 1, Character.toString(builder.charAt(0))
 				.toUpperCase());
-
+		builder.append(" : ");
+		builder.append(getValueAsString());
 		return builder.toString();
 	}
 
