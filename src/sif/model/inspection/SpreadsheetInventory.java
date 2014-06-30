@@ -1,13 +1,26 @@
 package sif.model.inspection;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeMap;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlType;
+
 import sif.model.elements.AbstractElement;
+import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
 import sif.model.elements.containers.AbstractElementList;
 import sif.model.elements.containers.SimpleElementList;
+import sif.model.elements.custom.InputCell;
+import sif.model.elements.custom.IntermediateCell;
+import sif.model.elements.custom.OutputCell;
+import sif.utilities.XML_Constants;
 
 /***
  * Extended model class to represent spreadsheets.
@@ -15,6 +28,12 @@ import sif.model.elements.containers.SimpleElementList;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlType(name = XML_Constants.NAME_INVENTORY, propOrder = { 
+		XML_Constants.NAME_INVENTORY_INPUT_WRAPPER,
+		XML_Constants.NAME_INVENTORY_INTERMEDIATE_WRAPPER,
+		XML_Constants.NAME_INVENTORY_OUTPUT_WRAPPER
+})
+@XmlAccessorType(XmlAccessType.NONE)
 public class SpreadsheetInventory {
 	private TreeMap<String, AbstractElementList<?>> elementLists = new TreeMap<String, AbstractElementList<?>>();
 
@@ -76,5 +95,38 @@ public class SpreadsheetInventory {
 
 	public void setSpreadsheetFile(File spreadsheetFile) {
 		this.spreadsheetFile = spreadsheetFile;
+	}
+	
+	@XmlElementWrapper(name = XML_Constants.NAME_INVENTORY_INPUT_WRAPPER)
+	@XmlElements({ @XmlElement(name = XML_Constants.NAME_INVENTORY_CELL_NAME, type = Cell.class) })
+	public ArrayList<Cell> getInput(){
+		ArrayList<InputCell> tmp = getListFor(InputCell.class).getElements();
+		ArrayList<Cell> tmp2 = new ArrayList<Cell>(tmp.size());
+		for (InputCell c : tmp){
+			tmp2.add(c.getCell());
+		}
+		return tmp2;
+	}
+	
+	@XmlElementWrapper(name = XML_Constants.NAME_INVENTORY_INTERMEDIATE_WRAPPER)
+	@XmlElements({ @XmlElement(name = XML_Constants.NAME_INVENTORY_CELL_NAME, type = Cell.class) })
+	public ArrayList<Cell> getIntermediate(){
+		ArrayList<IntermediateCell> tmp = getListFor(IntermediateCell.class).getElements();
+		ArrayList<Cell> tmp2 = new ArrayList<Cell>(tmp.size());
+		for (IntermediateCell c : tmp){
+			tmp2.add(c.getCell());
+		}
+		return tmp2;
+	}
+	
+	@XmlElementWrapper(name = XML_Constants.NAME_INVENTORY_OUTPUT_WRAPPER)
+	@XmlElements({ @XmlElement(name = XML_Constants.NAME_INVENTORY_CELL_NAME, type = Cell.class) })
+	public ArrayList<Cell> getOutput(){
+		ArrayList<OutputCell> tmp = getListFor(OutputCell.class).getElements();
+		ArrayList<Cell> tmp2 = new ArrayList<Cell>(tmp.size());
+		for (OutputCell c : tmp){
+			tmp2.add(c.getCell());
+		}
+		return tmp2;
 	}
 }

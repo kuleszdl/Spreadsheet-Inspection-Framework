@@ -3,7 +3,6 @@ package sif.model.violations.single;
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
-import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 
 /***
@@ -13,7 +12,7 @@ import sif.model.violations.IViolation;
  * @author Sebastian Zitzelsberger
  * 
  */
-public class FormulaComplexitySingleViolation implements ISingleViolation {
+public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 
 	private IElement causingFormula;
 	private Integer numberOfOperations;

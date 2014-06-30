@@ -7,15 +7,12 @@ import java.util.Enumeration;
 
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
-import sif.model.policy.policyrule.dynamicConditions.EBinaryRelation;
-import sif.model.policy.policyrule.dynamicConditions.ETernaryRelation;
-import sif.model.violations.ISingleViolation;
 
 /**
  * @author Manuel Lemcke
  *
  */
-public class ConditionSingleViolation implements ISingleViolation {
+public class ConditionSingleViolation extends GenericSingleViolation {
 	
 	private Enumeration<String> relation = null;
 	private String expectedValue = null;

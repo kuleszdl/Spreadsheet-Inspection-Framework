@@ -44,6 +44,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 		setBackground("Constant values are not alyways as constant as they seem in the beginning."
 				+ " In case their values change, its hard to adjust the constants consistently in the spreadsheet if they are not located in individual cells.");
 		setPossibleSolution("Extract the constants into to separate cells and reference these cells");
+		setType(PolicyRuleType.STATIC);
 	}
 	
 	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_WRAPPER)
@@ -76,9 +77,5 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 		this.ignoredCells = ignoredCells;
 	}
 
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.STATIC;
-	}
 
 }

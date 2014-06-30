@@ -1,5 +1,8 @@
 package sif.model.violations;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 
@@ -11,6 +14,7 @@ import sif.model.policy.policyrule.AbstractPolicyRule;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlJavaTypeAdapter(IViolation.Adapter.class)
 public interface IViolation {
 
 	/***
@@ -78,4 +82,17 @@ public interface IViolation {
 	 */
 	public void setPolicyRule(AbstractPolicyRule policyRule);
 
+	static class Adapter extends XmlAdapter<Object, Object>{
+
+		@Override
+		public Object unmarshal(Object v) throws Exception {
+			return v;
+		}
+
+		@Override
+		public Object marshal(Object v) throws Exception {
+			return v;
+		}
+		
+	}
 }

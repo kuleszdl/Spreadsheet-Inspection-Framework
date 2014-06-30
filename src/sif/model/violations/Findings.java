@@ -3,7 +3,15 @@ package sif.model.violations;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlType;
+
 import sif.model.violations.lists.ViolationList;
+import sif.utilities.XML_Constants;
 
 /***
  * Container class to store all violations that have been found during an
@@ -12,6 +20,10 @@ import sif.model.violations.lists.ViolationList;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlType(propOrder = { 
+		"violationLists"
+})
+@XmlAccessorType(XmlAccessType.NONE)
 public class Findings {
 
 	private TreeMap<String, ViolationList> violationLists;
@@ -87,6 +99,10 @@ public class Findings {
 	 * 
 	 * @return The violation lists.
 	 */
+//	@XmlElementWrapper(name = XML_Constants.NAME_FINDINGS)
+//	@XmlElements({ 
+		@XmlElement(name = XML_Constants.NAME_FINDINGS_VIOLATIONLIST, type = ViolationList.class) 
+//	})
 	public ArrayList<ViolationList> getViolationLists() {
 		return new ArrayList<ViolationList>(violationLists.values());
 	}

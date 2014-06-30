@@ -10,7 +10,6 @@ import sif.model.elements.IElement;
 import sif.model.elements.basic.tokens.ScalarConstant;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
-import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 
 /***
@@ -20,7 +19,7 @@ import sif.model.violations.IViolation;
  * @author Sebastian Zitzelsberger
  * 
  */
-public class NoConstantsInFormulaSingleViolation implements ISingleViolation {
+public class NoConstantsInFormulaSingleViolation extends GenericSingleViolation {
 
 	private IElement causingFormula;
 	private HashMap<ScalarConstant, Integer> constants;

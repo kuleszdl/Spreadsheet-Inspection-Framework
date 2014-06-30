@@ -11,7 +11,6 @@ import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
-import sif.model.violations.ISingleViolation;
 
 /***
  * A custom single violation to record violations of the
@@ -20,7 +19,7 @@ import sif.model.violations.ISingleViolation;
  * @author Sebastian Zitzelsberger
  * 
  */
-public class ReadingDirectionSingleViolation implements ISingleViolation {
+public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 
 	private IElement causingFormula;
 	private HashMap<AbstractReference, Integer> nonLeftToRightreferences;

@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -261,24 +264,30 @@ public final class DataFacade {
 	 * 
 	 * @param inspectionRequest
 	 *            The given inspection request.
+	 * @throws Exception 
 	 * @throws IOException
 	 *             Throws an IOExcpetion if the file can't be created at the
 	 *             given path.
 	 */
 	public String export(InspectionRequest inspectionRequest,
-			ReportFormat format) {
+			ReportFormat format) throws Exception {
 
 		switch (format) {
 		case HTML:
 			return this.getFindingsAsHtmlString(inspectionRequest);
 		case XML:
-			return this.getFindingsAsXmlString(inspectionRequest);
+			return this.getFindingsAsJAXBString(inspectionRequest);
 		default:
 			return null;
 		}
 
 	}
 
+	/**
+	 * @deprecated handwritten xml; use {@link #getFindingsAsJAXBString(InspectionRequest)} instead
+	 * @param inspectionRequest
+	 * @return
+	 */
 	private String getFindingsAsXmlString(InspectionRequest inspectionRequest) {
 		StringBuilder builder = new StringBuilder();
 		Findings findings = inspectionRequest.getFindings();
@@ -402,6 +411,7 @@ public final class DataFacade {
 						location = violationGroup.getCausingElement()
 								.getLocation();
 					}
+					counter++;
 
 					builder.append("<violationgroup number=\"" + counter
 							+ "\" causingelement=\"" + causingElement
@@ -410,7 +420,6 @@ public final class DataFacade {
 							+ "\" severity=\""
 							+ violationGroup.getWeightedSeverityValue()
 							+ "\">\n");
-					counter++;
 
 					Integer groupCounter = 0;
 					for (ISingleViolation singleViolation : violationGroup
@@ -453,6 +462,19 @@ public final class DataFacade {
 		builder.append("</test>\n");
 
 		return builder.toString();
+	}
+	
+	private String getFindingsAsJAXBString(InspectionRequest inspectionRequest) throws Exception{
+		JAXBContext jc = JAXBContext.newInstance("sif.model.policy"
+				+ ":sif.model.inspection"
+				+ ":sif.model.violations"
+				+ ":sif.model.violations.single"
+				+ ":sif.model.violations.groups");
+		Marshaller m = jc.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		StringWriter result = new StringWriter();
+		m.marshal(inspectionRequest, result);
+		return result.toString();
 	}
 
 	private String getFindingsAsHtmlString(InspectionRequest inspectionRequest) {

@@ -2,6 +2,11 @@ package sif.model.elements.basic.cell;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+
 import sif.model.elements.BasicAbstractElement;
 import sif.model.elements.IAddressableElement;
 import sif.model.elements.basic.address.AbstractAddress;
@@ -11,6 +16,7 @@ import sif.model.elements.basic.reference.IReferencedElement;
 import sif.model.elements.basic.reference.IReferencingElement;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.worksheet.Worksheet;
+import sif.utilities.XML_Constants;
 
 /**
  * Representation of a cell.
@@ -18,6 +24,11 @@ import sif.model.elements.basic.worksheet.Worksheet;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlType(name = XML_Constants.NAME_OUTPUT_CELL, propOrder = { 
+		XML_Constants.NAME_OUTPUT_CELL_LOCATION,
+		XML_Constants.NAME_OUTPUT_CELL_CONTENT
+})
+@XmlAccessorType(XmlAccessType.NONE)
 public class Cell extends BasicAbstractElement implements ICellElement,
 		IReferencedElement, IReferencingElement, IAddressableElement {
 
@@ -122,6 +133,7 @@ public class Cell extends BasicAbstractElement implements ICellElement,
 		return incomingReferences;
 	}
 
+	@XmlAttribute(name = XML_Constants.NAME_OUTPUT_CELL_LOCATION)
 	@Override
 	public String getLocation() {
 		return address.getFullAddress();
@@ -260,5 +272,11 @@ public class Cell extends BasicAbstractElement implements ICellElement,
 		this.address.setWorksheet(worksheet);
 
 	}
+
+	@XmlAttribute(name = XML_Constants.NAME_OUTPUT_CELL_CONTENT)
+	public String getContent(){
+		return getStringRepresentation();
+	}
+	
 
 }

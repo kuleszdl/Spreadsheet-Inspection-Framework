@@ -41,11 +41,7 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 		setAuthor("Sebastian Zitzelsberger");
 		setName("Formula Complexity");
 		setDescription("Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations");
-	}
-	
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.STATIC;
+		setType(PolicyRuleType.STATIC);
 	}
 
 

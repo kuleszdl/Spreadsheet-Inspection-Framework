@@ -2,7 +2,11 @@ package sif.model.violations;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import sif.model.violations.groups.GenericViolationGroup;
+import sif.utilities.XML_Constants;
 
 /***
  * A violation group is a set of single violations that share specific criteria
@@ -13,6 +17,8 @@ import sif.model.violations.groups.GenericViolationGroup;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlJavaTypeAdapter(IViolation.Adapter.class)
+@XmlType(name = XML_Constants.NAME_GROUP_VIOLATION)
 public interface IViolationGroup extends IViolation {
 
 	/***

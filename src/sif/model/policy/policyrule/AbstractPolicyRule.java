@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
+
 import sif.model.policy.classification.ILeafCategory;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
 import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
@@ -23,27 +24,26 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
 public abstract class AbstractPolicyRule {
 	@XmlAttribute(required=true)
 	private String name = "N.A.";
-	
-	@XmlTransient
+	@XmlAttribute(required=true)
 	private String description = "N.A.";
-	
-	@XmlTransient
+	@XmlAttribute(required=true)
 	private String background = "N.A.";
-	
-	@XmlAttribute
+	@XmlAttribute(required=true)
 	private String author = "N.A.";
-	
-	@XmlTransient
+	@XmlAttribute(required=true)
 	private String possibleSolution = "N.A.";
-	
+	@XmlAttribute(required=true)
+	private PolicyRuleType type = null;
+
 	@XmlTransient
 	private ILeafCategory category;
 	
-	@XmlAttribute
+	@XmlAttribute(required=false)
 	private Double severityWeight = 1.0;
 	
 	@XmlTransient
 	private PolicyRuleConfiguration configuration = null;
+	
 
 	/**
 	 * Gets the author that created the policy
@@ -168,6 +168,12 @@ public abstract class AbstractPolicyRule {
 	 * 
 	 * @return the type
 	 */
-	public abstract PolicyRuleType getType();
+	public PolicyRuleType getType(){
+		return type;
+	}
+	
+	public void setType(PolicyRuleType policyType){
+		type = policyType;
+	}
 
 }

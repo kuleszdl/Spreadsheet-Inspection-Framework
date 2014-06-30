@@ -2,11 +2,18 @@ package sif.model.violations.lists;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 import sif.model.violations.IViolationGroup;
 import sif.model.violations.ViolationGroupor;
+import sif.utilities.XML_Constants;
 
 /***
  * A violation list stores all violations of a specific policy rule. The
@@ -15,14 +22,25 @@ import sif.model.violations.ViolationGroupor;
  * @author Sebastian Zitzelsberger
  * 
  */
+@XmlType(name = XML_Constants.NAME_FINDINGS_VIOLATIONLIST, propOrder = { 
+		"violations",
+		"policyRule",
+})
+@XmlAccessorType(XmlAccessType.NONE)
 public class ViolationList {
-
+	@XmlTransient
 	private ViolationGroupor violationGroupor;
-
+	@XmlElement
 	private ArrayList<IViolation> violations;
-
+	@XmlElement(name = XML_Constants.NAME_VIOLATIONLIST_POLICY)
 	private AbstractPolicyRule policyRule;
 
+	/**
+	 * Only for jaxb
+	 */
+	public ViolationList(){
+		
+	}
 	/***
 	 * Creates an empty violation list that stores violations of the given
 	 * policy rule.
@@ -146,4 +164,6 @@ public class ViolationList {
 	public ArrayList<IViolation> getViolations() {
 		return violations;
 	}
+	
+
 }
