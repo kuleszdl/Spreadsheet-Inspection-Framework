@@ -41,12 +41,9 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 		setAuthor("Sebastian Zitzelsberger");
 		setName("Reading direction - References");
 		setDescription("Checks whether the spreadsheet can be read in configurable directions.");
+		setType(PolicyRuleType.STATIC);
 	}
 
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.STATIC;
-	}
 
 	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_LEFT_TO_RIGHT, type = Boolean.class)
 	public Boolean getMustBeLeftToRightReadable() {

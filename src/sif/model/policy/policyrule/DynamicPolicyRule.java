@@ -97,11 +97,8 @@ public class DynamicPolicyRule extends MonolithicPolicyRule {
 				+ "While the process of checking the spreadsheet is executed, "
 				+ "that is formulae of the spreadsheet are evaluated.");
 		setPossibleSolution("Check the formulae in the causing cell or region.");
+		setType(PolicyRuleType.DYNAMIC);
 	}
 
-	@Override
-	public PolicyRuleType getType() {
-		return PolicyRuleType.DYNAMIC;
-	}
 
 }
