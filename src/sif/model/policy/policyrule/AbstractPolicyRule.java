@@ -3,10 +3,15 @@ package sif.model.policy.policyrule;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import sif.model.policy.DynamicPolicy;
 import sif.model.policy.classification.ILeafCategory;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
+import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
+import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
+import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 
@@ -21,18 +26,25 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso({ // Include the known implementations for the xsd
+	FormulaComplexityPolicyRule.class, 
+	NoConstantsInFormulasPolicyRule.class,
+	SanityPolicyRule.class,
+	ReadingDirectionPolicyRule.class,
+	DynamicPolicyRule.class,
+	DynamicPolicy.class})
 public abstract class AbstractPolicyRule {
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private String name = "N.A.";
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private String description = "N.A.";
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private String background = "N.A.";
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private String author = "N.A.";
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private String possibleSolution = "N.A.";
-	@XmlAttribute(required=true)
+	@XmlAttribute(required=false)
 	private PolicyRuleType type = null;
 
 	@XmlTransient

@@ -26,9 +26,9 @@ public class XML_Constants {
 
 	public static final String NAME_READING_DIRECTION_POLICY_RULE = "readingDirectionPolicyRule",
 			NAME_READING_DIRECTION_IGNORED_CELL = "location",
-			NAME_READING_DIRECTION_IGNORED_CELLS_WRAPPER = "IgnoredCells",
-			NAME_READING_DIRECTION_LEFT_TO_RIGHT = "LeftToRight",
-			NAME_READING_DIRECTION_TOP_TO_BOTTOM = "TopToBottom";
+			NAME_READING_DIRECTION_IGNORED_CELLS_WRAPPER = "ignoredCells",
+			NAME_READING_DIRECTION_LEFT_TO_RIGHT = "leftToRight",
+			NAME_READING_DIRECTION_TOP_TO_BOTTOM = "topToBottom";
 
 	public static final String NAME_SANITY_POLICY_RULE = "sanityRules",
 			NAME_SANITY_CHECKING_WRAPPER = "sanityCheckingCells",
@@ -71,4 +71,5 @@ public class XML_Constants {
 			NAME_SINGLE_VIOLATION_SEVERITY = "severity";
 	
 	public static final String NAME_GROUP_VIOLATION = "violationgroup";
+	
 }

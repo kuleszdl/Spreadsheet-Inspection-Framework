@@ -47,7 +47,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 		setType(PolicyRuleType.STATIC);
 	}
 	
-	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_WRAPPER)
+	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_WRAPPER, required = false)
 	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_VALUE, type = Object.class) })
 	public Object[] getIgnoredConstants() {
 		return ignoredConstants;
@@ -57,7 +57,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 		this.ignoredConstants = ignoredConstants;
 	}
 
-	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTIONS_WRAPPER)
+	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTIONS_WRAPPER, required = false)
 	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_FUNCTION_NAME, type = String.class) })
 	public String[] getIgnoredFunctions() {
 		return ignoredFunctions;
@@ -67,7 +67,7 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 		this.ignoredFunctions = ignoredFunctions;
 	}
 
-	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CELLS_WRAPPER)
+	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CELLS_WRAPPER, required = false)
 	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CELLS_VALUE, type = String.class) })
 	public String[] getIgnoredCells() {
 		return ignoredCells;

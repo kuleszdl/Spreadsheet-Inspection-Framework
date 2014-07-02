@@ -82,16 +82,16 @@ public interface IViolation {
 	 */
 	public void setPolicyRule(AbstractPolicyRule policyRule);
 
-	static class Adapter extends XmlAdapter<Object, Object>{
+	static class Adapter extends XmlAdapter<AbstractViolation, IViolation>{
 
 		@Override
-		public Object unmarshal(Object v) throws Exception {
+		public IViolation unmarshal(AbstractViolation v) throws Exception {
 			return v;
 		}
 
 		@Override
-		public Object marshal(Object v) throws Exception {
-			return v;
+		public AbstractViolation marshal(IViolation v) throws Exception {
+			return (AbstractViolation) v;
 		}
 		
 	}
