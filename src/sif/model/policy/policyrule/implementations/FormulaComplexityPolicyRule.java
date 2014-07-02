@@ -45,7 +45,7 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 	}
 
 
-	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NESTING, type = Integer.class)
+	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NESTING, type = Integer.class, required = false)
 	public Integer getMaxNestingLevel() {
 		return maxNestingLevel;
 	}
@@ -54,7 +54,7 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 		this.maxNestingLevel = maxNestingLevel;
 	}
 
-	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NR_OPERATIONS, type = Integer.class)
+	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NR_OPERATIONS, type = Integer.class, required = false)
 	public Integer getMaxNumberOfOperations() {
 		return maxNumberOfOperations;
 	}

@@ -8,6 +8,7 @@ import java.io.StringReader;
 import sif.IO.ReportFormat;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
+import sif.model.policy.DynamicPolicy;
 import sif.model.policy.Policy;
 import sif.model.policy.PolicyList;
 
@@ -28,7 +29,7 @@ public class RunFileMode {
 
 		Policy policy = policyList.getDynamicPolicy(); 
 		if (policy == null){
-			policy = new Policy();
+			policy = new DynamicPolicy();
 		}
 		if (policyList.getFormulaComplexityRule() != null){
 			policy.add(policyList.getFormulaComplexityRule());

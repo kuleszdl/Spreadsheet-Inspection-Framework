@@ -2,12 +2,12 @@ package sif.model.violations.single;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
+import sif.model.violations.AbstractViolation;
 import sif.model.violations.ISingleViolation;
 import sif.utilities.XML_Constants;
 
@@ -17,14 +17,9 @@ import sif.utilities.XML_Constants;
  * @author Sebastian Zitzelsberger
  * 
  */
-@XmlType(name = XML_Constants.NAME_SINGLE_VIOLATION, propOrder = {
-		"content",
-		"location",
-		"description",
-		"weightedSeverityValue"
-})
-@XmlAccessorType(XmlAccessType.NONE)
-public class GenericSingleViolation implements ISingleViolation {
+@XmlType(name = XML_Constants.NAME_SINGLE_VIOLATION)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class GenericSingleViolation extends AbstractViolation implements ISingleViolation {
 	@XmlTransient
 	private Double severityValue = 0.0;
 	@XmlTransient
@@ -49,7 +44,6 @@ public class GenericSingleViolation implements ISingleViolation {
 	}
 
 	@Override
-	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_DESCRIPTION)
 	public String getDescription() {
 		return descriptionBuilder.toString();
 	}
@@ -60,7 +54,6 @@ public class GenericSingleViolation implements ISingleViolation {
 	}
 
 	@Override
-	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_SEVERITY)
 	public Double getWeightedSeverityValue() {
 		return severityValue;
 	}
@@ -78,15 +71,6 @@ public class GenericSingleViolation implements ISingleViolation {
 	public void setPolicyRule(AbstractPolicyRule policyRule) {
 		this.policyRule = policyRule;
 	}
-	
-	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_CAUSING)
-	public String getContent(){
-		return getCausingElement().getStringRepresentation();
-	}
-	
-	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_LOCATION)
-	public String getLocation(){
-		return getCausingElement().getLocation();
-	}
+
 
 }

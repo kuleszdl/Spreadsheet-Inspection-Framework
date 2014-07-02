@@ -29,6 +29,7 @@ import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 import sif.model.violations.IViolationGroup;
 import sif.model.violations.lists.ViolationList;
+import sif.utilities.SchemaUtility;
 
 /***
  * DataFacade provides access to IO functions. It can create a
@@ -465,13 +466,12 @@ public final class DataFacade {
 	}
 	
 	private String getFindingsAsJAXBString(InspectionRequest inspectionRequest) throws Exception{
-		JAXBContext jc = JAXBContext.newInstance("sif.model.policy"
-				+ ":sif.model.inspection"
-				+ ":sif.model.violations"
-				+ ":sif.model.violations.single"
-				+ ":sif.model.violations.groups");
+		JAXBContext jc = JAXBContext.newInstance("sif.model.inspection");
 		Marshaller m = jc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		
+		SchemaUtility.setReportValidation(m);
+		
 		StringWriter result = new StringWriter();
 		m.marshal(inspectionRequest, result);
 		return result.toString();

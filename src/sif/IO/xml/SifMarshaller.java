@@ -11,12 +11,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import org.xml.sax.SAXParseException;
-
+import org.xml.sax.SAXException;
 import sif.model.policy.DynamicPolicy;
 import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.AbstractPolicyRule;
+import sif.utilities.SchemaUtility;
 
 /**
  * Utility class for (un)marshaling dynamic policy specifications
@@ -57,21 +56,22 @@ public class SifMarshaller {
 	 * @param xmlReader
 	 *            The XML specification to be unmarshalled
 	 * @return The result of unmarshalling
-	 * @throws SAXParseException
-	 *             If there was a problem with the XML file. Often caused by
-	 *             wrong encoding information in the XML header. ,
 	 * @throws JAXBException
 	 *             If there was a problem while unmarshalling.
 	 * @throws IOException
+	 * @throws SAXException If the Xml stream was not valid
 	 */
 	@SuppressWarnings("unchecked")
 	public static PolicyList unmarshal(StringReader xmlReader)
-			throws SAXParseException, JAXBException, IOException {
+			throws JAXBException, IOException, SAXException {
 		PolicyList dynPolicy = null;
 
 		JAXBContext jc = JAXBContext.newInstance("sif.model.policy");
-
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
+		
+		
+		SchemaUtility.setRequestValidation(unmarshaller);
+		
 		Object o = unmarshaller.unmarshal(xmlReader);
 
 		// Wenn ein JAXBElement erzeugt wurde und dies eine DynamicRule ist
@@ -102,16 +102,13 @@ public class SifMarshaller {
 	 * @param file
 	 *            The XML specification to be unmarshalled
 	 * @return The result of unmarshalling
-	 * @throws SAXParseException
-	 *             If there was a problem with the XML file. Often caused by
-	 *             wrong encoding information in the XML header. ,
 	 * @throws JAXBException
 	 *             If there was a problem while unmarshalling.
 	 * @throws IOException
+	 * @throws SAXException 
 	 */
 	@SuppressWarnings("resource")
-	public static PolicyList unmarshal(File file) throws SAXParseException,
-			JAXBException, IOException {
+	public static PolicyList unmarshal(File file) throws JAXBException, IOException, SAXException {
 
 		return unmarshal(new StringReader(new Scanner(file).useDelimiter("\\Z")
 				.next()));

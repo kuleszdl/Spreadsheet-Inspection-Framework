@@ -12,11 +12,12 @@ import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRu
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
 import sif.utilities.XML_Constants;
 
-@XmlType(name = XML_Constants.NAME_POLICY_LIST, propOrder = { 
+@XmlType(name = XML_Constants.NAME_POLICY_LIST 
+	,propOrder = { 
 		"dynamicPolicy", 
 		"sanityPolicyRule", 
-		"noConstantsRule", 
 		"readingPolicyRule", 
+		"noConstantsRule", 
 		"formulaComplexityRule"}
 	)
 @XmlRootElement
@@ -29,7 +30,7 @@ public class PolicyList {
 	private ReadingDirectionPolicyRule readingPolicyRule;
 	private FormulaComplexityPolicyRule formulaComplexityRule;
 	
-	@XmlElement(name = XML_Constants.NAME_DYNAMIC_POLICY, type = DynamicPolicy.class)
+	@XmlElement(name = XML_Constants.NAME_DYNAMIC_POLICY, type = DynamicPolicy.class, required = false)
 	public DynamicPolicy getDynamicPolicy() {
 		return dynamicPolicy;
 	}
@@ -37,7 +38,7 @@ public class PolicyList {
 		this.dynamicPolicy = dynamicPolicy;
 	}
 	
-	@XmlElement(name = XML_Constants.NAME_SANITY_POLICY_RULE, type = SanityPolicyRule.class) 
+	@XmlElement(name = XML_Constants.NAME_SANITY_POLICY_RULE, type = SanityPolicyRule.class, required = false) 
 	public SanityPolicyRule getSanityPolicyRule() {
 		return sanityPolicyRule;
 	}
@@ -45,7 +46,7 @@ public class PolicyList {
 		this.sanityPolicyRule = sanityPolicyRule;
 	}
 	
-	@XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_POLICY_RULE, type = NoConstantsInFormulasPolicyRule.class)
+	@XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_POLICY_RULE, type = NoConstantsInFormulasPolicyRule.class, required = false)
 	public NoConstantsInFormulasPolicyRule getNoConstantsRule() {
 		return noConstantsRule;
 	}
@@ -53,7 +54,7 @@ public class PolicyList {
 		this.noConstantsRule = noConstantsRule;
 	}
 	
-	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_POLICY_RULE, type = ReadingDirectionPolicyRule.class)
+	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_POLICY_RULE, type = ReadingDirectionPolicyRule.class, required = false)
 	public ReadingDirectionPolicyRule getReadingPolicyRule() {
 		return readingPolicyRule;
 	}
@@ -62,7 +63,7 @@ public class PolicyList {
 		this.readingPolicyRule = readingPolicyRule;
 	}
 	
-	@XmlElement(name = XML_Constants.NAME_FORMULA_COMPLEXITY_POLICY_RULE, type = FormulaComplexityPolicyRule.class)
+	@XmlElement(name = XML_Constants.NAME_FORMULA_COMPLEXITY_POLICY_RULE, type = FormulaComplexityPolicyRule.class, required = false)
 	public FormulaComplexityPolicyRule getFormulaComplexityRule() {
 		return formulaComplexityRule;
 	}

@@ -54,7 +54,7 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 		this.mustBeLeftToRightReadable = mustBeLeftToRightReadable;
 	}
 
-	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_TOP_TO_BOTTOM, type = Boolean.class)
+	@XmlElement(name = XML_Constants.NAME_READING_DIRECTION_TOP_TO_BOTTOM, type = Boolean.class, required = false)
 	public Boolean getMustBeTopToBottomReadable() {
 		return mustBeTopToBottomReadable;
 	}
@@ -63,7 +63,7 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 		this.mustBeTopToBottomReadable = mustBeTopToBottomReadable;
 	}
 
-	@XmlElementWrapper(name = XML_Constants.NAME_READING_DIRECTION_IGNORED_CELLS_WRAPPER)
+	@XmlElementWrapper(name = XML_Constants.NAME_READING_DIRECTION_IGNORED_CELLS_WRAPPER, required = false)
 	@XmlElements({ @XmlElement(name = XML_Constants.NAME_READING_DIRECTION_IGNORED_CELL, type = String.class) })
 	public String[] getIgnoredCells() {
 		return ignoredCells;
