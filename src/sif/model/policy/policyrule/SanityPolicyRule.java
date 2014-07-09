@@ -12,10 +12,10 @@ import javax.xml.bind.annotation.XmlType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
 @XmlType(name = XML_Constants.NAME_SANITY_POLICY_RULE, propOrder = { 
+		XML_Constants.NAME_SANITY_CHECKING_WRAPPER,
 		XML_Constants.NAME_SANITY_VALUE_WRAPPER, 
 		XML_Constants.NAME_SANITY_CONSTRAINT_WRAPPER,
 		XML_Constants.NAME_SANITY_EXPLANATION_WRAPPER,  
-		XML_Constants.NAME_SANITY_CHECKING_WRAPPER,
 		XML_Constants.NAME_SANITY_WARNINGS }
 )
 @XmlAccessorType(XmlAccessType.PROPERTY)
