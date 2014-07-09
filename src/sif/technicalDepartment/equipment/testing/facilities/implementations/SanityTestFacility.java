@@ -287,7 +287,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 		HashMap<String, ArrayList<String>> constraintMap = new HashMap<String, ArrayList<String>>();
 		HashMap<String, String> explanationMap = new HashMap<String, String>();
 		
-		// we get the cell references in the absolute format $WORKSHEET!$CELL$ROW
+		// we get the cell references in the absolute format =$WORKSHEET!$CELL$ROW
 		/* check for the needed amount of values and put them into the maps
 		 * we discard the row number, as we take the entire column
 		 */

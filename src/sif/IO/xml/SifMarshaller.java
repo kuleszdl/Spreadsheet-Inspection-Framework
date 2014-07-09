@@ -107,6 +107,9 @@ public class SifMarshaller {
 	 * @throws IOException
 	 * @throws SAXException 
 	 */
+	/*
+	 * The new StringReader... will be closed through the unmarshaller in the next function call
+	 */
 	@SuppressWarnings("resource")
 	public static PolicyList unmarshal(File file) throws JAXBException, IOException, SAXException {
 
@@ -124,6 +127,8 @@ public class SifMarshaller {
 	 * @param shemaLocation
 	 *            If not null or "" will be included as xsi:schemaLocation.
 	 * @throws JAXBException
+	 * @deprecated the other methods {@link #unmarshal(File)} and {@link #unmarshal(StringReader)} 
+	 * 		are validating, through {@link sif.utilities.SchemaUtility}
 	 */
 	public static void marshal(DynamicPolicy policy, File file,
 			String shemaLocation) throws JAXBException {
