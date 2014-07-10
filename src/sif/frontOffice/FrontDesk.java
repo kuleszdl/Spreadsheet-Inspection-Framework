@@ -282,12 +282,17 @@ public class FrontDesk {
 	 * @throws Exception
 	 *             Throws an exception if the given spreadsheet file is invalid.
 	 */
-	public DynamicInspectionRequest requestNewDynamicInspection(
+	public DynamicInspectionRequest<?> requestNewDynamicInspection(
 			String requestName, File spreadsheetFile) throws Exception {
 		ISpreadsheetIO ssIO = DataFacade.getInstance().createSpreadsheetIO(
 				spreadsheetFile.getName());
-		return inspectionManager.createNewDynamicInspectionRequest(requestName,
-				spreadsheetFile, ssIO);
+		DynamicInspectionRequest<?> toReturn = null;
+		
+		toReturn = inspectionManager.createNewDynamicInspectionRequest(requestName,
+					spreadsheetFile, ssIO);
+
+
+		return toReturn;
 	}
 
 	/***

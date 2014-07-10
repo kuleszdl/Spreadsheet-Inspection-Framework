@@ -81,8 +81,8 @@ public class Utils {
 	}
 
 	public static File writeToTempFile(byte[] value) throws Exception {
-
-		File file = File.createTempFile("sif", ".xls");
+		// poi doesn't care for the suffix so we don't need to try and infer it
+		File file = File.createTempFile("sif", ".tmp");
 		file.deleteOnExit();
 
 		FileOutputStream outputStream = new FileOutputStream(file);

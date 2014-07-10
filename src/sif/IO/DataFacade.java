@@ -16,8 +16,7 @@ import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.IO.spreadsheet.poi.EPOISpreadsheetType;
 import sif.IO.spreadsheet.poi.POIOutput;
-import sif.IO.spreadsheet.poi.POISpreadsheetIO_HSSF;
-import sif.IO.spreadsheet.poi.POISpreadsheetIO_XSSF;
+import sif.IO.spreadsheet.poi.POISpreadsheetIO;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
 import sif.model.elements.containers.AbstractElementList;
 import sif.model.elements.custom.InputCell;
@@ -160,16 +159,6 @@ public final class DataFacade {
 			name = fileName;
 		}
 
-		// if (fileName.endsWith(".xlsx")) {
-		// name = fileName.replace(".xlsx", "");
-		// }
-		// else if (fileName.endsWith(".xls")) {
-		// name = fileName.replace(".xls", "");
-		// }
-		// else {
-		// throw new Exception("Invalid Filename");
-		// }
-
 		spreadsheet = spreadsheetIO.createSpreadsheet(workbook, name);
 
 		return spreadsheet;
@@ -177,21 +166,8 @@ public final class DataFacade {
 
 	public ISpreadsheetIO createSpreadsheetIO(String fileExtension)
 			throws InvalidSpreadsheetFileException {
-		ISpreadsheetIO spreadsheetIO = null;
 
-		// .xls Files are handled by the POISpreadsheetIO_HSSF;
-		if (fileExtension.endsWith("xls")) {
-			spreadsheetIO = new POISpreadsheetIO_HSSF();
-			// .xlsx files are handled by the POISpreadsheetIO_XSSF;
-		} else if (fileExtension.endsWith("xlsx")) {
-			spreadsheetIO = new POISpreadsheetIO_XSSF();
-			// Other files are not supported yet.
-		} else {
-			throw new InvalidSpreadsheetFileException(
-					"Unsupported spreadsheet file format.");
-		}
-
-		return spreadsheetIO;
+		return new POISpreadsheetIO();
 	}
 
 	/***
