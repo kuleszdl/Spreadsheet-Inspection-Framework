@@ -134,16 +134,9 @@ public class DynamicTestFacility extends MonolithicTestFacility {
 			try {
 				preparedSpreadsheet = preparator.prepare(this.dynamicRule,
 						dynRequest.getExternalSpreadsheet());
-			} catch (InvalidSpreadsheetFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-				// In the case the spreadsheet couldn't be built create
-				// violation
-				ISingleViolation v = new GenericSingleViolation();
-				v.setCausingElement(spreadsheet.getWorksheetIterator().next());
-				v.setPolicyRule(this.dynamicRule);
-				v.setCausingElement(null);
+			} catch (Exception e) {
+				// If an exception occurred propagate it, so it will be displayed for debugging
+				throw new PropertyAccessException(e);
 			}
 			
 			/*
@@ -371,6 +364,12 @@ public class DynamicTestFacility extends MonolithicTestFacility {
 		switch (targetParts.length) {
 		case 1:
 			address = createCellAddress(targetParts[0]);
+			if (spreadsheet == null){
+				throw new RuntimeException("Spreadsheet is null.");
+			}
+			if (spreadsheet.getWorksheets() == null){
+				throw new RuntimeException("Spreadsheet " + spreadsheet.getName() +  " has no worksheets.");
+			}
 			if (spreadsheet.getWorksheets().size() > 0) {
 				address.setWorksheet(spreadsheet.getWorksheetAt(1));
 			} else {

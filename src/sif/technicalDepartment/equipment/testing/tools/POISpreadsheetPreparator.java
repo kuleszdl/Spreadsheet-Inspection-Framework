@@ -64,22 +64,17 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	 */
 	@Override
 	public Spreadsheet prepare(DynamicPolicyRule rule, Object poiSpreadsheet)
-			throws InvalidSpreadsheetFileException {
+			throws Exception {
 		if (poiSpreadsheet instanceof Workbook) {
 			Workbook workbook = (Workbook) poiSpreadsheet;
 			String name = this.request.getSpreadsheetFile().getName();
 			
 			Spreadsheet spreadsheet = null;
 			this.workbook = writeTestInput(rule, workbook);
-			
-			try {
-				spreadsheet = DataFacade.getInstance().createSpreadsheet(this.workbook,
-						name);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	
+
+			spreadsheet = DataFacade.getInstance().createSpreadsheet(this.workbook,
+					name);
+
 			return spreadsheet;
 		} else {
 			throw new InvalidSpreadsheetFileException("The parameter spreadsheet is not of the Type Workbook.");

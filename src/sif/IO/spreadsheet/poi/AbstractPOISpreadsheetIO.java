@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import sif.IO.DataFacade;
 import sif.IO.spreadsheet.ISpreadsheetIO;
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.model.elements.basic.cell.Cell;
@@ -19,7 +18,6 @@ import sif.model.elements.basic.spreadsheet.SpreadsheetProperties;
 import sif.model.elements.basic.worksheet.Row;
 import sif.model.elements.basic.worksheet.Worksheet;
 import sif.model.inspection.DynamicInspectionRequest;
-import sif.model.inspection.InspectionStateEnum;
 import sif.model.inspection.SpreadsheetInventory;
 
 /***
@@ -27,7 +25,7 @@ import sif.model.inspection.SpreadsheetInventory;
  * the <a href="http://poi.apache.org/spreadsheet/index.html"> Apache POI-SS
  * library</a> to access the spreadsheet files. Transformations that require
  * special treatment for .xls and .xlsx files are done in
- * {@link POISpreadsheetIO_HSSF} and {@link POISpreadsheetIO_XSSF} respectively.
+ * {@link POISpreadsheetIO}.
  * 
  * @author Sebastian Zitzelsberger
  * 
@@ -120,7 +118,7 @@ public abstract class AbstractPOISpreadsheetIO implements ISpreadsheetIO {
 
 	/***
 	 * Creates the specific {@link #formulaParsingWorkbook} for the
-	 * {@link POISpreadsheetIO_XSSF} and the {@link POISpreadsheetIO_HSSF}.
+	 * {@link POISpreadsheetIO}.
 	 */
 	protected abstract void initialize();
 

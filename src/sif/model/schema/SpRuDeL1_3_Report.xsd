@@ -163,6 +163,13 @@
     <xs:complexContent>
       <xs:extension base="monolithicPolicyRule">
         <xs:sequence>
+          <xs:element name="sanityCheckingCells" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="sanityValueCells" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
@@ -178,13 +185,6 @@
             </xs:complexType>
           </xs:element>
           <xs:element name="sanityExplanationCells" minOccurs="0">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
-          <xs:element name="sanityCheckingCells" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
