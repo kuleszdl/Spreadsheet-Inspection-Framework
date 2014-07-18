@@ -18,6 +18,9 @@ public class Application {
 	private static final String DEBUGFILENAME = "debug";
 	private static final String MODESOCKET = "socket";
 	private static final String MODEFILE = "file";
+	public static final int NOTENOUGHPARAMETERS = -1,
+			INVALIDPARAMETER = -2,
+			APPLICATIONERROR = -3;
 	
 	/**
 	 * Wheter debug messages should be shown
@@ -60,7 +63,7 @@ public class Application {
 		checkParentFolder();
 		checkDebug();
 		if (args.length < 2){
-			printUsageAndExit("Not enough parameters.");
+			printUsageAndExit("Not enough parameters.", NOTENOUGHPARAMETERS);
 		}
 
 
@@ -71,13 +74,13 @@ public class Application {
 				client.blockingListening();
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
-				printUsageAndExit("Error while parsing the portnumber");
+				printUsageAndExit("Error while parsing the portnumber", INVALIDPARAMETER);
 			}
 		} else if (args[0].equalsIgnoreCase(MODEFILE)){
 			String errors = "";
 			if (args.length < 4){
 				errors += "Not enough parameters for the file mode.";
-				printUsageAndExit(errors);
+				printUsageAndExit(errors, NOTENOUGHPARAMETERS);
 			}
 			ReportFormat format = null;
 			try {
@@ -97,7 +100,7 @@ public class Application {
 			}
 			
 			if (!errors.isEmpty()){
-				printUsageAndExit(errors);
+				printUsageAndExit(errors, INVALIDPARAMETER);
 			}
 			
 			try {
@@ -108,6 +111,7 @@ public class Application {
 				for (Throwable t : e.getSuppressed()){
 					t.printStackTrace();
 				}
+				System.exit(APPLICATIONERROR);
 			}
 			
 		}
@@ -120,7 +124,7 @@ public class Application {
 	 * exit code -1
 	 * @param reason why it was invalid
 	 */
-	private static void printUsageAndExit(String reason){
+	private static void printUsageAndExit(String reason, int code){
 		String sb = "";
 		if (reason != null){
 			sb += reason + "\n";
@@ -136,6 +140,6 @@ public class Application {
 			sb += "To enable the debug mode place a file called 'debug' in the same folder as the jar";
 		}
 		System.out.print(sb);
-		System.exit(-1);
+		System.exit(code);
 	}
 }
