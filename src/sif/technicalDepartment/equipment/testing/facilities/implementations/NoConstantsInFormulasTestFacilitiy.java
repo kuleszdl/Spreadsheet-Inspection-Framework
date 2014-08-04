@@ -6,7 +6,7 @@ import sif.model.elements.basic.tokencontainers.ITokenContainer;
 import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.elements.basic.tokens.ScalarConstant;
 import sif.model.elements.containers.AbstractElementList;
-import sif.model.violations.groupors.FormulaBlockGroupor;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.NoConstantsInFormulaSingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
@@ -20,12 +20,16 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 	private String[] ignoredCells;
 
 	private void checkForViolation(
-			NoConstantsInFormulaSingleViolation violation, ITokenElement token) {
+			ViolationList violations, ITokenElement token) {
 
 		if (token instanceof ScalarConstant) {
 			ScalarConstant constant = (ScalarConstant) token;
 			if (!isIgnoredConstant(constant.getValue())) {
-				violation.add(constant);
+				NoConstantsInFormulaSingleViolation violation = new NoConstantsInFormulaSingleViolation();
+				violation.setCausingElement(constant);
+				violation.setPolicyRule(getTestedPolicyRule());
+				violation.setConstant(constant);
+				violations.add(violation);
 			}
 		}
 		if (token instanceof ITokenContainer) {
@@ -35,14 +39,14 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 				// Iterate over function tokens.
 				for (ITokenElement functionToken : function.getTokens()) {
 					if (!isFunctionWithConstantsAllowed(function)) {
-						checkForViolation(violation, functionToken);
+						checkForViolation(violations, functionToken);
 					}
 
 				}
 			} else {
 				ITokenContainer container = (ITokenContainer) token;
 				for (ITokenElement containerToken : container.getTokens()) {
-					checkForViolation(violation, containerToken);
+					checkForViolation(violations, containerToken);
 
 				}
 			}
@@ -66,8 +70,8 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 		// getting the cell address into worksheet!Address
 		String location = formula.getCell().getLocation().replace("[", "").replace("]", "!");
 		for (String cell : ignoredCells) {
-			// discarding existent "$" chars from SIFEI
-			if (location.equals(cell.replace("$", ""))) {
+			// discarding not needed chars from SIFEI
+			if (location.equalsIgnoreCase(cell.replaceAll("[$=]", ""))) {
 				isIgnored = true;
 				break;
 			}
@@ -90,7 +94,7 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 
 	public ViolationList run() {
 		ViolationList violations = new ViolationList(getTestedPolicyRule(),
-				new FormulaBlockGroupor());
+				new SameCausingCellGroupor());
 		// Get formulas from inventory.
 		AbstractElementList<Formula> formulas = this.inventory
 				.getListFor(Formula.class);
@@ -98,17 +102,10 @@ public class NoConstantsInFormulasTestFacilitiy extends MonolithicTestFacility {
 		// Iterate over formulas.
 		for (Formula formula : formulas.getElements()) {
 			if (!isIgnored(formula)) {
-				// Violation for the formula.
-				NoConstantsInFormulaSingleViolation violation = new NoConstantsInFormulaSingleViolation();
-				violation.setCausingElement(formula);
-				violation.setPolicyRule(getTestedPolicyRule());
 
 				// Iterate over formula tokens.
 				for (ITokenElement formulaToken : formula.getTokens()) {
-					checkForViolation(violation, formulaToken);
-				}
-				if (violation.getNumberOfConstantsFound() > 0) {
-					violations.add(violation);
+					checkForViolation(violations, formulaToken);
 				}
 			}
 		}

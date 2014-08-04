@@ -1,6 +1,5 @@
 package sif.model.violations.single;
 
-import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.violations.IViolation;
@@ -14,7 +13,6 @@ import sif.model.violations.IViolation;
  */
 public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 
-	private IElement causingFormula;
 	private Integer numberOfOperations;
 	private Integer nestingLevel;
 
@@ -38,10 +36,6 @@ public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 		this.nestingLevel = nestingLevel;
 	}
 
-	@Override
-	public IElement getCausingElement() {
-		return causingFormula;
-	}
 
 	@Override
 	public String getDescription() {
@@ -102,10 +96,6 @@ public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 		return severtityValue * getPolicyRule().getSeverityWeight();
 	}
 
-	@Override
-	public void setCausingElement(IElement element) {
-		this.causingFormula = element;
-	}
 
 	@Override
 	public void setPolicyRule(AbstractPolicyRule policyRule) {
