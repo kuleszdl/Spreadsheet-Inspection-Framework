@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.IO.spreadsheet.poi.ISpreadsheetWriter;
 import sif.model.elements.AbstractElement;
 import sif.model.elements.IElement;
@@ -22,9 +21,9 @@ import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.model.policy.policyrule.dynamicConditions.TestInput;
 import sif.model.violations.ISingleViolation;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.ConditionSingleViolation;
-import sif.model.violations.single.GenericSingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.AbstractConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.TargetlessConditionChecker;
@@ -106,7 +105,7 @@ public class DynamicTestFacility extends MonolithicTestFacility {
 		// local Variables which are filled from AbstractTestFacility's
 		// properties
 		AbstractPolicyRule rule = this.getTestedPolicyRule();
-		ViolationList result = new ViolationList(rule);
+		ViolationList result = new ViolationList(rule, new SameCausingCellGroupor());
 
 		InspectionRequest request = this.getTestBay().getInspection();
 
@@ -114,7 +113,7 @@ public class DynamicTestFacility extends MonolithicTestFacility {
 				&& this.getTestedPolicyRule() instanceof DynamicPolicyRule) {
 			// local Variables which are filled only if the request is a
 			// DynamicInspectionRequest
-			DynamicInspectionRequest dynRequest = (DynamicInspectionRequest) request;
+			DynamicInspectionRequest<?> dynRequest = (DynamicInspectionRequest<?>) request;
 			this.dynamicRule = (DynamicPolicyRule) this.getTestedPolicyRule();
 
 			Spreadsheet spreadsheet = request.getInventory().getSpreadsheet();

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
+import sif.model.elements.IElement;
 import sif.model.violations.groups.GenericViolationGroup;
 import sif.model.violations.single.GenericSingleViolation;
 import sif.utilities.XML_Constants;
@@ -42,7 +43,15 @@ public abstract class AbstractViolation implements IViolation{
 
 	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_CAUSING)
 	public String getContent(){
-		return getCausingElement().getStringRepresentation();
+		IElement cause = getCausingElement();
+		String location = cause.getLocation();
+		String causingStr = "Cell " 
+				+ location.substring(location.indexOf(']') + 1) 
+				+ ", "
+				+ cause.getStringRepresentation();
+
+		
+		return causingStr;
 	}
 	
 	@XmlAttribute(name = XML_Constants.NAME_SINGLE_VIOLATION_LOCATION)

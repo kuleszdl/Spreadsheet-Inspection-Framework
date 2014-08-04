@@ -13,6 +13,7 @@ import sif.model.elements.basic.worksheet.Worksheet;
 import sif.model.policy.policyrule.sanityModel.SanityConstraint;
 import sif.model.policy.policyrule.sanityModel.SanityTuple;
 import sif.model.violations.IViolation;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.GenericSingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.exceptions.CheckerCreationException;
@@ -20,7 +21,6 @@ import sif.technicalDepartment.equipment.testing.facilities.implementations.dyna
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.exceptions.NoConditionTargetException;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.exceptions.PropertyAccessException;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
-import sif.utilities.PrintUtilities;
 
 /**
  * A Facility to check the sanity of the Functions and InputCells
@@ -319,7 +319,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 		}
 
 		// setting up the constraint facility
-		violations = new ViolationList(getTestedPolicyRule());
+		violations = new ViolationList(getTestedPolicyRule(), new SameCausingCellGroupor());
 		constraintFacility = new SanityConstraintFacility(inventory.getSpreadsheet());
 
 		for (String worksheet : valueMap.keySet()){
@@ -345,7 +345,6 @@ public class SanityTestFacility extends MonolithicTestFacility {
 		sanityWarnings = true;
 		gatherColumns();
 		
-		PrintUtilities.print(violations);
 		return violations;
 	}
 

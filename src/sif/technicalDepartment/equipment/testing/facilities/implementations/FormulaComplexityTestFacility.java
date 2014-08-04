@@ -5,7 +5,7 @@ import sif.model.elements.basic.tokencontainers.ITokenContainer;
 import sif.model.elements.basic.tokens.IOperationTokenElement;
 import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
-import sif.model.violations.groupors.FormulaBlockGroupor;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.FormulaComplexitySingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
@@ -49,7 +49,7 @@ public class FormulaComplexityTestFacility extends MonolithicTestFacility {
 	@Override
 	public ViolationList run() {
 		ViolationList violations = new ViolationList(
-				new FormulaComplexityPolicyRule(), new FormulaBlockGroupor());
+				new FormulaComplexityPolicyRule(), new SameCausingCellGroupor());
 
 		for (Formula formula : this.inventory.getListFor(Formula.class)
 				.getElements()) {

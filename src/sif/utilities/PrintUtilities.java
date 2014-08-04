@@ -162,7 +162,7 @@ public final class PrintUtilities {
 	 * @param depth to start, usually 0
 	 * @param form the "root" token to print
 	 */
-	public static void printTree(int depth, ITokenElement form){
+	public static void printTree(int depth, IElement form){
 		
 		for (int k = 0; k < depth; k++)
 			System.out.print("-");

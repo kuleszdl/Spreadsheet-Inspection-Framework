@@ -1,15 +1,7 @@
 package sif.model.violations.single;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import sif.model.elements.IElement;
 import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.tokens.ITokenElement;
-import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
 
 /***
@@ -21,15 +13,10 @@ import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
  */
 public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 
-	private IElement causingFormula;
-	private HashMap<AbstractReference, Integer> nonLeftToRightreferences;
-	private HashMap<AbstractReference, Integer> nonTopToBottomreferences;
-	private AbstractPolicyRule policyRule;
-	private Comparator<AbstractReference> sortingComparator;
+	private AbstractReference nonLeftToRightreference = null;
+	private AbstractReference nonTopToBottomreference = null;
 
 	public ReadingDirectionSingleViolation() {
-		nonLeftToRightreferences = new HashMap<AbstractReference, Integer>();
-		nonTopToBottomreferences = new HashMap<AbstractReference, Integer>();
 	}
 
 	/**
@@ -41,20 +28,8 @@ public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 	 * @param violatingReference
 	 *            The given reference.
 	 */
-	public void addNonLeftToRight(AbstractReference violatingReference) {
-		Boolean added = false;
-		for (AbstractReference reference : nonLeftToRightreferences.keySet()) {
-			if (reference.isSameAs(violatingReference)) {
-				Integer occurences = nonLeftToRightreferences.get(reference) + 1;
-				nonLeftToRightreferences.put(reference, occurences);
-				added = true;
-				break;
-			}
-		}
-
-		if (!added) {
-			nonLeftToRightreferences.put(violatingReference, 1);
-		}
+	public void setNonLeftToRight(AbstractReference violatingReference) {
+		nonLeftToRightreference = violatingReference;
 	}
 
 	/**
@@ -66,101 +41,31 @@ public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 	 * @param violatingReference
 	 *            The given reference.
 	 */
-	public void addNonTopToBottom(AbstractReference violatingReference) {
-		Boolean added = false;
-		for (AbstractReference reference : nonTopToBottomreferences.keySet()) {
-			if (reference.isSameAs(violatingReference)) {
-				Integer occurences = nonTopToBottomreferences.get(reference) + 1;
-				nonTopToBottomreferences.put(reference, occurences);
-				added = true;
-				break;
-			}
-		}
-
-		if (!added) {
-			nonTopToBottomreferences.put(violatingReference, 1);
-		}
+	public void setNonTopToBottom(AbstractReference violatingReference) {
+		nonTopToBottomreference = violatingReference;
 	}
 
-	@Override
-	public IElement getCausingElement() {
-		return causingFormula;
-	}
+
 
 	@Override
 	public String getDescription() {
 		StringBuilder description = new StringBuilder();
 
-		// Write description for all non left to right references.
-		if (!nonLeftToRightreferences.isEmpty()) {
-			description.append("The following references cannot be read from left to right: ");
-
-			ArrayList<AbstractReference> sorted = 
-					new ArrayList<AbstractReference>(nonLeftToRightreferences.keySet());
-			Collections.sort(sorted, createComparator());
-			Iterator<AbstractReference> refLeftIterator = sorted.iterator();
-
-			while (refLeftIterator.hasNext()) {
-				AbstractReference reference = refLeftIterator.next();
-
-				description.append(reference.getValueAsString());
-
-				if (nonLeftToRightreferences.get(reference) > 1) {
-					description.append(" ("
-							+ nonLeftToRightreferences.get(reference) + "x)");
-				}
-				if (refLeftIterator.hasNext()) {
-					description.append(", ");
-				}
-			}
+		if (nonLeftToRightreference != null) {
+			description.append("The following reference cannot be read from left to right: ");
+			description.append(nonLeftToRightreference.getValueAsString());
 		}
 
-		// Write description for all non top to bottom references.
-		if (!nonTopToBottomreferences.isEmpty()) {
-			if (description.length() > 0){
-				description.append("\n");
-			}
+		if (nonTopToBottomreference != null) {
 			description.append("The following references cannot be read from top to bottom: ");
-
-			ArrayList<AbstractReference> sorted = 
-					new ArrayList<AbstractReference>(nonTopToBottomreferences.keySet());
-			Collections.sort(sorted, createComparator());
-			Iterator<AbstractReference> refTopIterator = sorted.iterator();
-
-			while (refTopIterator.hasNext()) {
-				AbstractReference reference = refTopIterator.next();
-
-				description.append(reference.getValueAsString());
-				if (nonTopToBottomreferences.get(reference) > 1) {
-					description.append(" ("
-							+ nonTopToBottomreferences.get(reference) + "x)");
-				}
-				if (refTopIterator.hasNext()) {
-					description.append(", ");
-				}
-			}
+			description.append(nonTopToBottomreference.getValueAsString());
 		}
 
 		return description.toString();
 	}
 
-	private Comparator<AbstractReference> createComparator() {
-		if (sortingComparator == null){
-			sortingComparator = new Comparator<AbstractReference>() {
 
-				@Override
-				public int compare(AbstractReference o1, AbstractReference o2) {
-					return o1.getValueAsString().compareTo(o2.getValueAsString());
-				}
-			};
-		}
-		return sortingComparator;
-	}
 
-	@Override
-	public AbstractPolicyRule getPolicyRule() {
-		return policyRule;
-	}
 
 	@Override
 	public Double getWeightedSeverityValue() {
@@ -202,14 +107,5 @@ public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 		return severtityValue;
 	}
 
-	@Override
-	public void setCausingElement(IElement element) {
-		this.causingFormula = element;
-	}
-
-	@Override
-	public void setPolicyRule(AbstractPolicyRule policyRule) {
-		this.policyRule = policyRule;
-	}
 
 }
