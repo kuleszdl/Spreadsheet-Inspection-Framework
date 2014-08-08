@@ -2,15 +2,14 @@ package sif.model.violations.single;
 
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
-import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 
-public class MultipleSameRefSingleViolation implements ISingleViolation{
+public class MultipleSameRefSingleViolation extends GenericSingleViolation{
 
 	private IElement causingRef;
 
 	private AbstractPolicyRule policyRule;
-	
+
 	@Override
 	public IElement getCausingElement() {
 		return causingRef;
@@ -38,13 +37,13 @@ public class MultipleSameRefSingleViolation implements ISingleViolation{
 	@Override
 	public void setCausingElement(IElement element) {
 		this.causingRef = element;
-		
+
 	}
 
 	@Override
 	public void setPolicyRule(AbstractPolicyRule policyRule) {
 		this.policyRule = policyRule;
-		
+
 	}
 
 }

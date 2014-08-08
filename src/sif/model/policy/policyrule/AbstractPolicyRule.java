@@ -12,6 +12,7 @@ import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
 
@@ -21,17 +22,22 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
  * {@link MonolithicPolicyRule}. The conformity of a spreadsheet with a policy
  * rule is checked by an {@link MonolithicTestFacility} or a
  * {@link CompositeTestFacility}.
- * 
+ *
  * @author Sebastian Zitzelsberger
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({ // Include the known implementations for the xsd
-	FormulaComplexityPolicyRule.class, 
+	FormulaComplexityPolicyRule.class,
 	NoConstantsInFormulasPolicyRule.class,
 	SanityPolicyRule.class,
 	ReadingDirectionPolicyRule.class,
 	DynamicPolicyRule.class,
+	StringDistancePolicyRule.class,
+//	MultipleSameRefPolicyRule.class,
+//	NonConsideredValuesPolicyRule.class,
+//	OneAmongOthersPolicyRule.class,
+//	RefToNullPolicyRule.class,
 	DynamicPolicy.class})
 public abstract class AbstractPolicyRule {
 	@XmlAttribute(required=false)
@@ -49,17 +55,17 @@ public abstract class AbstractPolicyRule {
 
 	@XmlTransient
 	private ILeafCategory category;
-	
+
 	@XmlAttribute(required=false)
 	private Double severityWeight = 1.0;
-	
+
 	@XmlTransient
 	private PolicyRuleConfiguration configuration = null;
-	
+
 
 	/**
 	 * Gets the author that created the policy
-	 * 
+	 *
 	 * @return The author of the policy.
 	 */
 	public String getAuthor() {
@@ -68,7 +74,7 @@ public abstract class AbstractPolicyRule {
 
 	/**
 	 * Gets the description of the background of the policy.
-	 * 
+	 *
 	 * @return The background description.
 	 */
 	public String getBackground() {
@@ -77,7 +83,7 @@ public abstract class AbstractPolicyRule {
 
 	/***
 	 * Gets the category of the policy rule.
-	 * 
+	 *
 	 * @return
 	 */
 	public ILeafCategory getCategory() {
@@ -93,7 +99,7 @@ public abstract class AbstractPolicyRule {
 
 	/***
 	 * Gets the description of the policy rule.
-	 * 
+	 *
 	 * @return The description.
 	 */
 	public String getDescription() {
@@ -102,7 +108,7 @@ public abstract class AbstractPolicyRule {
 
 	/**
 	 * Gets the name of the policy rule.
-	 * 
+	 *
 	 * @return The name.
 	 */
 	public String getName() {
@@ -112,7 +118,7 @@ public abstract class AbstractPolicyRule {
 	/**
 	 * Gets the description to a possible solution to solve violations of the
 	 * policy rule.
-	 * 
+	 *
 	 * @return The description of a possible solution.
 	 */
 	public String getPossibleSolution() {
@@ -121,7 +127,7 @@ public abstract class AbstractPolicyRule {
 
 	/**
 	 * Gets the severity weight for the policy rule.
-	 * 
+	 *
 	 * @return the severity weight set for the policy rule.
 	 */
 	public double getSeverityWeight() {
@@ -130,7 +136,7 @@ public abstract class AbstractPolicyRule {
 
 	/**
 	 * Sets the author that created the policy rule.
-	 * 
+	 *
 	 * @param author
 	 *            The author of the policy rule.
 	 */
@@ -165,7 +171,7 @@ public abstract class AbstractPolicyRule {
 	/**
 	 * Sets the given value as the severity weight for the policy rule. Negative
 	 * values will be ignored.
-	 * 
+	 *
 	 * @param severityWeight
 	 */
 	public void setSeverityWeight(Double severityWeight) {
@@ -174,16 +180,16 @@ public abstract class AbstractPolicyRule {
 		}
 
 	}
-	
+
 	/**
 	 * Gets the type of the rule
-	 * 
+	 *
 	 * @return the type
 	 */
 	public PolicyRuleType getType(){
 		return type;
 	}
-	
+
 	public void setType(PolicyRuleType policyType){
 		type = policyType;
 	}

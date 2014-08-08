@@ -2,10 +2,9 @@ package sif.model.violations.single;
 
 import sif.model.elements.IElement;
 import sif.model.policy.policyrule.AbstractPolicyRule;
-import sif.model.violations.ISingleViolation;
 import sif.model.violations.IViolation;
 
-public class RefToNulllSingleViolation implements ISingleViolation{
+public class RefToNulllSingleViolation extends GenericSingleViolation{
 
 	private IElement causingRef;
 

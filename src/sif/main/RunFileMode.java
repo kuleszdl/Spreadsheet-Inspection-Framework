@@ -11,6 +11,7 @@ import sif.frontOffice.FrontDesk;
 import sif.model.policy.DynamicPolicy;
 import sif.model.policy.Policy;
 import sif.model.policy.PolicyList;
+import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 
 public class RunFileMode {
 
@@ -43,6 +44,8 @@ public class RunFileMode {
 		if (policyList.getSanityPolicyRule() != null){
 			policy.add(policyList.getSanityPolicyRule());
 		}
+		
+		policy.add(new StringDistancePolicyRule());
 		
 		FrontDesk desk = FrontDesk.getInstance();
 		

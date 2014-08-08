@@ -20,11 +20,13 @@ import sif.model.policy.policyrule.dynamicConditions.TernaryCondition;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.DynamicTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.ReadingDirectionTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.SanityTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.StringDistanceTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.BinaryConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.ElementCountChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
@@ -60,6 +62,7 @@ public class PolicyManager {
 				FormulaComplexityTestFacility.class);
 		register(DynamicPolicyRule.class, DynamicTestFacility.class);
 		register(SanityPolicyRule.class, SanityTestFacility.class);
+		register(StringDistancePolicyRule.class, StringDistanceTestFacility.class);
 		
 		// Register available conditions
 		registerCondition(BinaryCondition.class, BinaryConditionChecker.class);
@@ -92,6 +95,11 @@ public class PolicyManager {
 		sanePolicy.setDescription("A policy which supports basic sanity checks");
 		sanePolicy.add(new SanityPolicyRule());
 		register(sanePolicy);
+		
+//		Policy stringPol = new Policy();
+//		stringPol.add(new StringDistancePolicyRule());
+//		stringPol.setName("String distance Policy");
+//		register(stringPol);
 	}
 
 	/**

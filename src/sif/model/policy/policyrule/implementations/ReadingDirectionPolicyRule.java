@@ -63,8 +63,8 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 		this.mustBeTopToBottomReadable = mustBeTopToBottomReadable;
 	}
 
-	@XmlElementWrapper(name = XML_Constants.NAME_READING_DIRECTION_IGNORED_CELLS_WRAPPER, required = false)
-	@XmlElements({ @XmlElement(name = XML_Constants.NAME_READING_DIRECTION_IGNORED_CELL, type = String.class) })
+	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)
+	@XmlElements({ @XmlElement(name = XML_Constants.NAME_IGNORED_CELLS_VALUE, type = String.class) })
 	public String[] getIgnoredCells() {
 		return ignoredCells;
 	}

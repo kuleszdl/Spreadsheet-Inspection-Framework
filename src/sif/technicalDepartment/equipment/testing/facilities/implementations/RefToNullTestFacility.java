@@ -1,6 +1,7 @@
 package sif.technicalDepartment.equipment.testing.facilities.implementations;
 
 import sif.model.elements.basic.cell.Cell;
+import sif.model.elements.basic.cell.CellContentType;
 import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.reference.IReferencedElement;
 import sif.model.elements.basic.tokencontainers.Formula;
@@ -12,20 +13,23 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
 
 /***
  * The reference to null pattern
- * 
+ *
  * @author Sebastian Beck
- * 
+ *
  */
 public class RefToNullTestFacility extends MonolithicTestFacility{
 
-	private Cell[] ignoredCells = null;
-	
-	public Boolean isIngored(AbstractReference reference) {
-		Boolean isIgnored = false;
+	private String[] ignoredCells = null;
+
+	private boolean isIgnored(AbstractReference reference) {
+		boolean isIgnored = false;
 		if (reference.getReferencingElement() instanceof Cell) {
 			Cell cell = (Cell) reference.getReferencingElement();
-			for (Cell ignoredCell : ignoredCells) {
-				if (cell.equals(ignoredCell)) {
+			// getting the location as worksheet!address
+			String location = cell.getCellAddress().getSpreadsheetAddress();
+			for (String ignoredCell : ignoredCells) {
+				// discarding existent $ and = chars from SIFEI
+				if (location.equals(ignoredCell.replaceAll("[$=]", ""))) {
 					isIgnored = true;
 					break;
 				}
@@ -33,42 +37,47 @@ public class RefToNullTestFacility extends MonolithicTestFacility{
 		}
 		return isIgnored;
 	}
-	
+
 	public Boolean isRefNull(AbstractReference reference) {
 		Boolean result = false;
 		IReferencedElement referencedElement = reference.getReferencedElement();
-		// Referenced Elements Value is null
-		if (referencedElement.getValueAsString().equalsIgnoreCase(null)) {
-			result = true;
+
+		if (referencedElement == null){
+			return true;
+		}
+		
+		if (referencedElement instanceof Cell) {
+			Cell c = (Cell) referencedElement;
+			if (c.getCellContentType() == CellContentType.BLANK){
+				result = true;
+			} else if (c.getValueAsString().trim().isEmpty()){
+				result = true;
+			}
 		}
 
+		
 		return result;
 	}
-	
+
 	@Override
 	public ViolationList run() {
 		ViolationList violations = new ViolationList(getTestedPolicyRule(), null);
-		
+
 		AbstractElementList<Formula> formulas = this.inventory
 				.getListFor(Formula.class);
 		for (Formula formula : formulas.getElements()) {
-			RefToNulllSingleViolation violation = null;
 			for (ITokenElement token : formula.getAllTokens()) {
 				if (token instanceof AbstractReference) {
 					AbstractReference reference = (AbstractReference) token;
-					if (!isIngored(reference)) {
+					if (!isIgnored(reference)) {
 						if (isRefNull(reference)) {
-							if (violation == null) {
-								violation = new RefToNulllSingleViolation();
-								violation.setCausingElement(reference);
-								violation.setPolicyRule(getTestedPolicyRule());
-							}							
+							RefToNulllSingleViolation violation = new RefToNulllSingleViolation();
+							violation.setCausingElement(reference);
+							violation.setPolicyRule(getTestedPolicyRule());
+							violations.add(violation);
 						}
 					}
 				}
-			}
-			if (violation != null) {
-				violations.add(violation);
 			}
 		}
 
