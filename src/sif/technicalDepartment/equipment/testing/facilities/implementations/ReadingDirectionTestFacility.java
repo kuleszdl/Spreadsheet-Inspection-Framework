@@ -7,7 +7,7 @@ import sif.model.elements.basic.reference.IReferencingElement;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.elements.containers.AbstractElementList;
-import sif.model.violations.groupors.FormulaBlockGroupor;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.ReadingDirectionSingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
@@ -71,51 +71,43 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 	public ViolationList run() {
 
 		ViolationList violations = new ViolationList(getTestedPolicyRule(),
-				new FormulaBlockGroupor());
+				new SameCausingCellGroupor());
 
-		AbstractElementList<Formula> formulas = this.inventory
-				.getListFor(Formula.class);
+		AbstractElementList<Formula> formulas = this.inventory.getListFor(Formula.class);
 
 		for (Formula formula : formulas.getElements()) {
-			ReadingDirectionSingleViolation violation = null;
 
 			for (ITokenElement token : formula.getAllTokens()) {
 				if (token instanceof AbstractReference) {
 					AbstractReference reference = (AbstractReference) token;
 					if (!isIgnored(reference)) {
+						continue;
+					}
 
-						if (mustBeLeftToRightReadable) {
-							if (!isLeftToRightFullfilled(reference)) {
-								if (violation == null) {
-									violation = new ReadingDirectionSingleViolation();
-									violation.setCausingElement(formula);
-									violation
-											.setPolicyRule(getTestedPolicyRule());
-								}
+					if (mustBeLeftToRightReadable) {
+						if (!isLeftToRightFullfilled(reference)) {
+							ReadingDirectionSingleViolation violation = 
+									new ReadingDirectionSingleViolation();
+							violation.setPolicyRule(getTestedPolicyRule());
+							violation.setNonLeftToRight(reference);
+							violation.setCausingElement(reference.getContainer());
 
-								violation.addNonLeftToRight(reference);
-
-							}
+							violations.add(violation);
 						}
+					}
 
-						if (mustBeTopToBottomReadable) {
-							if (!isTopToBottomFullfilled(reference)) {
-								if (violation == null) {
-									violation = new ReadingDirectionSingleViolation();
-									violation.setCausingElement(formula);
-									violation
-											.setPolicyRule(getTestedPolicyRule());
-								}
+					if (mustBeTopToBottomReadable) {
+						if (!isTopToBottomFullfilled(reference)) {
+							ReadingDirectionSingleViolation violation = 
+									new ReadingDirectionSingleViolation();
+							violation.setCausingElement(reference.getContainer());
+							violation.setPolicyRule(getTestedPolicyRule());
+							violation.setNonTopToBottom(reference);
 
-								violation.addNonTopToBottom(reference);
-
-							}
+							violations.add(violation);
 						}
 					}
 				}
-			}
-			if (violation != null) {
-				violations.add(violation);
 			}
 		}
 
