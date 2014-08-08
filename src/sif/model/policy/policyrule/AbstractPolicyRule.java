@@ -10,8 +10,12 @@ import sif.model.policy.DynamicPolicy;
 import sif.model.policy.classification.ILeafCategory;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
+import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
+import sif.model.policy.policyrule.implementations.NonConsideredValuesPolicyRule;
+import sif.model.policy.policyrule.implementations.OneAmongOthersPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.policyrule.implementations.RefToNullPolicyRule;
 import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.types.CompositeTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
@@ -34,10 +38,10 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
 	ReadingDirectionPolicyRule.class,
 	DynamicPolicyRule.class,
 	StringDistancePolicyRule.class,
-//	MultipleSameRefPolicyRule.class,
-//	NonConsideredValuesPolicyRule.class,
-//	OneAmongOthersPolicyRule.class,
-//	RefToNullPolicyRule.class,
+	MultipleSameRefPolicyRule.class,
+	NonConsideredValuesPolicyRule.class,
+	OneAmongOthersPolicyRule.class,
+	RefToNullPolicyRule.class,
 	DynamicPolicy.class})
 public abstract class AbstractPolicyRule {
 	@XmlAttribute(required=false)

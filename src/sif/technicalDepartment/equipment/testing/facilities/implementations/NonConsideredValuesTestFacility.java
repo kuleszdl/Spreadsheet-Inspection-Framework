@@ -6,6 +6,7 @@ import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.cell.CellContentType;
 import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.containers.AbstractElementList;
+import sif.model.violations.groupors.SameCausingCellGroupor;
 import sif.model.violations.lists.ViolationList;
 import sif.model.violations.single.NonConsideredValuesSingleViolation;
 import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTestFacility;
@@ -37,7 +38,7 @@ public class NonConsideredValuesTestFacility extends MonolithicTestFacility{
 
 	@Override
 	public ViolationList run() {
-		ViolationList violations = new ViolationList(getTestedPolicyRule(), null);
+		ViolationList violations = new ViolationList(getTestedPolicyRule(), new SameCausingCellGroupor());
 
 		AbstractElementList<Cell> cells = this.inventory.getListFor(Cell.class);
 

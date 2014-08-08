@@ -1,5 +1,7 @@
 package sif.model.policy.policyrule.implementations;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
@@ -18,6 +20,7 @@ import sif.utilities.XML_Constants;
 @XmlType(name = XML_Constants.NAME_MULTIPLE_SAME_REF_POLICY, propOrder = {
 		"ignoredCells"
 })
+@XmlAccessorType(XmlAccessType.NONE)
 public class MultipleSameRefPolicyRule extends MonolithicPolicyRule {
 	@ConfigurableParameter(parameterClass = String[].class, displayedName = "Ignored Cells.", description = "Defines the cells that are allowed to reference against reading direction.")
 	private String[] ignoredCells = {};

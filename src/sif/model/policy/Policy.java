@@ -15,11 +15,17 @@ import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
+import sif.model.policy.policyrule.implementations.NonConsideredValuesPolicyRule;
+import sif.model.policy.policyrule.implementations.OneAmongOthersPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.policyrule.implementations.RefToNullPolicyRule;
+import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.utilities.XML_Constants;
 
 @XmlSeeAlso({ DynamicPolicyRule.class, FormulaComplexityPolicyRule.class,
-		NoConstantsInFormulasPolicyRule.class, ReadingDirectionPolicyRule.class })
+		NoConstantsInFormulasPolicyRule.class, ReadingDirectionPolicyRule.class,
+		NonConsideredValuesPolicyRule.class, OneAmongOthersPolicyRule.class,
+		RefToNullPolicyRule.class, StringDistancePolicyRule.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Policy {
 	@XmlAttribute(required = false)

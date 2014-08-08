@@ -276,6 +276,70 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="multipleSameRefPolicyRule">
+    <xs:complexContent>
+      <xs:extension base="monolithicPolicyRule">
+        <xs:sequence>
+          <xs:element name="ignoredCells" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="nonConsideredValuesPolicyRule">
+    <xs:complexContent>
+      <xs:extension base="monolithicPolicyRule">
+        <xs:sequence>
+          <xs:element name="ignoredCells" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="oneAmongOthersPolicyRule">
+    <xs:complexContent>
+      <xs:extension base="monolithicPolicyRule">
+        <xs:sequence>
+          <xs:element name="ignoredCells" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="refToNullPolicyRule">
+    <xs:complexContent>
+      <xs:extension base="monolithicPolicyRule">
+        <xs:sequence>
+          <xs:element name="ignoredCells" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="location" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:simpleType name="cellContentType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="BLANK"/>

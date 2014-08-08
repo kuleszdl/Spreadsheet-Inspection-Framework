@@ -11,6 +11,10 @@ import sif.frontOffice.FrontDesk;
 import sif.model.policy.DynamicPolicy;
 import sif.model.policy.Policy;
 import sif.model.policy.PolicyList;
+import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
+import sif.model.policy.policyrule.implementations.NonConsideredValuesPolicyRule;
+import sif.model.policy.policyrule.implementations.OneAmongOthersPolicyRule;
+import sif.model.policy.policyrule.implementations.RefToNullPolicyRule;
 import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 
 public class RunFileMode {
@@ -46,6 +50,10 @@ public class RunFileMode {
 		}
 		
 		policy.add(new StringDistancePolicyRule());
+		policy.add(new NonConsideredValuesPolicyRule());
+		policy.add(new RefToNullPolicyRule());
+		policy.add(new OneAmongOthersPolicyRule());
+		policy.add(new MultipleSameRefPolicyRule());
 		
 		FrontDesk desk = FrontDesk.getInstance();
 		

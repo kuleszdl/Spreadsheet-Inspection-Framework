@@ -1,10 +1,12 @@
 package sif.model.policy.policyrule.implementations;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlType;
 
-import sif.model.elements.basic.cell.Cell;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
@@ -15,8 +17,12 @@ import sif.utilities.XML_Constants;
  * @author Sebastian Beck
  *
  */
+@XmlType(name = XML_Constants.NAME_NON_CONSIDERED_VALUES_POLICY, propOrder = {
+		"ignoredCells"
+	})
+@XmlAccessorType(XmlAccessType.NONE)
 public class NonConsideredValuesPolicyRule extends MonolithicPolicyRule {
-	@ConfigurableParameter(parameterClass = Cell[].class, displayedName = "Ignored Cells.", description = "Defines the cells that should be ignored by the inspection.")
+	@ConfigurableParameter(parameterClass = String[].class, displayedName = "Ignored Cells.", description = "Defines the cells that should be ignored by the inspection.")
 	private String[] ignoredCells = {};
 
 	public NonConsideredValuesPolicyRule() {
