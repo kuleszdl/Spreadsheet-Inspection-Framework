@@ -10,6 +10,10 @@
       <xs:element name="readingDirectionPolicyRule" type="readingDirectionPolicyRule" minOccurs="0"/>
       <xs:element name="noConstantsPolicyRule" type="noConstantsPolicyRule" minOccurs="0"/>
       <xs:element name="formulaComplexityPolicyRule" type="formulaComplexityPolicyRule" minOccurs="0"/>
+      <xs:element name="nonConsideredValuesPolicyRule" type="nonConsideredValuesPolicyRule" minOccurs="0"/>
+      <xs:element name="oneAmongOthersPolicyRule" type="oneAmongOthersPolicyRule" minOccurs="0"/>
+      <xs:element name="refToNullPolicyRule" type="refToNullPolicyRule" minOccurs="0"/>
+      <xs:element name="stringDistancePolicyRule" type="stringDistancePolicyRule" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

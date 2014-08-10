@@ -1,6 +1,6 @@
 #!/bin/bash
 #sgen="path/to/schemagen"
-sgen="/cygdrive/c/Program Files/Java/jdk1.7.0_02/bin/schemagen.exe"
+sgen="/cygdrive/c/Program Files/Java/jdk1.7.0_45/bin/schemagen.exe"
 
 if [ "x" == "x$sgen" ]; then
 	echo "path to schemagen without quotes or similiar stuff?"

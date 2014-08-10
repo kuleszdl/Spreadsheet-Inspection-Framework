@@ -8,7 +8,6 @@ import java.io.StringReader;
 import sif.IO.ReportFormat;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
-import sif.model.policy.DynamicPolicy;
 import sif.model.policy.Policy;
 import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
@@ -32,22 +31,7 @@ public class RunFileMode {
 		PolicyList policyList = SifMarshaller
 				.unmarshal(new StringReader(build.toString()));
 
-		Policy policy = policyList.getDynamicPolicy(); 
-		if (policy == null){
-			policy = new DynamicPolicy();
-		}
-		if (policyList.getFormulaComplexityRule() != null){
-			policy.add(policyList.getFormulaComplexityRule());
-		}
-		if (policyList.getNoConstantsRule() != null){
-			policy.add(policyList.getNoConstantsRule());
-		}
-		if (policyList.getReadingPolicyRule() != null){
-			policy.add(policyList.getReadingPolicyRule());
-		}
-		if (policyList.getSanityPolicyRule() != null){
-			policy.add(policyList.getSanityPolicyRule());
-		}
+		Policy policy = policyList.getCompletePolicy(); 
 		
 		policy.add(new StringDistancePolicyRule());
 		policy.add(new NonConsideredValuesPolicyRule());
