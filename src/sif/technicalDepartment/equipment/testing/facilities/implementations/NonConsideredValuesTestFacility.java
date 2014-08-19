@@ -20,17 +20,27 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
 
 public class NonConsideredValuesTestFacility extends MonolithicTestFacility{
 
-	private String[] ignoredCells = null;
+	private String[] ignoredCells = {};
+	private String[] ignoredWorksheets = {};
 
 	private boolean isIgnored(Cell cell) {
 		Boolean isIgnored = false;
 		// getting the location as worksheet!address
 		String location = cell.getCellAddress().getSpreadsheetAddress();
-		for (String ignoredCell : ignoredCells) {
-			// discarding existent $ and = chars from SIFEI
-			if (location.equals(ignoredCell.replaceAll("[$=]", ""))) {
+		String ws = location.substring(0, location.indexOf("!"));
+		for (String ignoredWorksheet : ignoredWorksheets){
+			if (ignoredWorksheet.equalsIgnoreCase(ws)){
 				isIgnored = true;
 				break;
+			}
+		}
+		if (!isIgnored){
+			for (String ignoredCell : ignoredCells) {
+				// discarding existent $ and = chars from SIFEI
+				if (location.equals(ignoredCell.replaceAll("[$=]", ""))) {
+					isIgnored = true;
+					break;
+				}
 			}
 		}
 		return isIgnored;

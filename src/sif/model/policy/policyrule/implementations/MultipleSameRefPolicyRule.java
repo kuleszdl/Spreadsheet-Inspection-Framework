@@ -28,8 +28,8 @@ public class MultipleSameRefPolicyRule extends MonolithicPolicyRule {
 	public MultipleSameRefPolicyRule() {
 		super();
 		setAuthor("Sebastian Beck");
-		setName("Policy Rule: Reference to null");
-		setDescription("Checks if a referenced cells value is null.");
+		setName("Multiple same reference");
+		setDescription("Checks if a Formula or Function has the same reference multiple times.");
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)

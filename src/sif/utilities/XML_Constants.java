@@ -78,4 +78,8 @@ public class XML_Constants {
 	public static final String NAME_STRING_DISTANCE_POLICY = "stringDistancePolicyRule",
 			NAME_STRING_DISTANCE_DIFFERENCE = "stringDistanceDifference";
 
+	public static final String NAME_IGNORED_WORKSHEETS_WRAPPER = "ignoredWorksheets",
+			NAME_IGNORED_WORKSHEETS_VALUE = "ignoredWorksheetName";
+
+
 }

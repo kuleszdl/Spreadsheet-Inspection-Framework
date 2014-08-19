@@ -109,7 +109,7 @@ public class Worksheet extends BasicAbstractElement {
 	 *            The given column index.
 	 * @param rowIndex
 	 *            The given row index.
-	 * @return The cell at the given location.
+	 * @return The cell at the given location or null if none exists.
 	 */
 	public Cell getCellAt(Integer columnIndex, Integer rowIndex) {
 		Cell cell = null;

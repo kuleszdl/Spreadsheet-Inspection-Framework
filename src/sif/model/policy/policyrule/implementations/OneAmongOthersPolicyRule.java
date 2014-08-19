@@ -36,7 +36,7 @@ public class OneAmongOthersPolicyRule extends MonolithicPolicyRule{
 		super();
 		setAuthor("Sebastian Beck");
 		setName("Smell: One among others");
-		setDescription("Checks if a cell contains something else then it should be in respect to the enviroment of the cell.");
+		setDescription("Checks if a cell contains something else than it should be in respect to the enviroment of the cell.");
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)

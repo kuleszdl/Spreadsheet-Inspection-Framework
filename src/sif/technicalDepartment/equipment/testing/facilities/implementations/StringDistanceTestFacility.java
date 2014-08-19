@@ -106,7 +106,7 @@ public class StringDistanceTestFacility extends MonolithicTestFacility{
 				if (cellTest == cell){
 					continue;
 				}
-				String testString = cellTest.getValueAsString();
+				String testString = cellTest.getTextContent();
 				int distance = getDistance(sourceString, testString);
 				if (distance < lowestDist){
 					lowestCell = cellTest;

@@ -1,49 +1,28 @@
 package sif.model.violations.single;
 
-import sif.model.elements.IElement;
-import sif.model.policy.policyrule.AbstractPolicyRule;
-import sif.model.violations.IViolation;
+import sif.model.elements.basic.reference.AbstractReference;
 
 public class MultipleSameRefSingleViolation extends GenericSingleViolation{
-
-	private IElement causingRef;
-
-	private AbstractPolicyRule policyRule;
-
-	@Override
-	public IElement getCausingElement() {
-		return causingRef;
-	}
+	private int count;
 
 	@Override
 	public String getDescription() {
 		StringBuilder description = new StringBuilder();
-		description.append(causingRef.getStringRepresentation());
-		description.append("has multiple same references");
+		description.append("The reference ");
+		description.append(getCausingElement().getStringRepresentation());
+		description.append(" appears " + count + " times");
+		if (getCausingElement() instanceof AbstractReference){
+			description.append(" in ");
+			description.append(((AbstractReference) getCausingElement()).getContainer().getStringRepresentation());
+		}
+		description.append(".");
 		return description.toString();
 	}
 
-	@Override
-	public AbstractPolicyRule getPolicyRule() {
-		return policyRule;
+	public void setCount(int count) {
+		this.count = count;
 	}
 
-	@Override
-	public Double getWeightedSeverityValue() {
-		Double severtityValue = IViolation.SEVERITY_HIGH;
-		return severtityValue;
-	}
 
-	@Override
-	public void setCausingElement(IElement element) {
-		this.causingRef = element;
-
-	}
-
-	@Override
-	public void setPolicyRule(AbstractPolicyRule policyRule) {
-		this.policyRule = policyRule;
-
-	}
 
 }
