@@ -20,14 +20,14 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 
 	private String[] ignoredCells = null;
 
-	public Boolean isIgnored(AbstractReference reference) {
-		Boolean isIgnored = false;
+	private boolean isIgnored(AbstractReference reference) {
+		boolean isIgnored = false;
 		if (reference.getReferencingElement() instanceof Cell) {
 			Cell cell = (Cell) reference.getReferencingElement();
 			// getting the location as worksheet!address
-			String location = cell.getLocation().replace("[", "").replace("]", "!");
+			String location = cell.getCellAddress().getSpreadsheetAddress();
 			for (String ignoredCell : ignoredCells) {
-				// discarding existent "$" chars from SIFEI
+				// discarding existent $ and = chars from SIFEI
 				if (location.equals(ignoredCell.replaceAll("[$=]", ""))) {
 					isIgnored = true;
 					break;
@@ -80,7 +80,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 			for (ITokenElement token : formula.getAllTokens()) {
 				if (token instanceof AbstractReference) {
 					AbstractReference reference = (AbstractReference) token;
-					if (isIgnored(reference)) {
+					if (!isIgnored(reference)) {
 						continue;
 					}
 

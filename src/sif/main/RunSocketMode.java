@@ -60,22 +60,7 @@ public class RunSocketMode{
 				PolicyList policyList = SifMarshaller
 						.unmarshal(new StringReader(policyFile));
 
-				Policy policy = policyList.getDynamicPolicy();
-				if (policy == null){
-					policy = new Policy();
-				}
-				if (policyList.getFormulaComplexityRule() != null){
-					policy.add(policyList.getFormulaComplexityRule());
-				}
-				if (policyList.getNoConstantsRule() != null){
-					policy.add(policyList.getNoConstantsRule());
-				}
-				if (policyList.getReadingPolicyRule() != null){
-					policy.add(policyList.getReadingPolicyRule());
-				}
-				if (policyList.getSanityPolicyRule() != null){
-					policy.add(policyList.getSanityPolicyRule());
-				}
+				Policy policy = policyList.getCompletePolicy();
 
 				desk.createAndRunDynamicInspectionRequest(requestName,
 						spreadsheetFile, policy);

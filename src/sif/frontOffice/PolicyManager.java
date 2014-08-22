@@ -18,13 +18,23 @@ import sif.model.policy.policyrule.dynamicConditions.BinaryCondition;
 import sif.model.policy.policyrule.dynamicConditions.ElementCountCondition;
 import sif.model.policy.policyrule.dynamicConditions.TernaryCondition;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
+import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
+import sif.model.policy.policyrule.implementations.NonConsideredValuesPolicyRule;
+import sif.model.policy.policyrule.implementations.OneAmongOthersPolicyRule;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.model.policy.policyrule.implementations.RefToNullPolicyRule;
+import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.DynamicTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.MultipleSameRefTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.NonConsideredValuesTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.OneAmongOthersTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.ReadingDirectionTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.RefToNullTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.SanityTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.StringDistanceTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.BinaryConditionChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.ElementCountChecker;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.dynamicCheckers.IConditionChecker;
@@ -60,13 +70,19 @@ public class PolicyManager {
 				FormulaComplexityTestFacility.class);
 		register(DynamicPolicyRule.class, DynamicTestFacility.class);
 		register(SanityPolicyRule.class, SanityTestFacility.class);
-		
+		register(StringDistancePolicyRule.class, StringDistanceTestFacility.class);
+
+		register(MultipleSameRefPolicyRule.class, MultipleSameRefTestFacility.class);
+		register(NonConsideredValuesPolicyRule.class, NonConsideredValuesTestFacility.class);
+		register(OneAmongOthersPolicyRule.class, OneAmongOthersTestFacility.class);
+		register(RefToNullPolicyRule.class, RefToNullTestFacility.class);
+
 		// Register available conditions
 		registerCondition(BinaryCondition.class, BinaryConditionChecker.class);
 		registerCondition(TernaryCondition.class, TernaryConditionChecker.class);
 		registerCondition(ElementCountCondition.class, ElementCountChecker.class);
 		//TODO registerCondition(PropertyCondition.class, PropertyConditionChecker.class);
-		
+
 		// Create and register available policies.
 		Policy policy = new Policy();
 		policy.setName("Basic Policy");
@@ -78,20 +94,14 @@ public class PolicyManager {
 		policy.add(new FormulaComplexityPolicyRule());
 		//policy.add(new DynamicPolicyRule());
 		register(policy);
-		
+
 		Policy dynPolicy = new Policy();
 		dynPolicy.setName("Dynamic Policy");
 		dynPolicy.setAuthor("Manuel Lemcke");
 		dynPolicy.setDescription("A policy that also supports dynamic inspection of spreadsheets."); //TODO Beschreibung um aktuell implementierte Rules ergaenzen
 		dynPolicy.add(new DynamicPolicyRule());
 		register(dynPolicy);
-		
-		Policy sanePolicy = new Policy();
-		sanePolicy.setName("Sanity Policy");
-		sanePolicy.setAuthor("Wolfgang Kraus");
-		sanePolicy.setDescription("A policy which supports basic sanity checks");
-		sanePolicy.add(new SanityPolicyRule());
-		register(sanePolicy);
+
 	}
 
 	/**
@@ -233,7 +243,7 @@ public class PolicyManager {
 		this.availablePolicyRules.put(policyRuleClass.getCanonicalName(),
 				policyRuleClass);
 	}
-	
+
 	/***
 	 * Registers the given policy rule class and associates it with the given
 	 * test facility class.

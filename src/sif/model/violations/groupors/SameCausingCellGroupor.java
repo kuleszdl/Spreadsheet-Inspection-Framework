@@ -3,6 +3,7 @@ package sif.model.violations.groupors;
 
 import sif.model.elements.IElement;
 import sif.model.elements.basic.cell.Cell;
+import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.tokencontainers.Function;
 import sif.model.elements.basic.tokencontainers.ITokenContainer;
@@ -68,6 +69,10 @@ public class SameCausingCellGroupor extends ViolationGroupor{
 			}
 			if (cause instanceof ITokenContainer){
 				violationGroup.setCausingElement(((ITokenContainer) cause).getCell());
+				break;
+			}
+			if (cause instanceof AbstractReference){
+				violationGroup.setCausingElement(((AbstractReference) cause).getContainer().getCell().getFormula());
 			}
 		}
 	}

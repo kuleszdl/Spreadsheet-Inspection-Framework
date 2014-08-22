@@ -7,10 +7,10 @@ import sif.IO.ReportFormat;
 
 /***
  * This is the application class of the Spreadsheet Inspection Framework.
- * 
- * 
+ *
+ *
  * @author Ehssan Doust
- * 
+ *
  */
 public class Application {
 	private static boolean DEBUG = false;
@@ -21,7 +21,7 @@ public class Application {
 	public static final int NOTENOUGHPARAMETERS = -1,
 			INVALIDPARAMETER = -2,
 			APPLICATIONERROR = -3;
-	
+
 	/**
 	 * Wheter debug messages should be shown
 	 * @return
@@ -29,7 +29,7 @@ public class Application {
 	public static boolean isDebug(){
 		return DEBUG;
 	}
-	
+
 	/**
 	 * Tries and sets the parent folder of the jar
 	 */
@@ -45,7 +45,7 @@ public class Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Checks for a file "debug" in the jar folder and sets the DEBUG flag when appropriate
 	 */
@@ -57,7 +57,7 @@ public class Application {
 	}
 	/**
 	 * @param args
-	 * 
+	 *
 	 */
 	public static void main(String[] args) {
 		checkParentFolder();
@@ -93,16 +93,16 @@ public class Application {
 			if (!policyFile.exists()){
 				errors += "Policy file not found at " + args[2] + "\n";
 			}
-			
+
 			File spreadsheetFile = new File(args[3]);
 			if (!spreadsheetFile.exists()){
 				errors += "Spreadsheet file not found at " + args[3] + "\n";
 			}
-			
+
 			if (!errors.isEmpty()){
 				printUsageAndExit(errors, INVALIDPARAMETER);
 			}
-			
+
 			try {
 				String report = RunFileMode.execute(format, policyFile, spreadsheetFile);
 				System.out.println(report);
@@ -113,12 +113,12 @@ public class Application {
 				}
 				System.exit(APPLICATIONERROR);
 			}
-			
+
 		}
-		
+
 
 	}
-	
+
 	/**
 	 * Prints the reason to the standard output followed by the usage syntax and exits with the
 	 * exit code -1
@@ -128,7 +128,7 @@ public class Application {
 		String sb = "";
 		if (reason != null){
 			sb += reason + "\n";
-		}	
+		}
 		sb += "Usage: sif [MODE] [PARAMETERS]. "
 		+ "Currently supported modes:\n"
 		+ "sif socket [portnumber]\n"
