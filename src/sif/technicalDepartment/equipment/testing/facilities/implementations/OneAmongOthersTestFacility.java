@@ -43,7 +43,7 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	}
 
 	private ArrayList<Cell> getHorizontal(Cell c){
-		ArrayList<Cell> toReturn = new ArrayList<>(environmentLength * 2);
+		ArrayList<Cell> toReturn = new ArrayList<Cell>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
 		for (int i = 0; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
@@ -64,7 +64,7 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	}
 
 	private ArrayList<Cell> getVertical(Cell c){
-		ArrayList<Cell> toReturn = new ArrayList<>(environmentLength * 2);
+		ArrayList<Cell> toReturn = new ArrayList<Cell>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
 		for (int i = 0; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
