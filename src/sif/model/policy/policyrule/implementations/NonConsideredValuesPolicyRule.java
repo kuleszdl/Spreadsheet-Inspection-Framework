@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
 
@@ -33,6 +34,7 @@ public class NonConsideredValuesPolicyRule extends MonolithicPolicyRule {
 		setAuthor("Sebastian Beck");
 		setName("Policy Rule: Non considered values");
 		setDescription("Checks if a constant value is not referenced.");
+		setType(PolicyRuleType.STATIC);
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)

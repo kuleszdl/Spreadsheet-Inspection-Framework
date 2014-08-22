@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
 
@@ -30,6 +31,7 @@ public class MultipleSameRefPolicyRule extends MonolithicPolicyRule {
 		setAuthor("Sebastian Beck");
 		setName("Multiple same reference");
 		setDescription("Checks if a Formula or Function has the same reference multiple times.");
+		setType(PolicyRuleType.STATIC);
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.MonolithicPolicyRule;
+import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
 import sif.utilities.XML_Constants;
 
@@ -39,6 +40,7 @@ public class OneAmongOthersPolicyRule extends MonolithicPolicyRule{
 		setAuthor("Sebastian Beck");
 		setName("Smell: One among others");
 		setDescription("Checks if a cell contains something else than it should be in respect to the enviroment of the cell.");
+		setType(PolicyRuleType.STATIC);
 	}
 
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)

@@ -37,7 +37,7 @@ public class StringDistancePolicyRule extends MonolithicPolicyRule{
 		setAuthor("Sebastian Beck");
 		setName("Policy Rule: String distance");
 		setDescription("Checks with the help of the string distance for typos.");
-		setType(PolicyRuleType.COMPOSITE);
+		setType(PolicyRuleType.STATIC);
 	}
 	
 	@XmlElementWrapper(name = XML_Constants.NAME_IGNORED_CELLS_WRAPPER, required = false)
