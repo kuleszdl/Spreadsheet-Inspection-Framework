@@ -330,6 +330,8 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
+          <xs:element name="oneAmongOthersStyle" type="xs:int" minOccurs="0"/>
+          <xs:element name="oneAmongOthersLength" type="xs:int" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

@@ -18,7 +18,9 @@ import sif.utilities.XML_Constants;
  *
  */
 @XmlType(name = XML_Constants.NAME_ONE_AMONG_OTHERS_POLICY, propOrder = {
-		"ignoredCells"
+		"ignoredCells",
+		"environmentStyle",
+		"environmentLength"
 	})
 @XmlAccessorType(XmlAccessType.NONE)
 public class OneAmongOthersPolicyRule extends MonolithicPolicyRule{
@@ -27,10 +29,10 @@ public class OneAmongOthersPolicyRule extends MonolithicPolicyRule{
 
 	//1=horizontal, 2=vertical, 3=cross
 	@ConfigurableParameter(parameterClass = Integer.class, displayedName = "Style of the enviroment to test", description = "Defines the style of the enviroment to test against.(1=horizontal, 2=vertical, 3=cross)")
-	private Integer enviromentStyle = 3;
+	private Integer environmentStyle = 3;
 
 	@ConfigurableParameter(parameterClass = Integer.class, displayedName = "Checking length.", description = "Defines the radius of the enviroment to test against.")
-	private Integer enviromentLength = 2;
+	private Integer environmentLength = 2;
 
 	public OneAmongOthersPolicyRule() {
 		super();
@@ -47,6 +49,24 @@ public class OneAmongOthersPolicyRule extends MonolithicPolicyRule{
 
 	public void setIgnoredCells(String[] ignoredCells) {
 		this.ignoredCells = ignoredCells;
+	}
+
+	@XmlElement(name = XML_Constants.NAME_ONE_AMONG_OTHERS_ENVIRONMENT_STYLE, required = false)
+	public Integer getEnvironmentStyle() {
+		return environmentStyle;
+	}
+
+	public void setEnvironmentStyle(Integer environmentStyle) {
+		this.environmentStyle = environmentStyle;
+	}
+
+	@XmlElement(name = XML_Constants.NAME_ONE_AMONG_OTHERS_ENVIRONMENT_LENGTH, required = false)
+	public Integer getEnvironmentLength() {
+		return environmentLength;
+	}
+	
+	public void setEnvironmentLength(Integer environmentLength) {
+		this.environmentLength = environmentLength;
 	}
 
 }

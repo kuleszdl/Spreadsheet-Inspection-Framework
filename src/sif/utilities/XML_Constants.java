@@ -72,7 +72,6 @@ public class XML_Constants {
 
 	public static final String NAME_MULTIPLE_SAME_REF_POLICY = "multipleSameRefPolicyRule",
 			NAME_NON_CONSIDERED_VALUES_POLICY = "nonConsideredValuesPolicyRule",
-			NAME_ONE_AMONG_OTHERS_POLICY = "oneAmongOthersPolicyRule",
 			NAME_REF_TO_NULL_POLICY = "refToNullPolicyRule";
 
 	public static final String NAME_STRING_DISTANCE_POLICY = "stringDistancePolicyRule",
@@ -80,6 +79,10 @@ public class XML_Constants {
 
 	public static final String NAME_IGNORED_WORKSHEETS_WRAPPER = "ignoredWorksheets",
 			NAME_IGNORED_WORKSHEETS_VALUE = "ignoredWorksheetName";
+
+	public static final String NAME_ONE_AMONG_OTHERS_POLICY = "oneAmongOthersPolicyRule",
+			NAME_ONE_AMONG_OTHERS_ENVIRONMENT_STYLE = "oneAmongOthersStyle",
+			NAME_ONE_AMONG_OTHERS_ENVIRONMENT_LENGTH = "oneAmongOthersLength";
 
 
 }

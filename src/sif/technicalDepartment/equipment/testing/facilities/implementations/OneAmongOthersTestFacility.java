@@ -22,8 +22,8 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 
 	private String[] ignoredCells = null;
 	//1=horizontal, 2=vertical, 3=cross
-	private Integer enviromentStyle = 1;
-	private Integer enviromentLength = 1;
+	private Integer environmentStyle = 1;
+	private Integer environmentLength = 1;
 	public static final int ONEAMONGOTHERS_HORIZONTAL = 1;
 	public static final int ONEAMONGOTHERS_VERTICAL = 2;
 	public static final int ONEAMONGOTHERS_CROSS = 3;
@@ -43,9 +43,9 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	}
 
 	private ArrayList<Cell> getHorizontal(Cell c){
-		ArrayList<Cell> toReturn = new ArrayList<>(enviromentLength * 2);
+		ArrayList<Cell> toReturn = new ArrayList<>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
-		for (int i = 0; i < enviromentLength; i++){
+		for (int i = 0; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
 					.getCellAt(addr.getColumnIndex() - i, addr.getRowIndex());
 
@@ -64,9 +64,9 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	}
 
 	private ArrayList<Cell> getVertical(Cell c){
-		ArrayList<Cell> toReturn = new ArrayList<>(enviromentLength * 2);
+		ArrayList<Cell> toReturn = new ArrayList<>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
-		for (int i = 0; i < enviromentLength; i++){
+		for (int i = 0; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
 					.getCellAt(addr.getColumnIndex(), addr.getRowIndex() - i);
 
@@ -93,7 +93,7 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 
 
 	private ArrayList<Cell> getEnvironment(Cell c){
-		switch (enviromentStyle){
+		switch (environmentStyle){
 		case ONEAMONGOTHERS_HORIZONTAL:
 			return getHorizontal(c);
 		case ONEAMONGOTHERS_VERTICAL:
