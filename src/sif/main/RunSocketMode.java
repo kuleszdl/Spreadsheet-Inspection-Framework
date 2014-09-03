@@ -11,7 +11,7 @@ import java.net.Socket;
 import sif.IO.ReportFormat; 
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
-import sif.model.policy.Policy;
+import sif.model.policy.DynamicPolicy;
 import sif.model.policy.PolicyList;
 
 public class RunSocketMode{
@@ -43,13 +43,13 @@ public class RunSocketMode{
 					out.close();
 				}
 				/*
-				 * Read the spreadsheet file
+				 * Read the spreadsheet file, currently disabled as it's error prone
 				 */
-				byte[] spreadsheetContent = Utils
-						.readBytes(clientSocket);
-				File spreadsheetFile = Utils
-						.writeToTempFile(spreadsheetContent);
-
+//				byte[] spreadsheetContent = Utils
+//						.readBytes(clientSocket);
+//				File spreadsheetFile = Utils
+//						.writeToTempFile(spreadsheetContent);
+				
 				/*
 				 * Generate the report
 				 */
@@ -60,8 +60,10 @@ public class RunSocketMode{
 				PolicyList policyList = SifMarshaller
 						.unmarshal(new StringReader(policyFile));
 
-				Policy policy = policyList.getCompletePolicy();
+				DynamicPolicy policy = policyList.getCompletePolicy();
 
+				String filename = policy.getSpreadsheetFileName();
+				File spreadsheetFile = new File(filename);
 				desk.createAndRunDynamicInspectionRequest(requestName,
 						spreadsheetFile, policy);
 

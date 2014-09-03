@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.SanityPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
+import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
 import sif.model.policy.policyrule.implementations.NonConsideredValuesPolicyRule;
 import sif.model.policy.policyrule.implementations.OneAmongOthersPolicyRule;
@@ -26,7 +27,8 @@ import sif.utilities.XML_Constants;
 		"nonConsideredValuesRule",
 		"oneAmongOthersRule",
 		"refToNullRule",
-		"stringDistanceRule"
+		"stringDistanceRule",
+		"multipleSameRefPolicyRule"
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -41,6 +43,7 @@ public class PolicyList {
 	private OneAmongOthersPolicyRule oneAmongOthersRule;
 	private RefToNullPolicyRule refToNullRule;
 	private StringDistancePolicyRule stringDistanceRule;
+	private MultipleSameRefPolicyRule multipleSameRefPolicyRule;
 
 	@XmlElement(name = XML_Constants.NAME_DYNAMIC_POLICY, type = DynamicPolicy.class, required = false)
 	public DynamicPolicy getDynamicPolicy() {
@@ -117,6 +120,13 @@ public class PolicyList {
 		this.stringDistanceRule = stringDistanceRule;
 	}
 
+	@XmlElement(name = XML_Constants.NAME_MULTIPLE_SAME_REF_POLICY, required = false)
+	public MultipleSameRefPolicyRule getMultipleSameRefPolicyRule() {
+		return multipleSameRefPolicyRule;
+	}
+	public void setMultipleSameRefPolicyRule(MultipleSameRefPolicyRule multipleSameRefPolicyRule) {
+		this.multipleSameRefPolicyRule = multipleSameRefPolicyRule;
+	}
 	public DynamicPolicy getCompletePolicy(){
 		if (dynamicPolicy == null){
 			dynamicPolicy = new DynamicPolicy();
@@ -144,6 +154,9 @@ public class PolicyList {
 		}
 		if (stringDistanceRule != null){
 			dynamicPolicy.add(stringDistanceRule);
+		}
+		if (multipleSameRefPolicyRule != null){
+			dynamicPolicy.add(multipleSameRefPolicyRule);
 		}
 		return dynamicPolicy;
 	}
