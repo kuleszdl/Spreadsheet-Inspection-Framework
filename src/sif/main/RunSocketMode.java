@@ -88,7 +88,7 @@ public class RunSocketMode{
 			if (Application.isDebug()){
 				// Print all stack traces to the console
 				e.printStackTrace();
-				for (Throwable e2 : e.getSuppressed()){
+				for (Throwable e2 : e.getAdditional()){
 					e2.printStackTrace();
 				}
 				// show a window with the exceptions from the application
@@ -98,7 +98,7 @@ public class RunSocketMode{
 				}
 				con.addStackTrace(e);
 
-				for (Throwable e2 : e.getSuppressed()){
+				for (Throwable e2 : e.getAdditional()){
 					con.addStackTrace(e2);
 					if (e2.getCause() != null)
 						con.addStackTrace(e2.getCause());

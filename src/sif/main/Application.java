@@ -109,7 +109,7 @@ public class Application {
 				System.out.println(report);
 			} catch (InvalidSpreadsheetFileException e) {
 				e.printStackTrace();
-				for (Throwable t : e.getSuppressed()){
+				for (Throwable t : e.getAdditional()){
 					t.printStackTrace();
 				}
 				System.exit(APPLICATIONERROR);

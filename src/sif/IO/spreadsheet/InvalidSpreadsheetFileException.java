@@ -18,13 +18,13 @@ public class InvalidSpreadsheetFileException extends Exception {
 		suppressed = new ArrayList<Throwable>();
 	}
 
-	public void addSuppressed(Throwable t){
+	public void addAdditional(Throwable t){
 		if (t != null){
 			suppressed.add(t);
 		}
 	}
 	
-	public ArrayList<Throwable> getSuppressed(){
+	public ArrayList<Throwable> getAdditional(){
 		return suppressed;
 	}
 }
