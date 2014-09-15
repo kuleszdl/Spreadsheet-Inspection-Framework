@@ -2,6 +2,7 @@ package sif.inspection;
 
 import java.io.File;
 
+import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.tokencontainers.Formula;
@@ -78,7 +79,7 @@ public class SamplesTest {
 
 				frontDesk.run();
 
-				frontDesk.createInspectionReport("C://");
+				frontDesk.createInspectionReport("test/sif", ReportFormat.HTML);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

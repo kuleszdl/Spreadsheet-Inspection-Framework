@@ -3,6 +3,8 @@
  */
 package sif.IO;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.TreeMap;
 
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 import sif.IO.xml.SifMarshaller;
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
@@ -37,7 +40,11 @@ public class XMLReadTest {
 
 		Assert.assertTrue("XML spec. file doesn't exist", file.exists());
 
-		DynamicPolicy policy = SifMarshaller.unmarshal(file);
+		PolicyList polList = SifMarshaller.unmarshal(file);
+
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
 		DynamicPolicyRule rule = (DynamicPolicyRule) policy.getRuleByName("between0and10k");
 		
 		AbstractCondition cond = rule.getPostconditions().get(0);

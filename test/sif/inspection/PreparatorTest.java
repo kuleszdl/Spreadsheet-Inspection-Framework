@@ -17,6 +17,7 @@ import sif.model.elements.basic.spreadsheet.Spreadsheet;
 import sif.model.elements.basic.worksheet.Worksheet;
 import sif.model.inspection.DynamicInspectionRequest;
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.technicalDepartment.equipment.testing.tools.POISpreadsheetPreparator;
 
@@ -50,7 +51,12 @@ public class PreparatorTest {
 		FrontDesk desk = FrontDesk.getInstance();
 
 		// read policy & rule
-		DynamicPolicy policy = SifMarshaller.unmarshal(new File(policyPath));
+		PolicyList polList = SifMarshaller.unmarshal(new File(policyPath));
+
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
+
 		
 		@SuppressWarnings("unchecked")
 		DynamicInspectionRequest<Workbook> req = (DynamicInspectionRequest<Workbook>) desk.requestNewDynamicInspection(

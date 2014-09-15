@@ -30,6 +30,9 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 
 	private boolean isIgnored(Cell cell) {
 		Boolean isIgnored = false;
+		if (cell.getCellContentType() == CellContentType.BLANK){
+			return true;
+		}
 		// getting the location as worksheet!address
 		String location = cell.getCellAddress().getSpreadsheetAddress();
 		for (String ignoredCell : ignoredCells) {
@@ -45,7 +48,7 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	private ArrayList<Cell> getHorizontal(Cell c){
 		ArrayList<Cell> toReturn = new ArrayList<Cell>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
-		for (int i = 0; i < environmentLength; i++){
+		for (int i = 1; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
 					.getCellAt(addr.getColumnIndex() - i, addr.getRowIndex());
 
@@ -66,7 +69,7 @@ public class OneAmongOthersTestFacility extends MonolithicTestFacility{
 	private ArrayList<Cell> getVertical(Cell c){
 		ArrayList<Cell> toReturn = new ArrayList<Cell>(environmentLength * 2);
 		CellAddress addr = c.getCellAddress();
-		for (int i = 0; i < environmentLength; i++){
+		for (int i = 1; i < environmentLength; i++){
 			Cell adding = addr.getWorksheet()
 					.getCellAt(addr.getColumnIndex(), addr.getRowIndex() - i);
 

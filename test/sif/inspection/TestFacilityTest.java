@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
+import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.DynamicPolicy;
@@ -58,7 +59,7 @@ public class TestFacilityTest {
 		// TODO Erwartete Resultate genauer bestimmen
 		assertTrue(request.getFindings() != null);
 
-		FrontDesk.getInstance().createInspectionReport("test/sif/");
+		FrontDesk.getInstance().createInspectionReport("test/sif/", ReportFormat.HTML);
 	}
 
 }

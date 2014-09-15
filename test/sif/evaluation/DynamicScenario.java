@@ -9,10 +9,12 @@ import java.io.File;
 
 import org.junit.Test;
 
+import sif.IO.ReportFormat;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.model.policy.policyrule.dynamicConditions.TestInput;
@@ -37,8 +39,12 @@ public class DynamicScenario {
 	@Test
 	public void scenario1() throws Exception {
 		File specFile = new File(specificationPath1);
-		DynamicPolicy policy = SifMarshaller.unmarshal(specFile);
+		PolicyList polList = SifMarshaller.unmarshal(specFile);
 
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
+		
 		// Check if a policy has been created
 		assertTrue(policy != null);
 
@@ -80,13 +86,17 @@ public class DynamicScenario {
 //				.getCausingElement().getLocation().endsWith("D5"));
 
 		// Create a report to see for yourself
-		FrontDesk.getInstance().createInspectionReport("test/sif/");
+		FrontDesk.getInstance().createInspectionReport("test/sif/", ReportFormat.HTML);
 	}
 	
 	@Test
 	public void scenario2() throws Exception {
 		File specFile = new File(specificationPath2);
-		DynamicPolicy policy = SifMarshaller.unmarshal(specFile);
+		PolicyList polList = SifMarshaller.unmarshal(specFile);
+
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
 
 		// Check if a policy has been created
 		assertTrue(policy != null);
@@ -123,7 +133,7 @@ public class DynamicScenario {
 //				.getCausingElement().getLocation().endsWith("D5"));
 
 		// Create a report to see for yourself
-		FrontDesk.getInstance().createInspectionReport("test/sif/");
+		FrontDesk.getInstance().createInspectionReport("test/sif/", ReportFormat.HTML);
 	}
 
 }

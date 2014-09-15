@@ -22,6 +22,7 @@ import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
 import sif.model.inspection.DynamicInspectionRequest;
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 import sif.model.policy.policyrule.DynamicPolicyRule;
 
 /**
@@ -53,7 +54,11 @@ public class POIWriterTest {
 
 		// read policy & rule
 		File spreadsheetFile = new File(filepath);
-		DynamicPolicy policy = SifMarshaller.unmarshal(new File(policyPath));
+		PolicyList polList = SifMarshaller.unmarshal(new File(policyPath));
+
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
 		@SuppressWarnings("unchecked")
 		DynamicInspectionRequest<Workbook> req = (DynamicInspectionRequest<Workbook>) desk.requestNewDynamicInspection(
 				"TestInputInsertionTest", spreadsheetFile);
@@ -121,7 +126,11 @@ public class POIWriterTest {
 		FrontDesk desk = FrontDesk.getInstance();
 
 		// read policy & rule
-		DynamicPolicy policy = SifMarshaller.unmarshal(new File(policyPath));
+		PolicyList polList = SifMarshaller.unmarshal(new File(policyPath));
+
+		assertTrue(polList != null);
+		
+		DynamicPolicy policy = polList.getCompletePolicy();
 		
 		@SuppressWarnings("unchecked")
 		DynamicInspectionRequest<Workbook> req = (DynamicInspectionRequest<Workbook>) desk.requestNewDynamicInspection(

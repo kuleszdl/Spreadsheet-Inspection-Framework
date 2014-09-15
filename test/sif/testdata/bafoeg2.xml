@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<policyList>
 <dynamicPolicy author="" description="" name=""
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="SpRuDeL1_1.xsd">
@@ -48,4 +49,6 @@
 			<postconditions />
 		</rule>
 	</rules>
+	
 </dynamicPolicy>
+</policyList>

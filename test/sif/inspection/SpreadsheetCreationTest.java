@@ -68,7 +68,7 @@ public class SpreadsheetCreationTest {
 		int occurrencesSheet1 = 0;
 		for (Cell cell : cellList) {
 			if (!cell.getIncomingReferences().isEmpty() && cell.getOutgoingReferences().isEmpty() && cell.getWorksheet().getName().equals("Rechner")) {
-//				System.out.println(cell.getLocation());
+				System.out.println(cell.getLocation());
 				occurrencesSheet1++;
 			}
 		}

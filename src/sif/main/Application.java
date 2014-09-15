@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import sif.IO.ReportFormat;
+import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 
 /***
  * This is the application class of the Spreadsheet Inspection Framework.
@@ -106,11 +107,14 @@ public class Application {
 			try {
 				String report = RunFileMode.execute(format, policyFile, spreadsheetFile);
 				System.out.println(report);
-			} catch (Exception e) {
+			} catch (InvalidSpreadsheetFileException e) {
 				e.printStackTrace();
 				for (Throwable t : e.getSuppressed()){
 					t.printStackTrace();
 				}
+				System.exit(APPLICATIONERROR);
+			} catch (Exception e) {
+				e.printStackTrace();
 				System.exit(APPLICATIONERROR);
 			}
 

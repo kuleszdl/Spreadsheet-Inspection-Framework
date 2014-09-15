@@ -119,7 +119,7 @@ public class SifMarshaller {
 	}
 
 	/**
-	 * Marshals the {@link DynamicPolicy} object to a XML file. If a schema
+	 * Marshals the {@link PolicyList} object to a XML file. If a schema
 	 * location is provided it will be included in the XML file.
 	 * 
 	 * @param policy
@@ -130,7 +130,7 @@ public class SifMarshaller {
 	 * @deprecated the other methods {@link #unmarshal(File)} and {@link #unmarshal(StringReader)} 
 	 * 		are validating, through {@link sif.utilities.SchemaUtility}
 	 */
-	public static void marshal(DynamicPolicy policy, File file,
+	public static void marshal(PolicyList policy, File file,
 			String shemaLocation) throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance("sif.model.policy");
 

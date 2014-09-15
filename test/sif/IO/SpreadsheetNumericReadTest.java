@@ -21,7 +21,7 @@ import sif.model.inspection.InspectionRequest;
 public class SpreadsheetNumericReadTest {
 	
 	Double expectedValue = 4492.0;
-
+	Double delta = 0.1;
 	@Test
 	public void test() throws Exception {
 		InspectionRequest req = FrontDesk.getInstance().requestNewInspection("NumericTest",
@@ -29,8 +29,7 @@ public class SpreadsheetNumericReadTest {
 		
 		Worksheet rechnerSheet = req.getInventory().getSpreadsheet().getWorksheetFor("Rechner");
 		Cell cell = rechnerSheet.getCellAt(2, 36);
-		assertTrue(cell.getNumericContent().equals(expectedValue));
-		System.out.println(cell.getLocation() + ": " + cell.getNumericContent());
+		assertTrue(Math.abs(cell.getNumericContent() - expectedValue) < delta);
 	}
 
 }

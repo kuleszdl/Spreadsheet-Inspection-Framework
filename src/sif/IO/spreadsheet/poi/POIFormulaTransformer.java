@@ -207,7 +207,7 @@ public class POIFormulaTransformer {
 			if (areaPtgBase instanceof Area3DPtg) {
 				Area3DPtg area3DPtg = (Area3DPtg) areaPtgBase;
 				referencedRangeAddress.setWorksheet(poiIO.spreadsheet
-						.getWorksheetAt(area3DPtg.getExternSheetIndex() + 1));
+						.getWorksheetAt(area3DPtg.getExternSheetIndex() + 2)); // TODO: Verify the increment
 			}
 
 			// Create blank cells if needed.

@@ -126,8 +126,11 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public Boolean hasIntersection(AbstractAddress address) {
-		// TODO Auto-generated method stub
-		return null;
+		int h = compareHorizontal(address);
+		int v = compareVertical(address);
+		// Vertical difference doesn't check for the worksheet
+		v = address.worksheet.equals(worksheet) ? v : 1;
+		return h == 0 || v == 0;
 	}
 
 	@Override
@@ -146,8 +149,9 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public Boolean isWithin(AbstractAddress address) {
-		// TODO Auto-generated method stub
-		return null;
+		int h = compareHorizontal(address);
+		int v = compareVertical(address);
+		return h == 0 && v == 0;
 	}
 
 	public void setColumnIndex(Integer columnIndex) {

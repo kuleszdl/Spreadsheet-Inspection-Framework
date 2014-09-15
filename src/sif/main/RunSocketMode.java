@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import sif.IO.ReportFormat; 
+import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
 import sif.model.policy.DynamicPolicy;
@@ -26,7 +27,7 @@ public class RunSocketMode{
 
 		try {
 
-			clientSocket = new Socket(InetAddress.getLoopbackAddress(),
+			clientSocket = new Socket(InetAddress.getLocalHost(),
 					clientPort);
 
 
@@ -45,11 +46,11 @@ public class RunSocketMode{
 				/*
 				 * Read the spreadsheet file, currently disabled as it's error prone
 				 */
-//				byte[] spreadsheetContent = Utils
-//						.readBytes(clientSocket);
-//				File spreadsheetFile = Utils
-//						.writeToTempFile(spreadsheetContent);
-				
+				//				byte[] spreadsheetContent = Utils
+				//						.readBytes(clientSocket);
+				//				File spreadsheetFile = Utils
+				//						.writeToTempFile(spreadsheetContent);
+
 				/*
 				 * Generate the report
 				 */
@@ -83,16 +84,20 @@ public class RunSocketMode{
 
 		} catch (IOException e){
 			// silently ignore the IOException when it is closed
-		} catch (Throwable e) {
+		} catch (InvalidSpreadsheetFileException e) {
 			if (Application.isDebug()){
-				// show a window with the exceptions from the application
+				// Print all stack traces to the console
 				e.printStackTrace();
-				for (Throwable e2 : e.getSuppressed())
+				for (Throwable e2 : e.getSuppressed()){
 					e2.printStackTrace();
+				}
+				// show a window with the exceptions from the application
 				DebugConsole con = new DebugConsole();
-				con.addStackTrace(e);
-				if (e.getCause() != null)
+				if (e.getCause() != null){
 					con.addStackTrace(e.getCause());
+				}
+				con.addStackTrace(e);
+
 				for (Throwable e2 : e.getSuppressed()){
 					con.addStackTrace(e2);
 					if (e2.getCause() != null)
@@ -112,7 +117,26 @@ public class RunSocketMode{
 			} else {
 				System.exit(Application.APPLICATIONERROR);
 			}
+		} catch (Exception e) {
+			if (Application.isDebug()){
+				// show a window with the exceptions from the application
+				e.printStackTrace();
+				DebugConsole con = new DebugConsole();
+				if (e.getCause() != null)
+					con.addStackTrace(e.getCause());
+				con.addStackTrace(e);
+				// Close the socket so SIFEI can continue to work, or rather fail
+				// the parsing due to no root element
+				// TODO: report why it failed
+				if (!clientSocket.isClosed()){
+					try {
+						clientSocket.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				new Thread(con).start();
+			}
 		}
 	}
-
 }
