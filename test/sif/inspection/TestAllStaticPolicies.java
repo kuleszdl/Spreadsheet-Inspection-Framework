@@ -50,7 +50,7 @@ public class TestAllStaticPolicies {
 			Assert.fail("An exception occured, " + e.getLocalizedMessage());
 		}
 		Findings violations = req.getFindings();
-		Assert.assertEquals(2, (int) violations.getNumberOfTopLevelViolations()); 
+		Assert.assertEquals(3, (int) violations.getNumberOfTopLevelViolations()); 
 	}
 
 	@Test

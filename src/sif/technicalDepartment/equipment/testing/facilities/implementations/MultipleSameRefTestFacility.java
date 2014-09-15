@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import sif.model.elements.basic.cell.Cell;
-import sif.model.elements.basic.operator.Operator;
 import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.tokencontainers.Formula;
 import sif.model.elements.basic.tokencontainers.Function;
@@ -57,7 +56,7 @@ public class MultipleSameRefTestFacility extends MonolithicTestFacility{
 		for (ITokenElement element : container.getTokens()){
 			if (element instanceof AbstractReference){
 				list.add((AbstractReference) element);
-			} else if (element instanceof Function || element instanceof Operator){
+			} else if (element instanceof Function){
 				checkContainer(container);
 			} else if (element instanceof ITokenContainer){
 				addReferences((ITokenContainer) element, list);
