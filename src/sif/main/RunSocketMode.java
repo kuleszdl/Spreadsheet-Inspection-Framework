@@ -27,7 +27,7 @@ public class RunSocketMode{
 
 		try {
 
-			clientSocket = new Socket(InetAddress.getLocalHost(),
+			clientSocket = new Socket(InetAddress.getLoopbackAddress(),
 					clientPort);
 
 
