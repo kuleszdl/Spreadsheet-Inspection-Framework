@@ -80,7 +80,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 			for (ITokenElement token : formula.getAllTokens()) {
 				if (token instanceof AbstractReference) {
 					AbstractReference reference = (AbstractReference) token;
-					if (!isIgnored(reference)) {
+					if (isIgnored(reference)) {
 						continue;
 					}
 

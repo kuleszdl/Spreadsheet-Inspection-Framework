@@ -10,6 +10,7 @@ import org.junit.Test;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
 import sif.model.policy.DynamicPolicy;
+import sif.model.policy.PolicyList;
 
 /**
  * @author Manuel Lemcke
@@ -33,7 +34,9 @@ public class XMLWriteTest {
 		
 		File file = new File(
 				"test/sif/testdata/marshalledPolicy.xml");
-		SifMarshaller.marshal(policy, file, "Sprudel1.xsd");
+		PolicyList list = new PolicyList();
+		list.setDynamicPolicy(policy);
+		SifMarshaller.marshal(list, file, "src/sif/model/schema/SpRuDeL_1_4_Request.xsd");
 	}
 
 }

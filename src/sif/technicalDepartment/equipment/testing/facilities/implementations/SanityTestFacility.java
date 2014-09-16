@@ -31,7 +31,6 @@ public class SanityTestFacility extends MonolithicTestFacility {
 	private SanityConstraintFacility constraintFacility;
 	private boolean sanityWarnings;
 	private ViolationList violations;
-	private boolean warnPatternException = true;
 	
 	private ArrayList<String> sanityValueCells = new ArrayList<String>();
 	private ArrayList<String> sanityConstraintCells = new ArrayList<String>();
@@ -51,6 +50,9 @@ public class SanityTestFacility extends MonolithicTestFacility {
 		for (SanityTuple tup : tuples){
 			if (tup.value.isEmpty()){
 				emptyTuples++;
+				if (sanityWarnings){
+					warnings.add(generateEmptyWarning(tup));
+				}
 			} else {
 				Vector<SanityConstraint> con = constraintFacility.getSanityInfo(tup);
 				if (con != null){
@@ -79,7 +81,24 @@ public class SanityTestFacility extends MonolithicTestFacility {
 		}
 
 	}
-	
+
+	/**
+	 * Creates the Violation for a missing Value
+	 * @param tup Tuple without content
+	 * @return the violation
+	 */
+	private GenericSingleViolation generateEmptyWarning(SanityTuple tup) {
+		// value is unknown
+		GenericSingleViolation violation = new GenericSingleViolation();
+		violation.setCausingElement(tup.owner);
+		violation.setPolicyRule(getTestedPolicyRule());
+		violation.appendToDescription("The cell at " +
+				tup.owner.getLocation().substring(tup.owner.getLocation().indexOf(']') + 1) +
+				" is empty.\"" 
+				);
+		return violation;
+	}
+
 	/**
 	 * Checks whether the tuple conforms to the constraint
 	 * @param con The constraint to check against
@@ -97,7 +116,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 					// parseable string didn't match so we don't need to compare it again
 					continue;
 				} catch (PatternSyntaxException e){
-					if (warnPatternException ){
+					if (sanityWarnings){
 						generateViolation(tup, e);
 					}
 					e.printStackTrace();
@@ -135,7 +154,6 @@ public class SanityTestFacility extends MonolithicTestFacility {
 				"\" for \"" + 
 				tup.referencing + 
 				"\" is unknown. "
-				//+ " (" + tup.owner.getStringRepresentation() + ")"
 				);
 		return violation;
 	}
@@ -342,7 +360,6 @@ public class SanityTestFacility extends MonolithicTestFacility {
 						worksheet + "!" + valueMap.get(worksheet)});
 			}
 		}
-		sanityWarnings = true;
 		gatherColumns();
 		
 		return violations;

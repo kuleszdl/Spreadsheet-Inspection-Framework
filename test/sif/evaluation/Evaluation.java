@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.tokencontainers.Formula;
@@ -17,7 +18,7 @@ import sif.model.violations.Findings;
 import sif.model.violations.lists.ViolationList;
 
 public class Evaluation extends Task {
-	private String filePathBase = "C:/Dokumente und Einstellungen/Administrator/Eigene Dateien/phase1/";
+	private String filePathBase = "test/sif";
 	private FileWriter outFile;
 
 	public String getFilePathBase() {
@@ -74,7 +75,7 @@ public class Evaluation extends Task {
 					frontDesk.setPolicy(policy);
 					frontDesk.run();
 
-					frontDesk.createInspectionReport(filePathBase + "/reports");
+					frontDesk.createInspectionReport(filePathBase + "/reports", ReportFormat.HTML);
 					out.println();
 					out.write(spreadsheet.getName() + ",");
 					out.write(inspection.getInventory().getSpreadsheet()

@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
+import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.Policy;
@@ -26,7 +27,7 @@ import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
 public class PolicyTest {
 
 	private static String filePath = "test/sif/testdata/bafoeg-rueckzahlung.xls";
-	private static String outpath = ".";
+	private static String outpath = "test/sif/";
 	
 	private static String outFile = "bafoeg-rueckzahlung.xls.html";
 	  
@@ -85,7 +86,7 @@ public class PolicyTest {
 					.get("Basic Policy");
 
 			AbstractPolicyRule rule1 = policy.getPolicyRules().get(
-					"Policy Rule: No Constants In Formulas");
+					"No Constants In Formulas");
 			Object[] ignoredConstants = { 1 };
 
 			PolicyRuleConfiguration configuration = rule1.getConfiguration();
@@ -101,12 +102,12 @@ public class PolicyTest {
 			frontDesk.setPolicy(policy);
 			frontDesk.run();
 
-			frontDesk.createInspectionReport(outpath);
+			frontDesk.createInspectionReport(outpath, ReportFormat.HTML);
 			
-			FileInputStream fis = new FileInputStream(new File(outFile));
+			FileInputStream fis = new FileInputStream(new File(outpath + outFile));
 			String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
 			fis.close();
-			Assert.assertEquals("afee13d61d9b41ca1530e6f58642b4cb", md5);
+			Assert.assertEquals("9787664cf2effd6d00814ef8368b2f1c", md5);
 			
 
 		} catch (Exception e) {

@@ -72,19 +72,31 @@ public class CellReference extends AbstractReference {
 
 	@Override
 	public Boolean isSameAs(ITokenElement token) {
-		Boolean same = false;
+		Boolean same = true;
 		if (token instanceof CellReference) {
 			CellReference otherReference = (CellReference) token;
-			if (otherReference.isColumnRelative == isColumnRelative
-					& otherReference.isRowRelative() == isRowRelative
-					& otherReference.getReferencedCell().getWorksheet() == getReferencedCell()
-							.getWorksheet()
-					& otherReference.getReferencingElement()
-							.getAbstractAddress().getWorksheet() == getReferencingElement()
-							.getAbstractAddress().getWorksheet()) {
-				same = true;
+			
+			if (otherReference.isColumnRelative != isColumnRelative){
+				same = false;
 			}
-
+			if (otherReference.isRowRelative() != isRowRelative){
+				same = false;
+			}
+			Cell ownRefCell = getReferencedCell();
+			Cell otherRefCell = otherReference.getReferencedCell();
+			if (otherRefCell.getWorksheet() != ownRefCell.getWorksheet()){
+				same = false;
+			}
+			if (otherRefCell.getAbstractAddress().getWorksheet() != 
+					ownRefCell.getAbstractAddress().getWorksheet()) {
+				same = false;
+			}
+			if (!otherRefCell.getAbstractAddress().isWithin(ownRefCell.getAbstractAddress()) ||
+					!ownRefCell.getAbstractAddress().isWithin(otherRefCell.getAbstractAddress())){
+				same = false;
+			}
+		} else {
+			same = false;
 		}
 		return same;
 	}

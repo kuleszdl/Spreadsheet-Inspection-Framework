@@ -108,7 +108,7 @@ public class MultipleSameRefTestFacility extends MonolithicTestFacility{
 			} 
 			current = next;
 		}
-		if (count > 1){
+		if (count > 0){
 			createViolation(next, count);
 		}
 	}
