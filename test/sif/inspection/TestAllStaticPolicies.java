@@ -1,9 +1,11 @@
 package sif.inspection;
 
 import java.io.File;
+
 import org.junit.Assert;
 import org.junit.Test;
 
+import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.DynamicPolicy;
@@ -35,6 +37,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(3, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -51,7 +58,12 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(3, (int) violations.getNumberOfTopLevelViolations()); 
-	}
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
+}
 
 	@Test
 	public void testNoConstantsInFormulas(){
@@ -67,6 +79,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(8, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -83,6 +100,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(355, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -99,6 +121,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(22, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -115,6 +142,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(3, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -131,6 +163,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(12, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 	
 	@Test
@@ -147,6 +184,11 @@ public class TestAllStaticPolicies {
 		}
 		Findings violations = req.getFindings();
 		Assert.assertEquals(2, (int) violations.getNumberOfTopLevelViolations()); 
+		try {
+			FrontDesk.getInstance().createInspectionReport(ReportFormat.XML);
+		} catch (Exception e) {
+			Assert.fail("Report generation failed: " + e.getMessage());
+		}
 	}
 
 

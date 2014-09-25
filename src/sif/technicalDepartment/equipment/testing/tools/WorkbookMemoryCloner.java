@@ -2,6 +2,7 @@ package sif.technicalDepartment.equipment.testing.tools;
 
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -25,7 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class WorkbookMemoryCloner implements IWorkbookCloner {
 	
 	private Workbook clone;
-
+	private Logger logger = Logger.getLogger(getClass());
 	/**
 	 * 
 	 * @deprecated Use WorkbookFileCloner.cloneWorkbook() instead
@@ -137,7 +138,7 @@ public class WorkbookMemoryCloner implements IWorkbookCloner {
 			break;
 		case Cell.CELL_TYPE_FORMULA:
 			//TODO enough?
-			System.out.println(fromCell.getRowIndex() + "." + fromCell.getColumnIndex() + ": " 
+			logger.info(fromCell.getRowIndex() + "." + fromCell.getColumnIndex() + ": " 
 					+ fromCell.getCellFormula());
 			toCell.setCellFormula(fromCell.getCellFormula());			
 			break;

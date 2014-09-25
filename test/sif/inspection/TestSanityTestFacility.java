@@ -6,10 +6,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import sif.IO.ReportFormat;
 import sif.IO.xml.SifMarshaller;
 import sif.frontOffice.FrontDesk;
-import sif.main.Application;
 import sif.model.inspection.InspectionRequest;
 import sif.model.policy.DynamicPolicy;
 import sif.model.policy.PolicyList;
@@ -19,11 +17,6 @@ import sif.model.violations.IViolation;
 public class TestSanityTestFacility {
 	private static final String filePath = "test/sif/testdata/TestSanity.xls",
 			policyPath = "test/sif/testdata/TestSanityPolicy.xml";
-
-	@Test
-	public void testSanityMainMethod(){
-		Application.main(new String[] { "file", "xml", policyPath, filePath });
-	}
 
 	@Test
 	public void testSanityFindingsWarnings(){

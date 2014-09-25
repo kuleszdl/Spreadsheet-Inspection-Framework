@@ -3,6 +3,10 @@ package sif.main;
 import java.io.File;
 import java.util.Arrays;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import sif.IO.ReportFormat;
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 
@@ -16,15 +20,16 @@ import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 public class Application {
 	private static boolean DEBUG = false;
 	private static File parentFolder = null;
+	private static Logger logger = Logger.getLogger(Application.class);
+
 	private static final String DEBUGFILENAME = "debug";
 	private static final String MODESOCKET = "socket";
 	private static final String MODEFILE = "file";
 	public static final int NOTENOUGHPARAMETERS = -1,
 			INVALIDPARAMETER = -2,
 			APPLICATIONERROR = -3;
-
 	/**
-	 * Wheter debug messages should be shown
+	 * Whether debug messages should be shown
 	 * @return
 	 */
 	public static boolean isDebug(){
@@ -43,7 +48,7 @@ public class Application {
 			).getParentFile();
 		} catch (Exception e) {
 			// Security / URI or other exceptions
-			e.printStackTrace();
+			logger.info("", e);
 		}
 	}
 
@@ -63,6 +68,8 @@ public class Application {
 	public static void main(String[] args) {
 		checkParentFolder();
 		checkDebug();
+		BasicConfigurator.configure();
+		Logger.getRootLogger().setLevel(Level.ERROR);
 		if (args.length < 2){
 			printUsageAndExit("Not enough parameters.", NOTENOUGHPARAMETERS);
 		}
@@ -74,7 +81,7 @@ public class Application {
 				RunSocketMode client = new RunSocketMode(port);
 				client.blockingListening();
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				logger.info("", e);
 				printUsageAndExit("Error while parsing the portnumber", INVALIDPARAMETER);
 			}
 		} else if (args[0].equalsIgnoreCase(MODEFILE)){
@@ -106,18 +113,20 @@ public class Application {
 
 			try {
 				String report = RunFileMode.execute(format, policyFile, spreadsheetFile);
-				System.out.println(report);
+				logger.info(report);
 			} catch (InvalidSpreadsheetFileException e) {
-				e.printStackTrace();
+				logger.info("", e);
 				for (Throwable t : e.getAdditional()){
-					t.printStackTrace();
+					logger.info("", t);
 				}
 				System.exit(APPLICATIONERROR);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.info("", e);
 				System.exit(APPLICATIONERROR);
 			}
 
+		} else {
+			printUsageAndExit("Wrong parameters", INVALIDPARAMETER);
 		}
 
 

@@ -8,6 +8,8 @@ import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import sif.IO.ReportFormat; 
 import sif.IO.spreadsheet.InvalidSpreadsheetFileException;
 import sif.IO.xml.SifMarshaller;
@@ -17,7 +19,8 @@ import sif.model.policy.PolicyList;
 
 public class RunSocketMode{
 	private int clientPort;
-
+	private Logger logger = Logger.getLogger(getClass());
+	
 	public RunSocketMode(int port){
 		clientPort = port;
 	}
@@ -37,7 +40,9 @@ public class RunSocketMode{
 				 * Read the policy file
 				 */
 				String policyFile = Utils.readString(clientSocket);
-
+				if (policyFile.isEmpty()){
+					break;
+				}
 				if (Application.isDebug()) {
 					BufferedWriter out = new BufferedWriter(new FileWriter(new File("C:\\Spreadsheet Inspection Framework\\dynPol.xml")));
 					out.write(policyFile);
@@ -86,10 +91,10 @@ public class RunSocketMode{
 			// silently ignore the IOException when it is closed
 		} catch (InvalidSpreadsheetFileException e) {
 			if (Application.isDebug()){
-				// Print all stack traces to the console
-				e.printStackTrace();
+				// Print all stack traces
+				logger.info("", e);
 				for (Throwable e2 : e.getAdditional()){
-					e2.printStackTrace();
+					logger.info("", e2);
 				}
 				// show a window with the exceptions from the application
 				DebugConsole con = new DebugConsole();
@@ -109,9 +114,7 @@ public class RunSocketMode{
 				if (!clientSocket.isClosed()){
 					try {
 						clientSocket.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					} catch (IOException e1) {}
 				}
 				new Thread(con).start();
 			} else {
@@ -120,7 +123,8 @@ public class RunSocketMode{
 		} catch (Exception e) {
 			if (Application.isDebug()){
 				// show a window with the exceptions from the application
-				e.printStackTrace();
+				logger.info("", e);
+				
 				DebugConsole con = new DebugConsole();
 				if (e.getCause() != null)
 					con.addStackTrace(e.getCause());
@@ -131,9 +135,7 @@ public class RunSocketMode{
 				if (!clientSocket.isClosed()){
 					try {
 						clientSocket.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					} catch (IOException e1) {}
 				}
 				new Thread(con).start();
 			}

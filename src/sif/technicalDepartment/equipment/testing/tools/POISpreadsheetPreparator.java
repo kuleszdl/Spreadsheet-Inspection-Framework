@@ -1,5 +1,6 @@
 package sif.technicalDepartment.equipment.testing.tools;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import sif.IO.DataFacade;
@@ -23,7 +24,8 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	private DynamicInspectionRequest request;
 	private IWorkbookCloner cloner;
 	private Workbook workbook;
-
+	private Logger logger = Logger.getLogger(getClass());
+	
 	@SuppressWarnings("unused")
 	private POISpreadsheetPreparator() {
 
@@ -37,8 +39,7 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 		try {
 			writer.insertTestInput(rule, testWorkbook);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("", e);
 		}
 		return testWorkbook;
 	}
@@ -101,8 +102,7 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 			spreadsheet = DataFacade.getInstance().createSpreadsheet(this.workbook,
 					name);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("", e);
 		}
 
 		return spreadsheet;

@@ -26,7 +26,7 @@ public class DebugConsole extends JFrame implements Runnable{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				super.windowClosed(e);
-				System.exit(-10);
+				System.exit(Application.APPLICATIONERROR);
 			}
 		});
 	}
