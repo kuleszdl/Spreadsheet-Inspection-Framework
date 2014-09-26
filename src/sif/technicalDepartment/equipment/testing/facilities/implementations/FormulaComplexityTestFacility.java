@@ -15,20 +15,6 @@ public class FormulaComplexityTestFacility extends MonolithicTestFacility {
 	private Integer maxNestingLevel = 0;
 	private Integer maxNumberOfOperations = 0;
 
-	private Integer getNestingLevel(ITokenContainer container) {
-		Integer nestingLevel = 0;
-
-		for (ITokenElement token : container.getTokens()) {
-			if (token instanceof ITokenContainer) {
-				Integer pathNestingLevel = 1 + getNestingLevel((ITokenContainer) token);
-				if (pathNestingLevel > nestingLevel) {
-					nestingLevel = pathNestingLevel;
-				}
-
-			}
-		}
-		return nestingLevel;
-	}
 
 	private Integer getNumberOfOperations(ITokenContainer container) {
 		Integer numberOfOperations = 0;
@@ -56,7 +42,7 @@ public class FormulaComplexityTestFacility extends MonolithicTestFacility {
 
 			FormulaComplexitySingleViolation violation = null;
 
-			Integer nestingLevel = getNestingLevel(formula);
+			Integer nestingLevel = formula.getDepth();
 			if (nestingLevel > maxNestingLevel) {
 				if (violation == null) {
 					violation = new FormulaComplexitySingleViolation();

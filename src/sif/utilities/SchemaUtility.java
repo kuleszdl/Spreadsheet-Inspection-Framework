@@ -1,12 +1,14 @@
 package sif.utilities;
 
 import java.io.InputStream;
+
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import sif.IO.xml.SifMarshaller;
@@ -27,7 +29,8 @@ public class SchemaUtility {
 			SCHEMA_VERSION = "1_4_",
 			SCHEMA_REQUEST = "Request.xsd",
 			SCHEMA_REPORT = "Report.xsd";
-
+	private static Logger logger = Logger.getLogger(SchemaUtility.class);
+	
 	/**
 	 * Sets the validation for the given marshaller
 	 * @param m to get the validation schema
@@ -43,11 +46,10 @@ public class SchemaUtility {
 			m.setSchema(s);
 		} catch (NullPointerException e){
 			// file not found
-			System.err.println("Schema file for the report not found");
+			logger.error("Schema file for the report not found");
 		} catch (SAXException e) {
 			// Error during parsing the schema file
-			System.err.println("Schema file for the report could not be parsed:");
-			e.printStackTrace();
+			logger.error("Schema file for the report could not be parsed:", e);
 		}
 	}
 	
@@ -66,11 +68,10 @@ public class SchemaUtility {
 			unmarshaller.setSchema(s);
 		} catch (NullPointerException e){
 			// file not found
-			System.err.println("Schema file for the request not found");
+			logger.error("Schema file for the request not found");
 		} catch (SAXException e) {
 			// Error during parsing the schema file
-			System.err.println("Schema file for the request could not be parsed:");
-			e.printStackTrace();
+			logger.error("Schema file for the request could not be parsed:", e);
 		}
 	}
 }

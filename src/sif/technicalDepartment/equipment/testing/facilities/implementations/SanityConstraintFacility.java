@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.cell.CellContentType;
 import sif.model.elements.basic.spreadsheet.Spreadsheet;
@@ -18,7 +20,7 @@ import sif.model.policy.policyrule.sanityModel.SanityTuple;
  *
  */
 public class SanityConstraintFacility {
-	
+	private Logger logger = Logger.getLogger(getClass());
 	/**
 	 * The Spreadsheet which contains the constraints
 	 */
@@ -160,7 +162,7 @@ public class SanityConstraintFacility {
 		// we need at least 2 columns, the value and constraint, the optional third column 
 		// is the explanation
 		if (pair.length < 2){
-			System.err.println("init failed, extraction of worksheet names was erroneus. \n"
+			logger.error("init failed, there were not enough values. \n"
 					+ "Values: " + Arrays.toString(pair));
 			return;
 		}
@@ -168,7 +170,7 @@ public class SanityConstraintFacility {
 		String worksheetName1 = extractWorksheetName(pair[0]);
 		String worksheetName2 = extractWorksheetName(pair[1]);
 		if (worksheetName1 == null || worksheetName2 == null){
-			System.err.println("init failed, extraction of worksheet names was erroneus. \n"
+			logger.error("init failed, extraction of worksheet names was erroneus. \n"
 					+ "Values: " + Arrays.toString(pair));
 			return;
 		}
@@ -176,7 +178,7 @@ public class SanityConstraintFacility {
 		Worksheet worksheet2 = sheet.getWorksheetFor(worksheetName2);
 		Worksheet worksheet3 = null;
 		if (worksheet1 == null || worksheet2 == null){
-			System.err.println("init failed, extraction of worksheet names was erroneus. \n"
+			logger.error("init failed, extraction of worksheet names was erroneus. \n"
 					+ "Values: " + Arrays.toString(pair) + ", worksheets: " + worksheet1 
 					+ " " + worksheet2);
 			return;

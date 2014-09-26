@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.log4j.Logger;
+
 import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.cell.CellContentType;
 import sif.model.elements.basic.worksheet.Column;
@@ -36,7 +38,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 	private ArrayList<String> sanityConstraintCells = new ArrayList<String>();
 	private ArrayList<String> sanityExplanationCells = new ArrayList<String>();
 	private ArrayList<String> sanityCheckingCells = new ArrayList<String>();
-
+	private Logger logger = Logger.getLogger(getClass());
 
 	/**
 	 * Checks the tuples whether each tuple contains a sane value
@@ -119,7 +121,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 					if (sanityWarnings){
 						generateViolation(tup, e);
 					}
-					e.printStackTrace();
+					logger.debug("", e);
 				}
 			}
 			if (tup.value.equalsIgnoreCase(sane)){
@@ -224,7 +226,7 @@ public class SanityTestFacility extends MonolithicTestFacility {
 			String sheetName = pair[0].substring(1);
 			Worksheet sheet = inventory.getSpreadsheet().getWorksheetFor(sheetName);
 			if (sheet == null){
-				System.err.println("No worksheet for " + sheetName);
+				logger.error("No worksheet for " + sheetName);
 			}
 			int column = pair[1].replaceAll("[^a-z,A-Z]", "").charAt(0) - 'A' + 1;
 			Column col = sheet.getColumnAt(column);

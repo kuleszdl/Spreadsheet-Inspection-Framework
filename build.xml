@@ -12,11 +12,6 @@
 	<property name="source" value="1.6" />
 	<property name="dist.dir" value="dist" />
 
-	<property name="folderpath" value="C:/Dokumente und Einstellungen/Administrator/Eigene Dateien/phase2/" />
-	<property name="maxNumberOfOperands" value="" />
-	<property name="maxNestingLevel" value="" />
-	<property name="allowedConstants" value="" />
-	<property name="ignoredFunctions" value="" />
 
 	<path id="spreadsheet_inspection_framework.classpath">
 		<pathelement location="bin" />
@@ -43,6 +38,11 @@
 		<pathelement location="libs/ant-1.8.4.jar" />
 	</path>
 
+	<path id="spreadsheet_inspection_framework.testclasspath">
+		<pathelement location="libs/junit-4.11.jar" />
+		<pathelement location="libs/hamcrest-core-1.3.jar" />
+		<path refid="spreadsheet_inspection_framework.classpath" />
+	</path>
 
 	<target name="init">
 		<mkdir dir="bin" />
@@ -80,10 +80,10 @@
 			<src path="src" />
 			<classpath refid="spreadsheet_inspection_framework.classpath" />
 		</javac>
-		<!--<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}" includeantruntime="false">
 			<src path="test" />
-			<classpath refid="spreadsheet_inspection_framework.classpath" />
-		</javac>-->
+			<classpath refid="spreadsheet_inspection_framework.testclasspath" />
+		</javac>
 
 		<path id="build-classpath">
 			<fileset dir="${dist.dir}/libs">
@@ -93,7 +93,7 @@
 		<manifestclasspath property="lib.list" jarfile="${dist.dir}/sif.jar">
 			<classpath refid="build-classpath" />
 		</manifestclasspath>
-		<jar jarfile="${dist.dir}/sif.jar" basedir="bin" update="true">
+		<jar jarfile="${dist.dir}/sif.jar" basedir="bin" update="false">
 			<manifest>
 				<attribute name="Main-Class" value="sif.main.Application" />
 				<attribute name="Class-Path" value="${lib.list}" />
@@ -120,11 +120,18 @@
 	
 	<target name="test" depends="build"> 
 		<!-- placeholder for running travis, just depends on default task -->
+		<junit printsummary="on" haltonfailure="yes">
+			<classpath>
+				<path refid="spreadsheet_inspection_framework.testclasspath" />
+				<pathelement location="bin"/>
+			</classpath>
+			<formatter type="brief" usefile="false" />
+			<test name="sif.TestSuite" />
+			<!--<batchtest>
+				<fileset dir="test" includes="**/TestSuite**.java"/>
+			</batchtest>-->
+		</junit>
 	</target>
-
-
-
-
 
 
 </project>
