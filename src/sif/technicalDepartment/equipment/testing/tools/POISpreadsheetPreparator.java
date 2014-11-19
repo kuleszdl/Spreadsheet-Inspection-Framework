@@ -46,7 +46,7 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 
 	public POISpreadsheetPreparator(DynamicInspectionRequest inspectionRequest) {
 		this.request = inspectionRequest;
-		this.cloner = new WorkbookFileCloner();
+		this.cloner = new PersistentWorkbookCloner();
 	}
 
 	public POISpreadsheetPreparator(

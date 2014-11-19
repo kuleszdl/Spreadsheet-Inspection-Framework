@@ -69,7 +69,11 @@ public class Application {
 		checkParentFolder();
 		checkDebug();
 		BasicConfigurator.configure();
-		Logger.getRootLogger().setLevel(Level.ERROR);
+		if (isDebug()){
+			Logger.getRootLogger().setLevel(Level.ALL);
+		} else {
+			Logger.getRootLogger().setLevel(Level.ERROR);
+		}
 		if (args.length < 2){
 			printUsageAndExit("Not enough parameters.", NOTENOUGHPARAMETERS);
 		}
@@ -134,8 +138,9 @@ public class Application {
 
 	/**
 	 * Prints the reason to the standard output followed by the usage syntax and exits with the
-	 * exit code -1
+	 * given exit code
 	 * @param reason why it was invalid
+	 * @param code desired exit code
 	 */
 	private static void printUsageAndExit(String reason, int code){
 		String sb = "";

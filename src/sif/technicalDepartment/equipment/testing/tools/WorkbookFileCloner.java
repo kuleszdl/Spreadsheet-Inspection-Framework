@@ -16,7 +16,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  * @author Manuel Lemcke
- *
+ * @deprecated supports only one dynamic test per xlsx worksheet,
+ * 		use {@link PersistentWorkbookCloner} instead
  */
 public class WorkbookFileCloner implements IWorkbookCloner {
 
@@ -78,12 +79,5 @@ public class WorkbookFileCloner implements IWorkbookCloner {
 		return clone;
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
