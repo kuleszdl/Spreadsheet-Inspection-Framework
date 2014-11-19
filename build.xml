@@ -17,25 +17,18 @@
 		<pathelement location="bin" />
 		<pathelement location="libs/commons-logging-1.1.jar" />
 		<pathelement location="libs/dom4j-1.6.1.jar" />
-		<pathelement location="libs/guava-10.0.1.jar" />
-		<pathelement location="libs/jsr173_1.0_api.jar" />
 		<pathelement location="libs/junit-3.8.1.jar" />
 		<pathelement location="libs/log4j-1.2.13.jar" />
 		<pathelement location="libs/commons-lang3-3.1.jar" />
-		<pathelement location="libs/poi-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-examples-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-excelant-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-ooxml-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-ooxml-schemas-3.8-beta4-20110826.jar" />
-		<pathelement location="libs/poi-scratchpad-3.8-beta4-20110826.jar" />
+		<pathelement location="libs/poi-3.10-FINAL-20140208.jar" />
+		<pathelement location="libs/poi-ooxml-3.10-FINAL-20140208.jar" />
+		<pathelement location="libs/poi-ooxml-schemas-3.10-FINAL-20140208.jar" />
 		<pathelement location="libs/resolver.jar" />
 		<pathelement location="libs/stax-api-1.0.1.jar" />
-		<pathelement location="libs/xbean_xpath.jar" />
-		<pathelement location="libs/xbean.jar" />
-		<pathelement location="libs/xmlbeans-2.3.0.jar" />
-		<pathelement location="libs/xmlbeans-qname.jar" />
-		<pathelement location="libs/xmlpublic.jar" />
+		<pathelement location="libs/xmlbeans-2.6.0.jar" />
+		<pathelement location="libs/guava-10.0.1.jar" />
 		<pathelement location="libs/ant-1.8.4.jar" />
+
 	</path>
 
 	<path id="spreadsheet_inspection_framework.testclasspath">

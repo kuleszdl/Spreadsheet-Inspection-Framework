@@ -5,30 +5,18 @@
 	<classpathentry kind="lib" path="libs/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="libs/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="libs/guava-10.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/jsr173_1.0_api.jar"/>
-	<classpathentry kind="lib" path="libs/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="libs/log4j-1.2.13.jar"/>
-	<classpathentry kind="lib" path="libs/poi-3.8-beta4-20110826.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://poi.apache.org/apidocs/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/poi-examples-3.8-beta4-20110826.jar"/>
-	<classpathentry kind="lib" path="libs/poi-excelant-3.8-beta4-20110826.jar"/>
-	<classpathentry kind="lib" path="libs/poi-ooxml-3.8-beta4-20110826.jar"/>
-	<classpathentry kind="lib" path="libs/poi-ooxml-schemas-3.8-beta4-20110826.jar"/>
-	<classpathentry kind="lib" path="libs/poi-scratchpad-3.8-beta4-20110826.jar"/>
 	<classpathentry kind="lib" path="libs/resolver.jar"/>
 	<classpathentry kind="lib" path="libs/stax-api-1.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/xbean_xpath.jar"/>
-	<classpathentry kind="lib" path="libs/xbean.jar"/>
-	<classpathentry kind="lib" path="libs/xmlbeans-2.3.0.jar"/>
-	<classpathentry kind="lib" path="libs/xmlbeans-qname.jar"/>
-	<classpathentry kind="lib" path="libs/xmlpublic.jar"/>
 	<classpathentry kind="lib" path="libs/ant-1.8.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs/commons-codec-1.7.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="libs/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="libs/poi-3.10-FINAL-20140208.jar" sourcepath="libs/poi-src-3.10.zip"/>
+	<classpathentry kind="lib" path="libs/poi-ooxml-3.10-FINAL-20140208.jar" sourcepath="libs/ooxml-src-3.10.zip"/>
+	<classpathentry kind="lib" path="libs/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="libs/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
