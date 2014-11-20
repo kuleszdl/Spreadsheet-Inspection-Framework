@@ -28,13 +28,26 @@ Theses
 ---------------------------
 You can find the diploma and bachelor theses (all in German) connected to this project here:
 
-Sebastian Zitzelsberger: Error Detection in Spreadsheets - available at http://elib.uni-stuttgart.de/opus/frontdoor.php?source_opus=7056](http://elib.uni-stuttgart.de/opus/frontdoor.php?source_opus=7056
+Sebastian Zitzelsberger: Error Detection in Spreadsheets
+http://elib.uni-stuttgart.de/opus/volltexte/2012/7056/
 
-Manuel Lemcke: Dynamic testing of spreadsheets - available at TODO
-TODO: Add other theses
+Manuel Lemcke: Dynamic spreadsheet inspection
+http://elib.uni-stuttgart.de/opus/volltexte/2013/8722/
 
+Ehssan Doust: Visualisation of Spreadsheet Errors
+http://elib.uni-stuttgart.de/opus/volltexte/2014/9209/
 
+Jonas Scheurich: User Interface for a Spreadsheet Test Facility
+http://elib.uni-stuttgart.de/opus/volltexte/2014/9207/
 
+Sebastian Beck: Spreadsheet Error Patterns
+http://elib.uni-stuttgart.de/opus/volltexte/2014/9340/
+
+Wolfgang Kraus: Plausibility check of implicitely coupled spreadsheet data
+http://elib.uni-stuttgart.de/opus/volltexte/2014/9463/
+
+Fabian Toth: Live Inspection of Spreadsheets during Use
+not available yet
 
 Bugs and Suggestions
 ---------------------------
