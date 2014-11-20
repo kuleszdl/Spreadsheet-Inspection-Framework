@@ -28,26 +28,19 @@ Theses
 ---------------------------
 You can find the diploma and bachelor theses (all in German) connected to this project here:
 
-Sebastian Zitzelsberger: Error Detection in Spreadsheets
-http://elib.uni-stuttgart.de/opus/volltexte/2012/7056/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2012/7056/">Sebastian Zitzelsberger: Error Detection in Spreadsheets</a>
 
-Manuel Lemcke: Dynamic spreadsheet inspection
-http://elib.uni-stuttgart.de/opus/volltexte/2013/8722/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2013/8722/">Manuel Lemcke: Dynamic spreadsheet inspection</a>
 
-Ehssan Doust: Visualisation of Spreadsheet Errors
-http://elib.uni-stuttgart.de/opus/volltexte/2014/9209/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2014/9209/">Ehssan Doust: Visualisation of Spreadsheet Errors</a>
 
-Jonas Scheurich: User Interface for a Spreadsheet Test Facility
-http://elib.uni-stuttgart.de/opus/volltexte/2014/9207/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2014/9207/">Jonas Scheurich: User Interface for a Spreadsheet Test Facility</a>
 
-Sebastian Beck: Spreadsheet Error Patterns
-http://elib.uni-stuttgart.de/opus/volltexte/2014/9340/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2014/9340/">Sebastian Beck: Spreadsheet Error Patterns</a>
 
-Wolfgang Kraus: Plausibility check of implicitely coupled spreadsheet data
-http://elib.uni-stuttgart.de/opus/volltexte/2014/9463/
+<a href="http://elib.uni-stuttgart.de/opus/volltexte/2014/9463/">Wolfgang Kraus: Plausibility check of implicitely coupled spreadsheet data</a>
 
-Fabian Toth: Live Inspection of Spreadsheets during Use
-not available yet
+Fabian Toth: Live Inspection of Spreadsheets during Use (not available yet)
 
 Bugs and Suggestions
 ---------------------------
