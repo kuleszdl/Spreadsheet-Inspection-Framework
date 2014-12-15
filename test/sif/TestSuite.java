@@ -23,6 +23,7 @@ import sif.inspection.PolicyTest;
 import sif.inspection.PreparatorTest;
 import sif.inspection.SpreadsheetCreationTest;
 import sif.inspection.TestAllStaticPolicies;
+import sif.inspection.TestErrorContainingCellTestFacility;
 import sif.inspection.TestFacilityTest;
 import sif.inspection.TestSanityTestFacility;
 import sif.main.TestRunFileMode;
@@ -38,6 +39,7 @@ import sif.main.TestRunSocketMode;
 	//	SamplesTest.class,
 	SpreadsheetCreationTest.class,
 	TestAllStaticPolicies.class,
+	TestErrorContainingCellTestFacility.class,
 	TestFacilityTest.class,
 	TestRunFileMode.class,
 	TestRunSocketMode.class,

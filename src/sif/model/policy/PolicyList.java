@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import sif.model.policy.policyrule.SanityPolicyRule;
+import sif.model.policy.policyrule.implementations.ErrorContainingCellPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
@@ -28,7 +29,8 @@ import sif.utilities.XML_Constants;
 		"oneAmongOthersRule",
 		"refToNullRule",
 		"stringDistanceRule",
-		"multipleSameRefPolicyRule"
+		"multipleSameRefPolicyRule",
+		"errorContainingPolicyRule"
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -44,6 +46,7 @@ public class PolicyList {
 	private RefToNullPolicyRule refToNullRule;
 	private StringDistancePolicyRule stringDistanceRule;
 	private MultipleSameRefPolicyRule multipleSameRefPolicyRule;
+	private ErrorContainingCellPolicyRule errorContainingPolicyRule;
 
 	@XmlElement(name = XML_Constants.NAME_DYNAMIC_POLICY, type = DynamicPolicy.class, required = false)
 	public DynamicPolicy getDynamicPolicy() {
@@ -127,6 +130,15 @@ public class PolicyList {
 	public void setMultipleSameRefPolicyRule(MultipleSameRefPolicyRule multipleSameRefPolicyRule) {
 		this.multipleSameRefPolicyRule = multipleSameRefPolicyRule;
 	}
+
+	@XmlElement(name = XML_Constants.NAME_ERROR_CONTAINING_CELL_POLICY, required = false)
+	public ErrorContainingCellPolicyRule getErrorContainingPolicyRule() {
+		return errorContainingPolicyRule;
+	}
+	public void setErrorContainingPolicyRule(ErrorContainingCellPolicyRule errorContainingPolicyRule) {
+		this.errorContainingPolicyRule = errorContainingPolicyRule;
+	}
+
 	public DynamicPolicy getCompletePolicy(){
 		if (dynamicPolicy == null){
 			dynamicPolicy = new DynamicPolicy();
@@ -157,6 +169,9 @@ public class PolicyList {
 		}
 		if (multipleSameRefPolicyRule != null){
 			dynamicPolicy.add(multipleSameRefPolicyRule);
+		}
+		if (errorContainingPolicyRule != null){
+			dynamicPolicy.add(errorContainingPolicyRule);
 		}
 		return dynamicPolicy;
 	}
