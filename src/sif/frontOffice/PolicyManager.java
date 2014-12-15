@@ -17,6 +17,7 @@ import sif.model.policy.policyrule.dynamicConditions.AbstractCondition;
 import sif.model.policy.policyrule.dynamicConditions.BinaryCondition;
 import sif.model.policy.policyrule.dynamicConditions.ElementCountCondition;
 import sif.model.policy.policyrule.dynamicConditions.TernaryCondition;
+import sif.model.policy.policyrule.implementations.ErrorContainingCellPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
@@ -26,6 +27,7 @@ import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
 import sif.model.policy.policyrule.implementations.RefToNullPolicyRule;
 import sif.model.policy.policyrule.implementations.StringDistancePolicyRule;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.DynamicTestFacility;
+import sif.technicalDepartment.equipment.testing.facilities.implementations.ErrorContainingCellTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.FormulaComplexityTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.MultipleSameRefTestFacility;
 import sif.technicalDepartment.equipment.testing.facilities.implementations.NoConstantsInFormulasTestFacilitiy;
@@ -77,6 +79,7 @@ public class PolicyManager {
 		register(OneAmongOthersPolicyRule.class, OneAmongOthersTestFacility.class);
 		register(RefToNullPolicyRule.class, RefToNullTestFacility.class);
 
+		register(ErrorContainingCellPolicyRule.class, ErrorContainingCellTestFacility.class);
 		// Register available conditions
 		registerCondition(BinaryCondition.class, BinaryConditionChecker.class);
 		registerCondition(TernaryCondition.class, TernaryConditionChecker.class);

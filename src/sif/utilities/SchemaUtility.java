@@ -26,7 +26,7 @@ import sif.IO.xml.SifMarshaller;
 public class SchemaUtility {
 	public static final String SCHEMA_LANGUAGE = "http://www.w3.org/2001/XMLSchema";
 	private static final String SCHEMA_PREFIX = "sif/model/schema/SpRuDeL",
-			SCHEMA_VERSION = "1_4_",
+			SCHEMA_VERSION = "1_5_",
 			SCHEMA_REQUEST = "Request.xsd",
 			SCHEMA_REPORT = "Report.xsd";
 	private static Logger logger = Logger.getLogger(SchemaUtility.class);

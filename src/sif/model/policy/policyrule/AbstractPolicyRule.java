@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import sif.model.policy.DynamicPolicy;
 import sif.model.policy.classification.ILeafCategory;
 import sif.model.policy.policyrule.configuration.PolicyRuleConfiguration;
+import sif.model.policy.policyrule.implementations.ErrorContainingCellPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.policy.policyrule.implementations.MultipleSameRefPolicyRule;
 import sif.model.policy.policyrule.implementations.NoConstantsInFormulasPolicyRule;
@@ -42,7 +43,8 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
 	NonConsideredValuesPolicyRule.class,
 	OneAmongOthersPolicyRule.class,
 	RefToNullPolicyRule.class,
-	DynamicPolicy.class})
+	DynamicPolicy.class,
+	ErrorContainingCellPolicyRule.class})
 public abstract class AbstractPolicyRule {
 	@XmlAttribute(required=false)
 	private String name = "N.A.";

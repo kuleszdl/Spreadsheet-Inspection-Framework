@@ -84,5 +84,5 @@ public class XML_Constants {
 			NAME_ONE_AMONG_OTHERS_ENVIRONMENT_STYLE = "oneAmongOthersStyle",
 			NAME_ONE_AMONG_OTHERS_ENVIRONMENT_LENGTH = "oneAmongOthersLength";
 
-
+	public static final String NAME_ERROR_CONTAINING_CELL_POLICY = "errorContainingCellPolicyRule";
 }
