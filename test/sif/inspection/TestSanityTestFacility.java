@@ -2,6 +2,7 @@ package sif.inspection;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -48,6 +49,7 @@ public class TestSanityTestFacility {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}
@@ -85,6 +87,7 @@ public class TestSanityTestFacility {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}

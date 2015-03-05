@@ -2,6 +2,8 @@ package sif.IO;
 
 import java.io.File;
 
+import org.junit.Assert;
+
 import sif.frontOffice.FrontDesk;
 import sif.model.elements.basic.cell.Cell;
 import sif.model.elements.basic.worksheet.Worksheet;
@@ -36,8 +38,8 @@ public class PrintFirstWorksheet {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}

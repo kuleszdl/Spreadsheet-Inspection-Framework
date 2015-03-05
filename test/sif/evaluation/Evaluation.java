@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.junit.Assert;
 
 import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
@@ -51,6 +52,7 @@ public class Evaluation extends Task {
 			outFile = new FileWriter(filePathBase + "results.csv");
 		} catch (IOException e) {
 			e.printStackTrace();
+			Assert.fail("Failed to initialize the writer for the outfile, " + this.getClass());
 		}
 		out = new PrintWriter(outFile);
 
@@ -92,8 +94,8 @@ public class Evaluation extends Task {
 					writeSingleFindingNumbers(inspection.getFindings());
 					writeGroupFindingNumbers(inspection.getFindings());
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Assert.fail();
 				}
 
 			}

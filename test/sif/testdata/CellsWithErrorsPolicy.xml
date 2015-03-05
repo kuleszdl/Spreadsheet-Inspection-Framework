@@ -6,5 +6,5 @@
     <inputCells />
     <outputCells />
   </dynamicPolicy>
-  <errorContainingCell/>
+  <errorContainingCellPolicyRule/>
 </policyList>
