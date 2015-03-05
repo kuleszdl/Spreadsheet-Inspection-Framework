@@ -2,6 +2,8 @@ package sif.inspection;
 
 import java.io.File;
 
+import org.junit.Assert;
+
 import sif.IO.ReportFormat;
 import sif.frontOffice.FrontDesk;
 import sif.model.elements.basic.cell.Cell;
@@ -82,8 +84,8 @@ public class SamplesTest {
 				frontDesk.createInspectionReport("test/sif", ReportFormat.HTML);
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Assert.fail();
 			}
 
 		}

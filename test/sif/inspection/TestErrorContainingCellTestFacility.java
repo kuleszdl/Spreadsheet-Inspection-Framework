@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import sif.IO.xml.SifMarshaller;
@@ -47,6 +48,7 @@ public class TestErrorContainingCellTestFacility {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail("An exception occured in TestErrorContainingCellsTest");
 		}
 
 	}
