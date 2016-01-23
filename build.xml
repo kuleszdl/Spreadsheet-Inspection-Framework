@@ -11,6 +11,11 @@
 	<property name="target" value="1.7" />
 	<property name="source" value="1.7" />
 	<property name="dist.dir" value="dist" />
+	<property name="release.dir" value="release" />
+	<property name="release.subdir" value="Spreadsheet Inspection Framework" />
+	<property name="license.file" value="LICENSE.txt" />
+	
+	<property name="sifcore.version" value="0.1.0" />
 
 
 	<path id="spreadsheet_inspection_framework.classpath">
@@ -60,6 +65,7 @@
 	<target name="clean">
 		<delete dir="bin" />
 		<delete dir="jar" />
+		<delete dir="${release.dir}" />
 	</target>
 
 
@@ -125,6 +131,31 @@
 			</batchtest>-->
 		</junit>
 	</target>
+	
+	<target name="build-release" depends="build">
+	  <mkdir dir="${release.dir}" />
+	  <mkdir dir="${release.dir}/${release.subdir}" />
+	  <copy todir="${release.dir}/${release.subdir}">
+			<fileset dir="${dist.dir}" includes="**/*" />
+		</copy>
+	  <copy todir="${release.dir}">
+	    <fileset file="${license.file}"/>
+	  </copy>
+	  
+	  
+
+	  <echo file="${release.dir}/README.txt" append="false">This archive contains a binary distribution of the Spreadsheet Inspection Framework.
+
+Visit our homepage for more details and source code: http://www.spreadsheet-inspection.org
+
+The binaries contained in this archive are made available under the terms of the GNU GPLv3 license. Please see the file LICENSE.txt for details.
+	  </echo>
+	  
+	  <zip destfile="${release.dir}/sifcore-${sifcore.version}.zip"
+       basedir="${release.dir}"/>
+	  
+	</target>
+	
 
 
 </project>

@@ -8,7 +8,8 @@ import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import org.apache.commons.lang3.StringEscapeUtils;
+
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import sif.IO.spreadsheet.IPOIOutput;
@@ -192,7 +193,12 @@ public final class DataFacade {
 			content = getFindingsAsHtmlString(inspectionRequest);
 			break;
 		case XML:
-			content = getFindingsAsXmlString(inspectionRequest);
+			try {
+				content = getFindingsAsJAXBString(inspectionRequest);
+			} catch (Exception e) {
+				Logger.getLogger(this.getClass()).warn("error during xml generation", e);
+				content = null;
+			}
 			break;
 		}
 
@@ -260,186 +266,6 @@ public final class DataFacade {
 
 	}
 
-	/**
-	 * @deprecated handwritten xml; use {@link #getFindingsAsJAXBString(InspectionRequest)} instead
-	 * @param inspectionRequest
-	 * @return
-	 */
-	private String getFindingsAsXmlString(InspectionRequest inspectionRequest) {
-		StringBuilder builder = new StringBuilder();
-		Findings findings = inspectionRequest.getFindings();
-		builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		builder.append("<test title=\""
-				+ inspectionRequest.getSpreadsheetFile().getName()
-				+ "\" file=\""
-				+ inspectionRequest.getInventory().getSpreadsheetFile()
-						.getAbsolutePath() + "\">\n");
-
-		builder.append("<policy author=\""
-				+ inspectionRequest.getPolicy().getAuthor()
-				+ "\" description=\""
-				+ inspectionRequest.getPolicy().getDescription() + "\" name=\""
-				+ inspectionRequest.getPolicy().getName() + "\" />\n");
-
-		// Write Input-, Intermediate & Outputcells
-		builder.append("<cells>\n");
-
-		builder.append("<input>\n");
-
-		AbstractElementList<InputCell> inputCells = inspectionRequest
-				.getInventory().getListFor(InputCell.class);
-		for (int i = 0; i < inputCells.getNumberOfElements(); i++) {
-			InputCell currentCell = inputCells.getElements().get(i);
-			builder.append("<cell number=\"" + i + "\" location=\""
-					+ currentCell.getLocation() + "\" content=\""
-					+ currentCell.getStringRepresentation() + "\" />\n");
-		}
-
-		builder.append("</input>\n");
-
-		builder.append("<intermediate>\n");
-
-		AbstractElementList<IntermediateCell> intermediateCells = inspectionRequest
-				.getInventory().getListFor(IntermediateCell.class);
-		for (int i = 0; i < intermediateCells.getNumberOfElements(); i++) {
-			IntermediateCell currentCell = intermediateCells.getElements().get(
-					i);
-			builder.append("<cell number=\"" + i + "\" location=\""
-					+ currentCell.getLocation() + "\" content=\""
-					+ currentCell.getStringRepresentation() + "\" />\n");
-		}
-
-		builder.append("</intermediate>\n");
-
-		builder.append("<output>\n");
-
-		AbstractElementList<OutputCell> outputCells = inspectionRequest
-				.getInventory().getListFor(OutputCell.class);
-		for (int i = 0; i < outputCells.getNumberOfElements(); i++) {
-			OutputCell currentCell = outputCells.getElements().get(i);
-			builder.append("<cell number=\"" + i + "\" location=\""
-					+ currentCell.getLocation() + "\" content=\""
-					+ currentCell.getStringRepresentation() + "\" />\n");
-		}
-
-		builder.append("</output>\n");
-
-		builder.append("</cells>\n");
-
-		// Write Findings
-		builder.append("<findings>\n");
-
-		for (ViolationList violationsList : findings.getViolationLists()) {
-
-			builder.append("<rule name=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getName())
-					+ "\" author=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getAuthor())
-					+ "\" description=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getDescription())
-							.replace('"', '\'') + "\" background=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getBackground())
-					+ "\" severity=\""
-					+ violationsList.getPolicyRule().getSeverityWeight() // nn escaping a double
-					+ "\" solution=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getPossibleSolution())
-					+ "\" type=\""
-					+ StringEscapeUtils.escapeXml(violationsList.getPolicyRule().getType().toString())
-					+ "\">\n");
-
-			Integer counter = 0;
-			for (IViolation violation : violationsList.getViolations()) {
-				// Write a single violation.
-				if (violation instanceof ISingleViolation) {
-					ISingleViolation singleViolation = (ISingleViolation) violation;
-					counter++;
-
-					String causingElement = "unknown";
-					String location = "unknown";
-
-					if (singleViolation.getCausingElement() != null) {
-						causingElement = StringEscapeUtils.escapeXml
-								(singleViolation.getCausingElement().getStringRepresentation());
-						location = singleViolation.getCausingElement()
-								.getLocation();
-					}
-
-					builder.append("<singleviolation number=\"" + counter
-							+ "\" causingelement=\"" 
-							+ StringEscapeUtils.escapeXml(causingElement)
-							+ "\" location=\"" 
-							+ StringEscapeUtils.escapeXml(location) 
-							+ "\" description=\""
-							+ StringEscapeUtils.escapeXml(singleViolation.getDescription())
-							+ "\" severity=\""
-							+ singleViolation.getWeightedSeverityValue()
-							+ "\" />\n");
-
-				} else {
-					// Write a violation group;
-					IViolationGroup violationGroup = (IViolationGroup) violation;
-
-					String causingElement = "unknown";
-					String location = "unknown";
-
-					if (violationGroup.getCausingElement() != null) {
-						causingElement = violationGroup.getCausingElement()
-								.getStringRepresentation();
-						location = violationGroup.getCausingElement()
-								.getLocation();
-					}
-					counter++;
-
-					builder.append("<violationgroup number=\"" + counter
-							+ "\" causingelement=\"" + causingElement
-							+ "\" location=\"" + location + "\" description=\""
-							+ violationGroup.getDescription()
-							+ "\" severity=\""
-							+ violationGroup.getWeightedSeverityValue()
-							+ "\">\n");
-
-					Integer groupCounter = 0;
-					for (ISingleViolation singleViolation : violationGroup
-							.getMembers()) {
-
-						groupCounter++;
-
-						String innerCausingElement = "unknown";
-						String innerLocation = "unknown";
-
-						if (singleViolation.getCausingElement() != null) {
-							innerCausingElement = singleViolation
-									.getCausingElement()
-									.getStringRepresentation();
-							innerLocation = singleViolation.getCausingElement()
-									.getLocation();
-						}
-
-						builder.append("<singleviolation number=\"" + counter
-								+ "." + groupCounter + "\" causingelement=\""
-								+ innerCausingElement + "\" location=\""
-								+ innerLocation + "\" description=\""
-								+ singleViolation.getDescription()
-								+ "\" severity=\""
-								+ singleViolation.getWeightedSeverityValue()
-								+ "\" />\n");
-
-					}
-
-					builder.append("</violationgroup>\n");
-				}
-			}
-
-			builder.append("</rule>\n");
-
-		}
-
-		builder.append("</findings>\n");
-
-		builder.append("</test>\n");
-
-		return builder.toString();
-	}
 	
 	private String getFindingsAsJAXBString(InspectionRequest inspectionRequest) throws Exception{
 		JAXBContext jc = JAXBContext.newInstance("sif.model.inspection");

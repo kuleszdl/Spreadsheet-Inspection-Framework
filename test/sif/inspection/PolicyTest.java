@@ -111,8 +111,8 @@ public class PolicyTest {
 			
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Assert.fail();
 		}
 		
 	}

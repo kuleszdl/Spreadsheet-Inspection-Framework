@@ -1,9 +1,10 @@
 package sif.IO;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
-import static junit.framework.Assert.*;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import sif.frontOffice.FrontDesk;
@@ -76,8 +77,8 @@ public class DataFacadeTest {
 			assertEquals(-1, rangeAddress2.compareVertical(cellAddress3));
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Assert.fail();
 		}
 
 	}
