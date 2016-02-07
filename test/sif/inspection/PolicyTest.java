@@ -86,7 +86,7 @@ public class PolicyTest {
 					.get("Basic Policy");
 
 			AbstractPolicyRule rule1 = policy.getPolicyRules().get(
-					"No Constants In Formulas");
+					"Constants In Formulas");
 			Object[] ignoredConstants = { 1 };
 
 			PolicyRuleConfiguration configuration = rule1.getConfiguration();
