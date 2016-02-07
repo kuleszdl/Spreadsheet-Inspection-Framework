@@ -108,6 +108,9 @@ public class MultipleSameRefTestFacility extends MonolithicTestFacility{
 			} 
 			current = next;
 		}
+		if (count > 0){
+			createViolation(current, count+1);
+		}
 	}
 
 	/**
