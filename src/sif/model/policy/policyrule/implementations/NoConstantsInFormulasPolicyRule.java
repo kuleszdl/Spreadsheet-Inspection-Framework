@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
+import sif.utilities.Translator;
 import sif.utilities.XML_Constants;
 
 /***
@@ -19,11 +20,8 @@ import sif.utilities.XML_Constants;
  * @author Sebastian Zitzelsberger
  * 
  */
-@XmlType(name = XML_Constants.NAME_NO_CONSTANTS_POLICY_RULE, propOrder = { 
-		"ignoredConstants",
-		"ignoredFunctions",
-		"ignoredCells"
-})
+@XmlType(name = XML_Constants.NAME_NO_CONSTANTS_POLICY_RULE, propOrder = { "ignoredConstants", "ignoredFunctions",
+		"ignoredCells" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 
@@ -39,14 +37,15 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 	public NoConstantsInFormulasPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("No Constants In Formulas");
-		setDescription("Checks whether formulas contain constant values.");
-		setBackground("Constant values are not alyways as constant as they seem in the beginning."
-				+ " In case their values change, its hard to adjust the constants consistently in the spreadsheet if they are not located in individual cells.");
-		setPossibleSolution("Extract the constants into to separate cells and reference these cells");
+		setName(Translator.instance.tl("PolicyConstants.0001", "No Constants In Formulas"));
+		setDescription(
+				Translator.instance.tl("PolicyConstants.0002", "Checks whether formulas contain constant values."));
+		setBackground(Translator.instance.tl("PolicyConstants.0003",
+				"Constant values are not always as constant as they seem in the beginning. In case their values change, its hard to adjust the constants consistently in the spreadsheet if they are not located in individual cells."));
+		setPossibleSolution(Translator.instance.tl("PolicyConstants.0004", "Extract the constants into to separate cells and reference these cells."));
 		setType(PolicyRuleType.STATIC);
 	}
-	
+
 	@XmlElementWrapper(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_WRAPPER, required = false)
 	@XmlElements({ @XmlElement(name = XML_Constants.NAME_NO_CONSTANTS_IGNORED_CONSTANTS_VALUE, type = Object.class) })
 	public Object[] getIgnoredConstants() {
@@ -76,6 +75,5 @@ public class NoConstantsInFormulasPolicyRule extends MonolithicPolicyRule {
 	public void setIgnoredCells(String[] ignoredCells) {
 		this.ignoredCells = ignoredCells;
 	}
-
 
 }
