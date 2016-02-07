@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import sif.main.Application;
 
 /**
- * A translator which makes use of standard Java Resource bundles
+ * Main facility for internationalization of strings. Uses standard Java Resource bundles.
  * 
  * @author kuleszdl
  *
@@ -38,10 +38,13 @@ public class Translator {
 	    }
 	}
 	
+	
+	
 	/**
-	 * Returns the translated string for the given key
+	 * Returns the translated string for the given key or the provided fallback, if the key cannot be found. 
 	 * 
-	 * @param key
+	 * @param key the translation key to search for
+	 * @param fallback the fallback to rely on, if the key cannot be found
 	 * @return
 	 */
 	public String tl(String key, String fallback) {

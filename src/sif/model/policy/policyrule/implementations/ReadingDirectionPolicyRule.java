@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
+import sif.utilities.Translator;
 import sif.utilities.XML_Constants;
 
 /**
@@ -39,9 +40,14 @@ public class ReadingDirectionPolicyRule extends MonolithicPolicyRule {
 	public ReadingDirectionPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("Reading direction - References");
-		setDescription("Checks whether the spreadsheet can be read in configurable directions.");
+		setName(Translator.instance.tl("PolicyReadingDirection.0001", "Reading direction"));
+		setDescription(Translator.instance.tl("PolicyReadingDirection.0002", "Checks whether the spreadsheet can be read in configurable directions."));
 		setType(PolicyRuleType.STATIC);
+		
+		setBackground(Translator.instance.tl("PolicyReadingDirection.0003",
+				"Formula cells should only reference cells to the left or above as this is the normal western reading direction."));
+		setPossibleSolution(Translator.instance.tl("PolicyReadingDirection.0004", "Move the cell with the formula or the cells referenced by it."));
+		
 	}
 
 

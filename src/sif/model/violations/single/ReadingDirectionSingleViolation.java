@@ -3,6 +3,7 @@ package sif.model.violations.single;
 import sif.model.elements.basic.reference.AbstractReference;
 import sif.model.elements.basic.tokens.ITokenElement;
 import sif.model.policy.policyrule.implementations.ReadingDirectionPolicyRule;
+import sif.utilities.Translator;
 
 /***
  * A custom single violation to record violations of the
@@ -52,12 +53,14 @@ public class ReadingDirectionSingleViolation extends GenericSingleViolation {
 		StringBuilder description = new StringBuilder();
 
 		if (nonLeftToRightreference != null) {
-			description.append("The following reference cannot be read from left to right: ");
+			description.append(Translator.instance.tl("PolicyReadingDirection.0010", "The following reference cannot be read from left to right: "));
+			description.append(" ");
 			description.append(nonLeftToRightreference.getValueAsString());
 		}
 
 		if (nonTopToBottomreference != null) {
-			description.append("The following references cannot be read from top to bottom: ");
+			description.append(Translator.instance.tl("PolicyReadingDirection.0011", "The following references cannot be read from top to bottom:"));
+			description.append(" ");
 			description.append(nonTopToBottomreference.getValueAsString());
 		}
 
