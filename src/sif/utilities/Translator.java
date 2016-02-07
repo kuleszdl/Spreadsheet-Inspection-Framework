@@ -44,8 +44,13 @@ public class Translator {
 	 * @param key
 	 * @return
 	 */
-	public String tl(String key) {
-		return bundle.getString(key);
+	public String tl(String key, String fallback) {
+		String translated = bundle.getString(key);
+		if (translated!=null) {
+			return translated;
+		} else {
+			return fallback;
+		}
 	}
 
 }

@@ -30,8 +30,8 @@ public class MultipleSameRefPolicyRule extends MonolithicPolicyRule {
 	public MultipleSameRefPolicyRule() {
 		super();
 		setAuthor("Sebastian Beck");
-		setName(Translator.instance.tl("PolicyMultipleSameRef.0001"));
-		setDescription("Checks if a Formula or Function has the same reference multiple times.");
+		setName(Translator.instance.tl("PolicyMultipleSameRef.0001", "Multiple same reference"));
+		setDescription(Translator.instance.tl("PolicyMultipleSameRef.0002","Checks if a Formula or Function has the same reference multiple times."));
 		setType(PolicyRuleType.STATIC);
 	}
 

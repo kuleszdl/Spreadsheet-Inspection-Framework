@@ -10,6 +10,7 @@ import sif.model.elements.basic.tokens.IOperationTokenElement;
 import sif.model.policy.policyrule.MonolithicPolicyRule;
 import sif.model.policy.policyrule.PolicyRuleType;
 import sif.model.policy.policyrule.configuration.ConfigurableParameter;
+import sif.utilities.Translator;
 import sif.utilities.XML_Constants;
 
 /***
@@ -23,10 +24,8 @@ import sif.utilities.XML_Constants;
  * @author Sebastian Zitzelsberger
  * 
  */
-@XmlType(name = XML_Constants.NAME_FORMULA_COMPLEXITY_POLICY_RULE, propOrder = { 
-		"maxNestingLevel",
-		"maxNumberOfOperations"
-})
+@XmlType(name = XML_Constants.NAME_FORMULA_COMPLEXITY_POLICY_RULE, propOrder = { "maxNestingLevel",
+		"maxNumberOfOperations" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 
@@ -39,11 +38,11 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 	public FormulaComplexityPolicyRule() {
 		super();
 		setAuthor("Sebastian Zitzelsberger");
-		setName("Formula Complexity");
-		setDescription("Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations");
+		setName(Translator.instance.tl("PolicyFormulaComplexity.0001", "Formula Complexity"));
+		setDescription(Translator.instance.tl("PolicyFormulaComplexity.0002",
+				"Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations"));
 		setType(PolicyRuleType.STATIC);
 	}
-
 
 	@XmlElement(name = XML_Constants.NAME_FORMULA_MAX_NESTING, type = Integer.class, required = false)
 	public Integer getMaxNestingLevel() {

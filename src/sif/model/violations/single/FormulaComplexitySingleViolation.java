@@ -3,6 +3,7 @@ package sif.model.violations.single;
 import sif.model.policy.policyrule.AbstractPolicyRule;
 import sif.model.policy.policyrule.implementations.FormulaComplexityPolicyRule;
 import sif.model.violations.IViolation;
+import sif.utilities.Translator;
 
 /***
  * A custom single violation to record a violation of the
@@ -36,31 +37,39 @@ public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 		this.nestingLevel = nestingLevel;
 	}
 
-
 	@Override
 	public String getDescription() {
 		StringBuilder description = new StringBuilder();
 
 		if (numberOfOperations != null) {
-			description.append("Number of operations  [");
+			description.append(Translator.instance.tl("PolicyFormulaComplexity.0010", "Number of operations"));
+			description.append(" [");
 			description.append(numberOfOperations.toString());
-			description.append("] exceeds maximum allowed number"
-					+ " of operations [" + maxNumberOfOperations.toString()
-					+ "]");
+			description.append("] ");
+			description.append(Translator.instance.tl("PolicyFormulaComplexity.0011",
+					"exceeds maximum allowed number of operations"));
+			description.append(" [");
+			description.append(maxNumberOfOperations.toString());
+			description.append("]");
 		}
 
 		if (nestingLevel != null) {
 			if (description.length() > 0) {
-				description.append(" and nesting level [");
+				description.append(" ");
+				description.append(Translator.instance.tl("PolicyFormulaComplexity.0012", "and nesting level"));
+				description.append(" [");
 			} else {
-				description.append("Nesting level [");
+				description.append(Translator.instance.tl("PolicyFormulaComplexity.0013","Nesting level"));
+				description.append(" [");
 			}
-
 			description.append(nestingLevel.toString());
-			description.append("] exceeds maximum" + " allowed nesting level ["
-					+ maxNestingLevel.toString() + "]");
-
+			description.append("] ");
+			description.append(Translator.instance.tl("PolicyFormulaComplexity.0014", "exceeds maximum allowed nesting level"));
+			description.append(" [");
+			description.append(maxNestingLevel.toString());
+			description.append("]");
 		}
+
 		return description.toString();
 	}
 
@@ -75,7 +84,8 @@ public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 		double exceedingPercentage = 0.0;
 
 		if (nestingLevel != null & numberOfOperations != null) {
-			exceedingPercentage = (((numberOfOperations / maxNumberOfOperations) - 1.0) + ((nestingLevel / maxNestingLevel) - 1.0)) / 2;
+			exceedingPercentage = (((numberOfOperations / maxNumberOfOperations) - 1.0)
+					+ ((nestingLevel / maxNestingLevel) - 1.0)) / 2;
 		} else if (nestingLevel == null) {
 			exceedingPercentage = (numberOfOperations / maxNumberOfOperations) - 1.0;
 		} else {
@@ -95,7 +105,6 @@ public class FormulaComplexitySingleViolation extends GenericSingleViolation {
 		}
 		return severtityValue * getPolicyRule().getSeverityWeight();
 	}
-
 
 	@Override
 	public void setPolicyRule(AbstractPolicyRule policyRule) {
