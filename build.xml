@@ -55,6 +55,11 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
+		<copy includeemptydirs="false" todir="bin/resources">
+					<fileset dir="resources">
+					</fileset>
+				</copy>
 
 		<copy includeemptydirs="false" todir="${dist.dir}/libs">
 			<fileset dir="libs">

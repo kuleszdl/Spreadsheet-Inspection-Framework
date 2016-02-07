@@ -22,30 +22,30 @@ public class Application {
 	private static File parentFolder = null;
 	private static Logger logger = Logger.getLogger(Application.class);
 
+	
 	private static final String DEBUGFILENAME = "debug";
 	private static final String MODESOCKET = "socket";
 	private static final String MODEFILE = "file";
-	public static final int NOTENOUGHPARAMETERS = -1,
-			INVALIDPARAMETER = -2,
-			APPLICATIONERROR = -3;
+	public static final int NOTENOUGHPARAMETERS = -1, INVALIDPARAMETER = -2, APPLICATIONERROR = -3;
+	public static final String RESOURCE_PREFIX = "resources.SIFCore";
+	
 	/**
 	 * Whether debug messages should be shown
+	 * 
 	 * @return
 	 */
-	public static boolean isDebug(){
+	public static boolean isDebug() {
 		return DEBUG;
 	}
 
 	/**
 	 * Tries and sets the parent folder of the jar
 	 */
-	private static void checkParentFolder(){
+	private static void checkParentFolder() {
 		try {
 			parentFolder = new File(
-					Application.class.getProtectionDomain()
-					.getCodeSource().getLocation()
-					.toURI().getPath()
-			).getParentFile();
+					Application.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath())
+							.getParentFile();
 		} catch (Exception e) {
 			// Security / URI or other exceptions
 			logger.info("", e);
@@ -53,14 +53,16 @@ public class Application {
 	}
 
 	/**
-	 * Checks for a file "debug" in the jar folder and sets the DEBUG flag when appropriate
+	 * Checks for a file "debug" in the jar folder and sets the DEBUG flag when
+	 * appropriate
 	 */
-	private static void checkDebug(){
+	private static void checkDebug() {
 		File debugFile = new File(parentFolder, DEBUGFILENAME);
-		if (debugFile.exists()){
+		if (debugFile.exists()) {
 			DEBUG = true;
 		}
 	}
+
 	/**
 	 * @param args
 	 *
@@ -69,17 +71,16 @@ public class Application {
 		checkParentFolder();
 		checkDebug();
 		BasicConfigurator.configure();
-		if (isDebug()){
+		if (isDebug()) {
 			Logger.getRootLogger().setLevel(Level.ALL);
 		} else {
 			Logger.getRootLogger().setLevel(Level.ERROR);
 		}
-		if (args.length < 2){
+		if (args.length < 2) {
 			printUsageAndExit("Not enough parameters.", NOTENOUGHPARAMETERS);
 		}
 
-
-		if (args[0].equalsIgnoreCase(MODESOCKET)){
+		if (args[0].equalsIgnoreCase(MODESOCKET)) {
 			try {
 				int port = Integer.parseInt(args[1]);
 				RunSocketMode client = new RunSocketMode(port);
@@ -88,30 +89,30 @@ public class Application {
 				logger.info("", e);
 				printUsageAndExit("Error while parsing the portnumber", INVALIDPARAMETER);
 			}
-		} else if (args[0].equalsIgnoreCase(MODEFILE)){
+		} else if (args[0].equalsIgnoreCase(MODEFILE)) {
 			String errors = "";
-			if (args.length < 4){
+			if (args.length < 4) {
 				errors += "Not enough parameters for the file mode.";
 				printUsageAndExit(errors, NOTENOUGHPARAMETERS);
 			}
 			ReportFormat format = null;
 			try {
 				format = ReportFormat.valueOf(args[1].toUpperCase());
-			} catch (IllegalArgumentException e){
+			} catch (IllegalArgumentException e) {
 				errors += "Unknown report format, currently supported formats are: ";
 				errors += Arrays.toString(ReportFormat.values()) + "\n";
 			}
 			File policyFile = new File(args[2]);
-			if (!policyFile.exists()){
+			if (!policyFile.exists()) {
 				errors += "Policy file not found at " + args[2] + "\n";
 			}
 
 			File spreadsheetFile = new File(args[3]);
-			if (!spreadsheetFile.exists()){
+			if (!spreadsheetFile.exists()) {
 				errors += "Spreadsheet file not found at " + args[3] + "\n";
 			}
 
-			if (!errors.isEmpty()){
+			if (!errors.isEmpty()) {
 				printUsageAndExit(errors, INVALIDPARAMETER);
 			}
 
@@ -120,7 +121,7 @@ public class Application {
 				logger.info(report);
 			} catch (InvalidSpreadsheetFileException e) {
 				logger.info("", e);
-				for (Throwable t : e.getAdditional()){
+				for (Throwable t : e.getAdditional()) {
 					logger.info("", t);
 				}
 				System.exit(APPLICATIONERROR);
@@ -133,25 +134,25 @@ public class Application {
 			printUsageAndExit("Wrong parameters", INVALIDPARAMETER);
 		}
 
-
 	}
 
 	/**
-	 * Prints the reason to the standard output followed by the usage syntax and exits with the
-	 * given exit code
-	 * @param reason why it was invalid
-	 * @param code desired exit code
+	 * Prints the reason to the standard output followed by the usage syntax and
+	 * exits with the given exit code
+	 * 
+	 * @param reason
+	 *            why it was invalid
+	 * @param code
+	 *            desired exit code
 	 */
-	private static void printUsageAndExit(String reason, int code){
+	private static void printUsageAndExit(String reason, int code) {
 		String sb = "";
-		if (reason != null){
+		if (reason != null) {
 			sb += reason + "\n";
 		}
-		sb += "Usage: sif [MODE] [PARAMETERS]. "
-		+ "Currently supported modes:\n"
-		+ "sif socket [portnumber]\n"
-		+ "sif file [html | xml] [path/to/policyFile] [path/to/spreadsheetFile]\n";
-		if (isDebug()){
+		sb += "Usage: sif [MODE] [PARAMETERS]. " + "Currently supported modes:\n" + "sif socket [portnumber]\n"
+				+ "sif file [html | xml] [path/to/policyFile] [path/to/spreadsheetFile]\n";
+		if (isDebug()) {
 			sb += "To disable the debug mode remove or rename the file called 'debug' in the "
 					+ "same folder as the jar";
 		} else {
