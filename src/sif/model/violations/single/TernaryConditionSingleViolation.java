@@ -8,6 +8,9 @@ import sif.model.policy.policyrule.dynamicConditions.ETernaryRelation;
 /**
  * @author Manuel Lemcke
  * 
+ *         TODO: Strange naming: The term "ExpectedHigherValue" refers to the upper
+ *         interval, while the "ExpectedValue" refers the lower interval, NOT
+ *         the actually expected value entered in the result cell.
  */
 public class TernaryConditionSingleViolation extends ConditionSingleViolation {
 
@@ -47,28 +50,51 @@ public class TernaryConditionSingleViolation extends ConditionSingleViolation {
 
 	@Override
 	public String getDescription() {
-		String ternaryDescription = "";
-		String interval = this.getExpectedValue() + ";"
-				+ this.getExpectedHigherValue();
 
-		ternaryDescription = "The found value was not in the interval ";
+		ETernaryRelation actualRelation = this.getRelation();
 
-		switch (this.getRelation()) {
-		case closed:
-			ternaryDescription += "[" + interval + "]";
-			break;
-		case open:
-			ternaryDescription += "]" + interval + "[";
-			break;
-		case openLeft:
-			ternaryDescription += "]" + interval + "]";
-			break;
-		case openRight:
-			ternaryDescription += "[" + interval + "[";
-			break;
+		StringBuilder ternaryDescription = new StringBuilder();
+		ternaryDescription.append("When the scenario, the actual value for this cell");
+		ternaryDescription.append(" ");
+		ternaryDescription.append("(");
+		ternaryDescription.append(this.getActualValue());
+		ternaryDescription.append(")");
+		ternaryDescription.append(" ");
+
+		if (this.getExpectedValue().equals(this.getExpectedHigherValue())) {
+			ternaryDescription.append("differs from the expected value");
+			ternaryDescription.append(" ");
+			ternaryDescription.append("(");
+			ternaryDescription.append(this.getExpectedValue());
+			ternaryDescription.append(")");
+			ternaryDescription.append(".");
+		} else {
+			ternaryDescription.append("was outside of the expected interval which is:");
+
+			ternaryDescription.append(" ");
+			ternaryDescription.append("greater");
+			if (actualRelation == ETernaryRelation.open || actualRelation == ETernaryRelation.openLeft) {
+				ternaryDescription.append(" ");
+				ternaryDescription.append("or equals");
+			}
+			ternaryDescription.append(" ");
+			ternaryDescription.append(getExpectedValue());
+
+			ternaryDescription.append(" ");
+			ternaryDescription.append("and");
+			ternaryDescription.append(" ");
+
+			ternaryDescription.append("smaller");
+			if (actualRelation == ETernaryRelation.open || actualRelation == ETernaryRelation.openRight) {
+				ternaryDescription.append(" ");
+				ternaryDescription.append("or equals");
+			}
+			ternaryDescription.append(" ");
+			ternaryDescription.append(getExpectedHigherValue());
+
 		}
-		
-		return ternaryDescription;
+
+		return ternaryDescription.toString();
 
 	}
 

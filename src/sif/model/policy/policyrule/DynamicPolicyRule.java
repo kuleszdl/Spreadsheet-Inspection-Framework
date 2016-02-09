@@ -36,6 +36,19 @@ public class DynamicPolicyRule extends MonolithicPolicyRule {
 
 	@ConfigurableParameter(parameterClass = ArrayList.class, displayedName = "Invariants", description = "Configures conditions, that have to be met before, during and at the end of the inspection.")
 	private ArrayList<AbstractCondition> invariants = new ArrayList<AbstractCondition>();
+	
+	public DynamicPolicyRule() {
+		super();
+		// setAuthor("Manuel Lemcke");
+		setName("Policy Rule: Dynamic Conditions");
+		setDescription("\"Executes\" the spreadsheet and checks for several "
+				+ "possible conditions.");
+		setBackground("A testscenario which is built by userdefined conditions. "
+				+ "While the process of checking the spreadsheet is executed, "
+				+ "that is formulae of the spreadsheet are evaluated.");
+		setPossibleSolution("Check the formulae in the causing cell or region.");
+		setType(PolicyRuleType.DYNAMIC);
+	}
 
 	// JAXB Annotations that tell JAXB which element type is serialized to which
 	// class
@@ -87,18 +100,7 @@ public class DynamicPolicyRule extends MonolithicPolicyRule {
 		this.postconditions = pPostconditions;
 	}
 
-	public DynamicPolicyRule() {
-		super();
-		// setAuthor("Manuel Lemcke");
-		setName("Policy Rule: Dynamic Conditions");
-		setDescription("\"Executes\" the spreadsheet and checks for several "
-				+ "possible conditions.");
-		setBackground("A testscenario which is built by userdefined conditions. "
-				+ "While the process of checking the spreadsheet is executed, "
-				+ "that is formulae of the spreadsheet are evaluated.");
-		setPossibleSolution("Check the formulae in the causing cell or region.");
-		setType(PolicyRuleType.DYNAMIC);
-	}
+
 
 
 }
