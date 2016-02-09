@@ -4,6 +4,7 @@
 package sif.model.violations.single;
 
 import sif.model.policy.policyrule.dynamicConditions.ETernaryRelation;
+import sif.utilities.Translator;
 
 /**
  * @author Manuel Lemcke
@@ -54,7 +55,12 @@ public class TernaryConditionSingleViolation extends ConditionSingleViolation {
 		ETernaryRelation actualRelation = this.getRelation();
 
 		StringBuilder ternaryDescription = new StringBuilder();
-		ternaryDescription.append("When the scenario, the actual value for this cell");
+		ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0010", "After running the scenario"));
+		ternaryDescription.append(" \"");
+		ternaryDescription.append(this.getPolicyRule().getName());
+		ternaryDescription.append(" \"");
+		ternaryDescription.append(" ");
+		ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0010b", ",the actual value for this cell"));
 		ternaryDescription.append(" ");
 		ternaryDescription.append("(");
 		ternaryDescription.append(this.getActualValue());
@@ -62,32 +68,32 @@ public class TernaryConditionSingleViolation extends ConditionSingleViolation {
 		ternaryDescription.append(" ");
 
 		if (this.getExpectedValue().equals(this.getExpectedHigherValue())) {
-			ternaryDescription.append("differs from the expected value");
+			ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0011","differs from the expected value"));
 			ternaryDescription.append(" ");
 			ternaryDescription.append("(");
 			ternaryDescription.append(this.getExpectedValue());
 			ternaryDescription.append(")");
 			ternaryDescription.append(".");
 		} else {
-			ternaryDescription.append("was outside of the expected interval which is:");
-
+			ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0012","was outside of the expected interval which is"));
+			ternaryDescription.append(":");
 			ternaryDescription.append(" ");
-			ternaryDescription.append("greater");
+			ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0013","greater"));
 			if (actualRelation == ETernaryRelation.open || actualRelation == ETernaryRelation.openLeft) {
 				ternaryDescription.append(" ");
-				ternaryDescription.append("or equals");
+				ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0014","or equals"));
 			}
 			ternaryDescription.append(" ");
 			ternaryDescription.append(getExpectedValue());
 
 			ternaryDescription.append(" ");
-			ternaryDescription.append("and");
+			ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0015","and"));
 			ternaryDescription.append(" ");
 
-			ternaryDescription.append("smaller");
+			ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0016","smaller"));
 			if (actualRelation == ETernaryRelation.open || actualRelation == ETernaryRelation.openRight) {
 				ternaryDescription.append(" ");
-				ternaryDescription.append("or equals");
+				ternaryDescription.append(Translator.instance.tl("PolicyScenarios.0014","or equals"));
 			}
 			ternaryDescription.append(" ");
 			ternaryDescription.append(getExpectedHigherValue());

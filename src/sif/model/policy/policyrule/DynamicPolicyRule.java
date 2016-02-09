@@ -16,6 +16,7 @@ import sif.model.policy.policyrule.dynamicConditions.BinaryCondition;
 import sif.model.policy.policyrule.dynamicConditions.ElementCountCondition;
 import sif.model.policy.policyrule.dynamicConditions.TernaryCondition;
 import sif.model.policy.policyrule.dynamicConditions.TestInput;
+import sif.utilities.Translator;
 
 /**
  * A rule intended for dynamic spreadsheet testing
@@ -40,13 +41,13 @@ public class DynamicPolicyRule extends MonolithicPolicyRule {
 	public DynamicPolicyRule() {
 		super();
 		// setAuthor("Manuel Lemcke");
-		setName("Policy Rule: Dynamic Conditions");
-		setDescription("\"Executes\" the spreadsheet and checks for several "
-				+ "possible conditions.");
-		setBackground("A testscenario which is built by userdefined conditions. "
+		setName(Translator.instance.tl("PolicyScenarios.0001", "Policy Rule: Dynamic Conditions"));
+		setDescription(Translator.instance.tl("PolicyScenarios.0002", "\"Executes\" the spreadsheet and checks for several "
+				+ "possible conditions."));
+		setBackground(Translator.instance.tl("PolicyScenarios.0003", "A testscenario which is built by userdefined conditions. "
 				+ "While the process of checking the spreadsheet is executed, "
-				+ "that is formulae of the spreadsheet are evaluated.");
-		setPossibleSolution("Check the formulae in the causing cell or region.");
+				+ "that is formulae of the spreadsheet are evaluated."));
+		setPossibleSolution(Translator.instance.tl("PolicyScenarios.0004","Check the formulae in the causing cell or region."));
 		setType(PolicyRuleType.DYNAMIC);
 	}
 
