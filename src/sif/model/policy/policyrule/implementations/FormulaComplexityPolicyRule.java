@@ -41,6 +41,8 @@ public class FormulaComplexityPolicyRule extends MonolithicPolicyRule {
 		setName(Translator.instance.tl("PolicyFormulaComplexity.0001", "Formula Complexity"));
 		setDescription(Translator.instance.tl("PolicyFormulaComplexity.0002",
 				"Checks whether formula complexity goes beyond a certain nesting level or contains more than a certain number of operations"));
+		setBackground(Translator.instance.tl("PolicyFormulaComplexity.0003", "Formulas which are too complex are hard to understand and error-prone to maintain."));
+		setPossibleSolution(Translator.instance.tl("PolicyFormulaComplexity.0004", "Break up complex formulas into smaller, less complex formulas."));
 		setType(PolicyRuleType.STATIC);
 	}
 
