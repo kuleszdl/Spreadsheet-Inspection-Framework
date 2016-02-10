@@ -15,7 +15,7 @@
 	<property name="release.subdir" value="Spreadsheet Inspection Framework" />
 	<property name="license.file" value="LICENSE.txt" />
 	
-	<property name="sifcore.version" value="0.1.0" />
+	<property name="sifcore.version" value="0.1.1" />
 
 
 	<path id="spreadsheet_inspection_framework.classpath">
