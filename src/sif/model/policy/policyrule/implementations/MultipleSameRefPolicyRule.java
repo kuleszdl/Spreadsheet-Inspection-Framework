@@ -32,6 +32,9 @@ public class MultipleSameRefPolicyRule extends MonolithicPolicyRule {
 		setAuthor("Sebastian Beck");
 		setName(Translator.instance.tl("PolicyMultipleSameRef.0001", "Multiple same reference"));
 		setDescription(Translator.instance.tl("PolicyMultipleSameRef.0002","Checks if a Formula or Function has the same reference multiple times."));
+		setBackground(Translator.instance.tl("PolicyMultipleSameRef.0003","A reference to the same cell which appears two or more times in a row in the same formula can be potentially unintended and a sign for a faulty formula."));
+		setPossibleSolution(Translator.instance.tl("PolicyMultipleSameRef.0004","Check the formula and make sure you intentionally used the same reference in a row."));
+		
 		setType(PolicyRuleType.STATIC);
 	}
 
