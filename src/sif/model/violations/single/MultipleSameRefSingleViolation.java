@@ -27,16 +27,6 @@ public class MultipleSameRefSingleViolation extends GenericSingleViolation{
 			description.append(((AbstractReference) getCausingElement()).getContainer().getStringRepresentation());
 		}
 		
-//		description.append("The reference ");
-//		description.append(getCausingElement().getStringRepresentation());
-//		description.append(" appears " + count + " times");
-//		if (getCausingElement() instanceof AbstractReference){
-//			description.append(" in ");
-//			description.append(((AbstractReference) getCausingElement()).getContainer().getStringRepresentation());
-//		}
-//		description.append(".");
-		
-		
 		return description.toString();
 	}
 
