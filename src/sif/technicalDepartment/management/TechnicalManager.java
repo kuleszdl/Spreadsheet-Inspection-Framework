@@ -20,7 +20,7 @@ import sif.technicalDepartment.equipment.testing.facilities.types.MonolithicTest
  */
 public class TechnicalManager {
 
-	private static TechnicalManager theInstance;
+	private static final TechnicalManager theInstance = new TechnicalManager();
 
 	/**
 	 * Gets the instance of the technical manager.
@@ -28,9 +28,6 @@ public class TechnicalManager {
 	 * @return The instance.
 	 */
 	public static TechnicalManager getInstance() {
-		if (theInstance == null) {
-			theInstance = new TechnicalManager();
-		}
 		return theInstance;
 	}
 
