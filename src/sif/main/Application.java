@@ -41,7 +41,7 @@ public class Application {
 	/**
 	 * Tries and sets the parent folder of the jar
 	 */
-	private static void checkParentFolder() {
+	private synchronized static void checkParentFolder() {
 		try {
 			parentFolder = new File(
 					Application.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath())
@@ -56,7 +56,7 @@ public class Application {
 	 * Checks for a file "debug" in the jar folder and sets the DEBUG flag when
 	 * appropriate
 	 */
-	private static void checkDebug() {
+	private synchronized static void checkDebug() {
 		File debugFile = new File(parentFolder, DEBUGFILENAME);
 		if (debugFile.exists()) {
 			DEBUG = true;
