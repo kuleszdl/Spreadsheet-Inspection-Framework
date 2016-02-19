@@ -61,19 +61,19 @@ public class DataFacadeTest {
 			cellAddress3.setRowIndex(8);
 
 
-			assertEquals(1, rangeAddress.compareHorizontal(cellAddress));
+			assertEquals(1, rangeAddress.compareHorizontalIntrasheet(cellAddress));
 			assertEquals(0, rangeAddress.compareVertical(cellAddress));
 
-			assertEquals(0, rangeAddress2.compareHorizontal(cellAddress));
+			assertEquals(0, rangeAddress2.compareHorizontalIntrasheet(cellAddress));
 			assertEquals(0, rangeAddress2.compareVertical(cellAddress));
 
-			assertEquals(1, rangeAddress.compareHorizontal(cellAddress2));
+			assertEquals(1, rangeAddress.compareHorizontalIntrasheet(cellAddress2));
 			assertEquals(0, rangeAddress.compareVertical(cellAddress2));
 
-			assertEquals(-1, rangeAddress2.compareHorizontal(cellAddress2));
+			assertEquals(-1, rangeAddress2.compareHorizontalIntrasheet(cellAddress2));
 			assertEquals(1, rangeAddress2.compareVertical(cellAddress2));
 
-			assertEquals(1, rangeAddress2.compareHorizontal(cellAddress3));
+			assertEquals(1, rangeAddress2.compareHorizontalIntrasheet(cellAddress3));
 			assertEquals(-1, rangeAddress2.compareVertical(cellAddress3));
 
 		} catch (Exception e) {
