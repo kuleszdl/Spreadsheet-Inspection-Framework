@@ -44,7 +44,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 				.getReferencingElement();
 
 		// Referenced element is right of referencing element.
-		if (referencingElement.getAbstractAddress().compareHorizontal(
+		if (referencingElement.getAbstractAddress().compareHorizontalIntrasheet(
 				referencedElement.getAbstractAddress()) == 1) {
 			result = false;
 		}

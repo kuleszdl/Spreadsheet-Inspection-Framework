@@ -14,7 +14,7 @@ public class CellAddress extends AbstractAddress {
 	private Integer rowIndex;
 
 	@Override
-	public int compareHorizontal(AbstractAddress address) {
+	public int compareHorizontalIntrasheet(AbstractAddress address) {
 		int comparision = 0;
 
 		// Given address is within the same worksheet.
@@ -126,7 +126,7 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public Boolean hasIntersection(AbstractAddress address) {
-		int h = compareHorizontal(address);
+		int h = compareHorizontalIntrasheet(address);
 		int v = compareVertical(address);
 		// Vertical difference doesn't check for the worksheet
 		v = address.worksheet.equals(worksheet) ? v : 1;
@@ -149,7 +149,7 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public Boolean isWithin(AbstractAddress address) {
-		int h = compareHorizontal(address);
+		int h = compareHorizontalIntrasheet(address);
 		int v = compareVertical(address);
 		return h == 0 && v == 0;
 	}

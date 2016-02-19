@@ -33,7 +33,7 @@ public class RangeAddress extends AbstractAddress {
 	}
 
 	@Override
-	public int compareHorizontal(AbstractAddress address) {
+	public int compareHorizontalIntrasheet(AbstractAddress address) {
 		int comparision = 0;
 
 		// Addresses are within same worksheet.

@@ -59,7 +59,7 @@ public abstract class AbstractAddress {
 	 *         addresses overlap and 1 if the given address is right of this
 	 *         address.
 	 */
-	public abstract int compareHorizontal(AbstractAddress address);
+	public abstract int compareHorizontalIntrasheet(AbstractAddress address);
 
 	/**
 	 * Compares this address with the given address vertically.
