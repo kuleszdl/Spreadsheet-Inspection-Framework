@@ -34,6 +34,7 @@ import org.apache.poi.ss.formula.ptg.PercentPtg;
 import org.apache.poi.ss.formula.ptg.PowerPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.Ref3DPtg;
+import org.apache.poi.ss.formula.ptg.Ref3DPxg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
 import org.apache.poi.ss.formula.ptg.RefPtgBase;
 import org.apache.poi.ss.formula.ptg.ScalarConstantPtg;
@@ -45,6 +46,7 @@ import org.apache.poi.ss.formula.ptg.UnknownPtg;
 import org.apache.poi.ss.formula.ptg.ValueOperatorPtg;
 import org.apache.poi.ss.usermodel.FormulaError;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import sif.model.elements.basic.address.CellAddress;
 import sif.model.elements.basic.address.RangeAddress;
@@ -145,6 +147,7 @@ public class POIFormulaTransformer {
 
 				// Get the sheet index.
 				if (poiWorkbook instanceof HSSFWorkbook) {
+					// FIXME: there must be a cleaner way to do this!
 					sheetIndex = ((HSSFWorkbook) poiWorkbook)
 							.getSheetIndexFromExternSheetIndex(ref3DPtg
 									.getExternSheetIndex());
@@ -155,6 +158,19 @@ public class POIFormulaTransformer {
 				// Transform sheet index to a 1 based index.
 				referencedCellAddress.setWorksheet(poiIO.spreadsheet
 						.getWorksheetAt(sheetIndex + 1));
+			}  else if (refPtgBase instanceof Ref3DPxg) {
+				Workbook poiWorkbook = poiIO.poiWorkbook;
+				Integer sheetIndex = null;
+				
+				Ref3DPxg ref3dpxg = (Ref3DPxg) refPtgBase;
+				
+				// Get the sheet index the XSSF way
+				if (poiWorkbook instanceof XSSFWorkbook) {
+					sheetIndex = ((XSSFWorkbook) poiWorkbook).getSheetIndex(ref3dpxg.getSheetName());
+				}
+				// Transform sheet index to a 1 based index.
+				referencedCellAddress.setWorksheet(poiIO.spreadsheet
+						.getWorksheetAt(sheetIndex+1));
 			}
 
 			// Get referenced cell.
