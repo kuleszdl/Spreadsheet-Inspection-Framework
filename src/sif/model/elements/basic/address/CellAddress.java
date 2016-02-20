@@ -17,46 +17,48 @@ public class CellAddress extends AbstractAddress {
 	public int compareHorizontalIntrasheet(AbstractAddress address) {
 		int comparision = 0;
 
-		// Given address is within the same worksheet.
-		if (address.getWorksheet().equals(this.worksheet)) {
-			// Cell address.
-			if (address instanceof CellAddress) {
-				CellAddress cellAddress = (CellAddress) address;
+		// Cell address.
+		if (address instanceof CellAddress) {
+			CellAddress cellAddress = (CellAddress) address;
 
-				// Given cell address is left of this cell address.
-				if (cellAddress.getColumnIndex() < this.columnIndex) {
-					comparision = -1;
-				}
-				// Given cell address is right of this cell address.
-				if (cellAddress.getColumnIndex() > this.columnIndex) {
-					comparision = 1;
-				}
-
-				// Range address.
-			} else {
-				RangeAddress rangeAddress = (RangeAddress) address;
-				// Given range address is left of this cell address.
-				if (rangeAddress.getRightmostColumnIndex() < this.columnIndex) {
-					comparision = -1;
-				}
-				// // Given range address is right of this cell address.
-				if (rangeAddress.getLeftmostColumnIndex() > this.columnIndex) {
-					comparision = 1;
-				}
-
-			}
-		} else {
-			// Given address is in a worksheet left of the worksheet of this
-			// address.
-			if (address.getWorksheet().getIndex() < this.worksheet.getIndex()) {
+			// Given cell address is left of this cell address.
+			if (cellAddress.getColumnIndex() < this.columnIndex) {
 				comparision = -1;
 			}
-			// Given address is in a worksheet right of the worksheet of this
-			// address.
-			if (address.getWorksheet().getIndex() > this.worksheet.getIndex()) {
+			// Given cell address is right of this cell address.
+			if (cellAddress.getColumnIndex() > this.columnIndex) {
 				comparision = 1;
 			}
+
+			// Range address.
+		} else {
+			RangeAddress rangeAddress = (RangeAddress) address;
+			// Given range address is left of this cell address.
+			if (rangeAddress.getRightmostColumnIndex() < this.columnIndex) {
+				comparision = -1;
+			}
+			// // Given range address is right of this cell address.
+			if (rangeAddress.getLeftmostColumnIndex() > this.columnIndex) {
+				comparision = 1;
+			}
+
 		}
+
+		// Given address is in a worksheet left of the worksheet of this
+		// address - TODO: Move this code to a separate policy
+		{
+			// if (address.getWorksheet().getIndex() <
+			// this.worksheet.getIndex()) {
+			// comparision = -1;
+			// }
+			// // Given address is in a worksheet right of the worksheet of this
+			// // address.
+			// if (address.getWorksheet().getIndex() >
+			// this.worksheet.getIndex()) {
+			// comparision = 1;
+			// }
+		}
+		
 
 		return comparision;
 	}
@@ -105,8 +107,7 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public String getFullAddress() {
-		return "[" + worksheet.getSpreadsheet().getName() + "]"
-				+ getSpreadsheetAddress();
+		return "[" + worksheet.getSpreadsheet().getName() + "]" + getSpreadsheetAddress();
 	}
 
 	public Integer getRowIndex() {
@@ -120,8 +121,7 @@ public class CellAddress extends AbstractAddress {
 
 	@Override
 	public String getWorksheetAddress() {
-		return AbstractAddress.getCharacterFor(columnIndex)
-				+ rowIndex.toString();
+		return AbstractAddress.getCharacterFor(columnIndex) + rowIndex.toString();
 	}
 
 	@Override

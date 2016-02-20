@@ -40,12 +40,17 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 	public Boolean isLeftToRightFullfilled(AbstractReference reference) {
 		Boolean result = true;
 		IReferencedElement referencedElement = reference.getReferencedElement();
-		IReferencingElement referencingElement = reference
-				.getReferencingElement();
+		IReferencingElement referencingElement = reference.getReferencingElement();
 
+		// If referenced element is another worksheet the rule is always
+		// fulfilled
+		if (!referencingElement.getAbstractAddress().getWorksheet()
+				.equals(referencedElement.getAbstractAddress().getWorksheet())) {
+			result = true;
+		}
 		// Referenced element is right of referencing element.
-		if (referencingElement.getAbstractAddress().compareHorizontalIntrasheet(
-				referencedElement.getAbstractAddress()) == 1) {
+		else if (referencingElement.getAbstractAddress()
+				.compareHorizontalIntrasheet(referencedElement.getAbstractAddress()) == 1) {
 			result = false;
 		}
 
@@ -55,16 +60,18 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 	public Boolean isTopToBottomFullfilled(AbstractReference reference) {
 		Boolean result = true;
 		IReferencedElement referencedElement = reference.getReferencedElement();
-		IReferencingElement referencingElement = reference
-				.getReferencingElement();
-		
-		// If referenced element is another worksheet the rule is always fulfilled
-		if (!referencingElement.getAbstractAddress().getWorksheet().equals(referencedElement.getAbstractAddress().getWorksheet())) {
+		IReferencingElement referencingElement = reference.getReferencingElement();
+
+		// If referenced element is another worksheet the rule is always
+		// fulfilled
+		if (!referencingElement.getAbstractAddress().getWorksheet()
+				.equals(referencedElement.getAbstractAddress().getWorksheet())) {
 			result = true;
 		}
-		// Referenced element is on the same worksheet and below referencing element.
-		else if (referencingElement.getAbstractAddress().compareVertical(
-				referencedElement.getAbstractAddress()) == -1) {
+		// Referenced element is on the same worksheet and below referencing
+		// element.
+		else if (referencingElement.getAbstractAddress()
+				.compareVertical(referencedElement.getAbstractAddress()) == -1) {
 			result = false;
 		}
 
@@ -74,8 +81,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 	@Override
 	public ViolationList run() {
 
-		ViolationList violations = new ViolationList(getTestedPolicyRule(),
-				new SameCausingCellGroupor());
+		ViolationList violations = new ViolationList(getTestedPolicyRule(), new SameCausingCellGroupor());
 
 		AbstractElementList<Formula> formulas = this.inventory.getListFor(Formula.class);
 
@@ -90,8 +96,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 
 					if (mustBeLeftToRightReadable) {
 						if (!isLeftToRightFullfilled(reference)) {
-							ReadingDirectionSingleViolation violation = 
-									new ReadingDirectionSingleViolation();
+							ReadingDirectionSingleViolation violation = new ReadingDirectionSingleViolation();
 							violation.setPolicyRule(getTestedPolicyRule());
 							violation.setNonLeftToRight(reference);
 							violation.setCausingElement(reference.getContainer());
@@ -102,8 +107,7 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 
 					if (mustBeTopToBottomReadable) {
 						if (!isTopToBottomFullfilled(reference)) {
-							ReadingDirectionSingleViolation violation = 
-									new ReadingDirectionSingleViolation();
+							ReadingDirectionSingleViolation violation = new ReadingDirectionSingleViolation();
 							violation.setCausingElement(reference.getContainer());
 							violation.setPolicyRule(getTestedPolicyRule());
 							violation.setNonTopToBottom(reference);
