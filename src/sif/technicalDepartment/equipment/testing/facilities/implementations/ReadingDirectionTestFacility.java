@@ -57,9 +57,13 @@ public class ReadingDirectionTestFacility extends MonolithicTestFacility {
 		IReferencedElement referencedElement = reference.getReferencedElement();
 		IReferencingElement referencingElement = reference
 				.getReferencingElement();
-
-		// Referenced element is below referencing element.
-		if (referencingElement.getAbstractAddress().compareVertical(
+		
+		// If referenced element is another worksheet the rule is always fulfilled
+		if (!referencingElement.getAbstractAddress().getWorksheet().equals(referencedElement.getAbstractAddress().getWorksheet())) {
+			result = true;
+		}
+		// Referenced element is on the same worksheet and below referencing element.
+		else if (referencingElement.getAbstractAddress().compareVertical(
 				referencedElement.getAbstractAddress()) == -1) {
 			result = false;
 		}
