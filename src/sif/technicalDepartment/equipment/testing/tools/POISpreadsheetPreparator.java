@@ -65,7 +65,7 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
 	 */
 	@Override
-	public Spreadsheet prepare(DynamicPolicyRule rule, Object poiSpreadsheet)
+	public synchronized Spreadsheet prepare(DynamicPolicyRule rule, Object poiSpreadsheet)
 			throws Exception {
 		if (poiSpreadsheet instanceof Workbook) {
 			Workbook workbook = (Workbook) poiSpreadsheet;
@@ -91,7 +91,7 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
 	 */
 	@Override
-	public Spreadsheet evaluate() {
+	public synchronized Spreadsheet evaluate() {
 		Spreadsheet spreadsheet = null;
 		String name = this.request.getSpreadsheetFile().getName();
 		if (this.workbook != null) {

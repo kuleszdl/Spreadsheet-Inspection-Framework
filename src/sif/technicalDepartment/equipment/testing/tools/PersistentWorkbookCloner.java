@@ -24,7 +24,7 @@ public class PersistentWorkbookCloner implements IWorkbookCloner{
 	 * @param workbook to clone
 	 * @return the cloned workbook
 	 */
-	private Workbook cloneIntoNewFile(Workbook workbook){
+	private synchronized Workbook cloneIntoNewFile(Workbook workbook){
 		File currentFile = null;
 
 		try {
@@ -45,7 +45,7 @@ public class PersistentWorkbookCloner implements IWorkbookCloner{
 	 * @param currentFile to read
 	 * @return the workbook
 	 */
-	private Workbook cloneFromFile(File currentFile){
+	private synchronized Workbook cloneFromFile(File currentFile){
 		Workbook clone = null;
 
 		try {
@@ -63,7 +63,7 @@ public class PersistentWorkbookCloner implements IWorkbookCloner{
 	}
 
 	@Override
-	public Workbook cloneWorkbook(Workbook workbook) {
+	public synchronized Workbook cloneWorkbook(Workbook workbook) {
 		Workbook clone = null;
 		try {
 			clone = cloneIntoNewFile(workbook);
