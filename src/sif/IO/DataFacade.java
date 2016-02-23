@@ -42,7 +42,7 @@ import sif.utilities.SchemaUtility;
  */
 public final class DataFacade {
 
-	private static DataFacade theInstance;
+	private static final DataFacade theInstance = new DataFacade();
 
 	/***
 	 * Gets the instance of the DataFacade.
@@ -50,9 +50,6 @@ public final class DataFacade {
 	 * @return The instance.
 	 */
 	public static DataFacade getInstance() {
-		if (theInstance == null) {
-			theInstance = new DataFacade();
-		}
 		return theInstance;
 	}
 
