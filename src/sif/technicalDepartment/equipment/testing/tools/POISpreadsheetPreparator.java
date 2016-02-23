@@ -1,6 +1,7 @@
 package sif.technicalDepartment.equipment.testing.tools;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import sif.IO.DataFacade;
@@ -90,19 +91,13 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
 	 */
 	@Override
-	public synchronized Spreadsheet evaluate() {
+	public Spreadsheet evaluate() {
 		Spreadsheet spreadsheet = null;
 		String name = this.request.getSpreadsheetFile().getName();
 		if (this.workbook != null) {
-			this.workbook.getCreationHelper().createFormulaEvaluator()
-					.evaluateAll();
-
-			// Dirty quick fix for computations being wrong 
-			try {
-				Thread.sleep(800);
-			} catch (InterruptedException e) {
-				logger.warn("", e);
-			}
+			FormulaEvaluator fe = this.workbook.getCreationHelper().createFormulaEvaluator();
+			fe.clearAllCachedResultValues();
+			fe.evaluateAll();
 		}
 
 		try {
