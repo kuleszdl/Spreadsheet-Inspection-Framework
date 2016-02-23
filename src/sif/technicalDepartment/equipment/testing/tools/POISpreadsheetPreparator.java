@@ -90,12 +90,19 @@ public class POISpreadsheetPreparator implements IDynamicSpreadsheetRunner {
 	 * (sif.model.inspection.DynamicInspectionRequest, org.apache.poi.ss.usermodel.Workbook)
 	 */
 	@Override
-	public Spreadsheet evaluate() {
+	public synchronized Spreadsheet evaluate() {
 		Spreadsheet spreadsheet = null;
 		String name = this.request.getSpreadsheetFile().getName();
 		if (this.workbook != null) {
 			this.workbook.getCreationHelper().createFormulaEvaluator()
 					.evaluateAll();
+
+			// Dirty quick fix for computations being wrong 
+			try {
+				Thread.sleep(800);
+			} catch (InterruptedException e) {
+				logger.warn("", e);
+			}
 		}
 
 		try {
