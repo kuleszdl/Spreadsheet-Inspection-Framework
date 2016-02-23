@@ -47,9 +47,6 @@ public class FrontDesk {
 	 * @return The instance.
 	 */
 	public static FrontDesk getInstance() {
-		if (theInstance == null) {
-			theInstance = new FrontDesk();
-		}
 		return theInstance;
 
 	}
@@ -58,7 +55,7 @@ public class FrontDesk {
 	private InspectionManager inspectionManager;
 	private TechnicalManager technicalManager;
 
-	private static FrontDesk theInstance;
+	private static final FrontDesk theInstance = new FrontDesk();
 
 	private FrontDesk() {
 		policyManager = new PolicyManager();
