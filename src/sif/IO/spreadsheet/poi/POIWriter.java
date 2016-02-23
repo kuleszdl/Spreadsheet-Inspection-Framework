@@ -59,12 +59,16 @@ public class POIWriter implements ISpreadsheetWriter {
 							testInput.getTarget());
 					Sheet sheet;
 
-					if (address.getSheetName() != null) {
-						sheet = workbook.getSheet(address.getSheetName());
-					} else {
-						int activeIndex = workbook.getActiveSheetIndex();
-						sheet = workbook.getSheetAt(activeIndex);
-					}
+					// Always use sheet 0 hardcoded, since switching sheets seems to be currently broken:
+					sheet =workbook.getSheetAt(0);
+					
+					// FIXME: Make this work again
+//					if (address.getSheetName() != null) {
+//						sheet = workbook.getSheet(address.getSheetName());
+//					} else {
+//						int activeIndex = workbook.getActiveSheetIndex();
+//						sheet = workbook.getSheetAt(activeIndex);
+//					}
 
 					Row row = sheet.getRow(address.getRow());
 					Cell cell = row.getCell(address.getCol());
