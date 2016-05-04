@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-
+<!--taskdef resource="net/sf/antcontrib/antcontrib.properties"/-->
 <project basedir="." default="build" name="spreadsheet_inspection_framework">
 	<property environment="env" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.7" />
 	<property name="source" value="1.7" />
 	<property name="dist.dir" value="dist" />
-	<property name="release.dir" value="release" />
+	<property name="release.dir" value="release" />	
+	<property name="rebuild.dir" value="rebuild" />
 	<property name="release.subdir" value="Spreadsheet Inspection Framework" />
 	<property name="license.file" value="LICENSE.txt" />
-	
-	<property name="sifcore.version" value="0.1.2" />
-
+	<property name="license.file" value="LICENSE.txt" />
+	<property name="sifcore.version" value="0.1.0" />
 
 	<path id="spreadsheet_inspection_framework.classpath">
 		<pathelement location="bin" />
+		<pathelement location="libs/ant-1.8.4.jar" />
+		<pathelement location="libs/commons-codec-1.9" />	
+		<pathelement location="libs/commons-lang3-3.1.jar" />
 		<pathelement location="libs/commons-logging-1.1.3.jar" />
 		<pathelement location="libs/dom4j-1.6.1.jar" />
+		<pathelement location="libs/guava-10.0.1.jar" />
 		<pathelement location="libs/log4j-1.2.17.jar" />
-		<pathelement location="libs/commons-lang3-3.1.jar" />
 		<pathelement location="libs/poi-3.13-20150929.jar" />
 		<pathelement location="libs/poi-ooxml-3.13-20150929.jar" />
 		<pathelement location="libs/poi-ooxml-schemas-3.13-20150929.jar" />
 		<pathelement location="libs/resolver.jar" />
 		<pathelement location="libs/stax-api-1.0.1.jar" />
 		<pathelement location="libs/xmlbeans-2.6.0.jar" />
-		<pathelement location="libs/guava-10.0.1.jar" />
-		<pathelement location="libs/ant-1.8.4.jar" />
 
 	</path>
 
@@ -54,11 +50,6 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		
-		<copy includeemptydirs="false" todir="bin/resources">
-					<fileset dir="resources">
-					</fileset>
-				</copy>
 
 		<copy includeemptydirs="false" todir="${dist.dir}/libs">
 			<fileset dir="libs">
@@ -70,7 +61,6 @@
 		<delete dir="bin" />
 		<delete dir="jar" />
 		<delete dir="${release.dir}" />
-		<delete dir="${dist.dir}" />
 	</target>
 
 
@@ -137,7 +127,220 @@
 		</junit>
 	</target>
 	
-	<target name="build-release" depends="build">
+	<target name="onejar-check">
+		<echo message="Checking if fat jar is already available or outdated..." />
+		<condition property="sif_fat.rebuild_needed">
+			<or>
+				<not>
+					<available file="${dist.dir}/sif_fat.jar" />
+				</not>
+				<not>
+				<uptodate targetfile="${dist.dir}/sif_fat.jar">
+					 <srcfiles dir="." includes="**/*.java"/>
+				</uptodate>
+				</not>
+			</or>
+		</condition>
+	</target>
+	
+	<target name="multijar-check">
+		<echo message="Checking if jar is already available or outdated..." />
+		<condition property="sif.rebuild_needed">
+			<or>
+				<not>
+					<available file="${dist.dir}/sif.jar" />
+				</not>
+				<not>
+				<uptodate targetfile="${dist.dir}/sif.jar">
+					 <srcfiles dir="." includes="**/*.java"/>
+				</uptodate>
+				</not>
+			</or>
+		</condition>
+	</target>
+	
+	<target name="onejar-rebuild_needed" if="sif_fat.rebuild_needed" depends="onejar-check">
+		<echo message="Fat jar not present or outdated, rebuilding..." />
+		<antcall target="build"/>
+		<unzip dest="${rebuild.dir}">
+			<fileset dir="${dist.dir}">
+				<include name="sif.jar"/>
+				<include name="libs/*.jar"/>
+			</fileset>
+		</unzip>
+		<jar basedir="${rebuild.dir}"
+		     destfile="${dist.dir}/sif_fat.jar">
+			<manifest>
+				<attribute name="Main-Class" value="sif.main.Application" />
+				<attribute name="Class-Path" value="${lib.list}" />
+			</manifest>
+			
+		</jar>
+		<delete dir="${rebuild.dir}"/>
+	</target>
+	
+	<target name="multijar-rebuild_needed" if="sif.rebuild_needed" depends="multijar-check">
+		<echo message="Jar not present or outdated, rebuilding..." />
+		<antcall target="build"/>
+	</target>
+	
+			
+	<target name="ikvm-2-x86-multijar" depends="multijar-rebuild_needed">
+		<echo message="Converting for .NET 2.0 32-Bit CLR..." />
+		
+		<apply executable="ikvmc" parallel="false" dir="${dist.dir}\libs\" force="true">
+			<fileset dir="${dist.dir}\libs" includes="*.jar" />
+			<arg value="-nostdlib"/>
+			<arg value="-target:library"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\mscorlib.dll"/>
+		</apply>	
+		<mkdir dir="${dist.dir}/ikvm-2-x86-multijar"/>
+		<move todir="${dist.dir}/ikvm-2-x86-multijar">
+			<fileset dir="${dist.dir}/libs">
+				<include name="**/*.dll"/>
+			</fileset>
+		</move>
+		<fileset id="appendDlls" dir="${dist.dir}/ikvm-2-x86-multijar">
+			<include name="*.dll" />
+		</fileset>
+		<pathconvert property="prependDlls" refid="appendDlls" pathsep=" -r:"/>
+		
+		<exec executable="ikvmc">
+			<arg value="-nostdlib"/>
+			<arg value="${dist.dir}\sif.jar"/>
+			<arg value="-out:${dist.dir}\ikvm-2-x86-multijar\sif.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\mscorlib.dll"/>
+			<arg line="-r:${prependDlls}"/>
+		</exec>
+	</target>
+	<target name="ikvm-2-x64-multijar" depends="multijar-rebuild_needed">
+		<echo message="Converting for .NET 2.0 64-Bit CLR..." />
+		
+		<apply executable="ikvmc" parallel="false" dir="${dist.dir}\libs\" force="true">
+			<fileset dir="${dist.dir}\libs" includes="*.jar" />
+			<arg value="-nostdlib"/>
+			<arg value="-target:library"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v2.0.50727\mscorlib.dll"/>
+		</apply>	
+		<mkdir dir="${dist.dir}/ikvm-2-x64-multijar"/>
+		<move todir="${dist.dir}/ikvm-2-x64-multijar">
+			<fileset dir="${dist.dir}/libs">
+				<include name="**/*.dll"/>
+			</fileset>
+		</move>
+		<fileset id="appendDlls" dir="${dist.dir}/ikvm-2-x64-multijar">
+			<include name="*.dll" />
+		</fileset>
+		<pathconvert property="prependDlls" refid="appendDlls" pathsep=" -r:"/>
+		
+		<exec executable="ikvmc">
+			<arg value="-nostdlib"/>
+			<arg value="${dist.dir}\sif.jar"/>
+			<arg value="-out:${dist.dir}\ikvm-2-x64-multijar\sif.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v2.0.50727\mscorlib.dll"/>
+			<arg line="-r:${prependDlls}"/>
+		</exec>
+	</target>
+	<target name="ikvm-4-x86-multijar" depends="multijar-rebuild_needed">
+		<echo message="Converting for .NET 4.0 32-Bit CLR..." />
+		
+		<apply executable="ikvmc" parallel="false" dir="${dist.dir}\libs\" force="true">
+			<fileset dir="${dist.dir}\libs" includes="*.jar" />
+			<arg value="-nostdlib"/>
+			<arg value="-target:library"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll"/>
+		</apply>	
+		<mkdir dir="${dist.dir}/ikvm-4-x86-multijar"/>
+		<move todir="${dist.dir}/ikvm-4-x86-multijar">
+			<fileset dir="${dist.dir}/libs">
+				<include name="**/*.dll"/>
+			</fileset>
+		</move>
+		<fileset id="appendDlls" dir="${dist.dir}/ikvm-4-x86-multijar">
+			<include name="*.dll" />
+		</fileset>
+		<pathconvert property="prependDlls" refid="appendDlls" pathsep=" -r:"/>
+		
+		<exec executable="ikvmc">
+			<arg value="-nostdlib"/>
+			<arg value="${dist.dir}\sif.jar"/>
+			<arg value="-out:${dist.dir}\ikvm-4-x86-multijar\sif.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll"/>
+			<arg line="-r:${prependDlls}"/>
+		</exec>
+	</target>
+	<target name="ikvm-4-x64-multijar" depends="multijar-rebuild_needed">
+		<echo message="Converting for .NET 4.0 64-Bit CLR..." />
+		
+		<apply executable="ikvmc" parallel="false" dir="${dist.dir}\libs\" force="true">
+			<fileset dir="${dist.dir}\libs" includes="*.jar" />
+			<arg value="-nostdlib"/>
+			<arg value="-target:library"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll"/>
+		</apply>	
+		<mkdir dir="${dist.dir}/ikvm-4-x64-multijar"/>
+		<move todir="${dist.dir}/ikvm-4-x64-multijar">
+			<fileset dir="${dist.dir}/libs">
+				<include name="**/*.dll"/>
+			</fileset>
+		</move>
+		<fileset id="appendDlls" dir="${dist.dir}/ikvm-4-x64-multijar">
+			<include name="*.dll" />
+		</fileset>
+		<pathconvert property="prependDlls" refid="appendDlls" pathsep=" -r:"/>
+		
+		<exec executable="ikvmc">
+			<arg value="-nostdlib"/>
+			<arg value="${dist.dir}\sif.jar"/>
+			<arg value="-out:${dist.dir}\ikvm-4-x64-multijar\sif.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll"/>
+			<arg line="-r:${prependDlls}"/>
+		</exec>
+	</target>
+	
+	<target name="ikvm-2-x86-onejar" depends="onejar-rebuild_needed">
+		<echo message="Converting for .NET 2.0 86-Bit CLR..." />
+		
+			<exec executable="ikvmc" dir="${dist.dir}">
+				<arg value="-nostdlib"/>
+				<arg value="sif_fat.jar"/>
+				<arg value="-out:sif_fat_2_x86.exe"/>
+				<arg value="-r:C:\Windows\Microsoft.NET\Framework\v2.0.50727\mscorlib.dll"/>
+			</exec>			
+	</target>
+	<target name="ikvm-2-x64-onejar" depends="onejar-rebuild_needed">
+		<echo message="Converting for .NET 2.0 64-Bit CLR..." />
+			
+		<exec executable="ikvmc" dir="${dist.dir}">
+			<arg value="-nostdlib"/>
+			<arg value="sif_fat.jar"/>
+			<arg value="-out:sif_fat_2_x64.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v2.0.50727\mscorlib.dll"/>
+		</exec>
+	</target>
+	<target name="ikvm-4-x86-onejar" depends="onejar-rebuild_needed">
+		<echo message="Converting for .NET 4.0 32-Bit CLR..." />
+		<exec executable="ikvmc" dir="${dist.dir}">
+			<arg value="-nostdlib"/>
+			<arg value="sif_fat.jar"/>
+			<arg value="-out:sif_fat_4_x86.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll"/>
+		</exec>
+	</target>
+	<target name="ikvm-4-x64-onejar" depends="onejar-rebuild_needed">
+		<echo message="Converting for .NET 4.0 64-Bit CLR..." />
+		<exec executable="ikvmc" dir="${dist.dir}">
+			<arg value="-nostdlib"/>
+			<arg value="sif_fat.jar"/>
+			<arg value="-out:sif_fat_4_x64.exe"/>
+			<arg value="-r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll"/>
+		</exec>
+	</target>
+	
+	<target name="all_onejars" depends="ikvm-2-x86-onejar,ikvm-2-x64-onejar,ikvm-4-x86-onejar,ikvm-4-x64-onejar"/>
+	<target name="all_multijars" depends="ikvm-2-x86-multijar,ikvm-2-x64-multijar,ikvm-4-x86-multijar,ikvm-4-x64-multijar"/>
+
+<target name="build-release" depends="build">
 	  <mkdir dir="${release.dir}" />
 	  <mkdir dir="${release.dir}/${release.subdir}" />
 	  <copy todir="${release.dir}/${release.subdir}">
@@ -147,8 +350,6 @@
 	    <fileset file="${license.file}"/>
 	  </copy>
 	  
-	  
-
 	  <echo file="${release.dir}/README.txt" append="false">This archive contains a binary distribution of the Spreadsheet Inspection Framework.
 
 Visit our homepage for more details and source code: http://www.spreadsheet-inspection.org
@@ -161,6 +362,4 @@ The binaries contained in this archive are made available under the terms of the
 	  
 	</target>
 	
-
-
 </project>
