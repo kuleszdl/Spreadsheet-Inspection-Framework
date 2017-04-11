@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.model</OriginalElement>
+  <nodes>
+    <node x="530.75" y="87.0">sif.model.Element</node>
+    <node x="183.0" y="823.0">sif.model.CellAddress</node>
+    <node x="259.0" y="567.0">sif.model.values.AbstractValue</node>
+    <node x="0.0" y="224.0">sif.model.CellMatrix</node>
+    <node x="286.5" y="480.0">sif.model.values.Value</node>
+    <node x="259.0" y="654.0">sif.model.values.BooleanValue</node>
+    <node x="22.67449874686713" y="0.0">sif.model.Addressable</node>
+    <node x="525.234022556391" y="224.0">sif.model.TokenContainer</node>
+    <node x="0.0" y="823.0">sif.model.CellMatrixAddress</node>
+    <node x="127.0" y="654.0">sif.model.values.ErrorValue</node>
+    <node x="586.984022556391" y="311.0">sif.model.Formula</node>
+    <node x="917.2340225563909" y="224.0">sif.model.Column</node>
+    <node x="414.0" y="654.0">sif.model.values.StringValue</node>
+    <node x="349.7340225563909" y="311.0">sif.model.tokens.TokenContainerToken</node>
+    <node x="90.25" y="398.0">sif.model.tokens.ScalarConstant</node>
+    <node x="251.25" y="398.0">sif.model.tokens.Operator</node>
+    <node x="114.5" y="736.0">sif.model.Address</node>
+    <node x="80.25" y="311.0">sif.model.tokens.UnspecifiedToken</node>
+    <node x="553.0" y="654.0">sif.model.values.NumericValue</node>
+    <node x="349.0" y="736.0">sif.model.Spreadsheet</node>
+    <node x="758.125" y="87.0">sif.model.Safeable</node>
+    <node x="334.234022556391" y="224.0">sif.model.tokens.Token</node>
+    <node x="437.234022556391" y="224.0">sif.model.Cell</node>
+    <node x="0.0" y="654.0">sif.model.values.NullValue</node>
+    <node x="493.25" y="398.0">sif.model.tokens.Reference</node>
+    <node x="825.234022556391" y="224.0">sif.model.Row</node>
+    <node x="692.234022556391" y="224.0">sif.model.Worksheet</node>
+    <node x="16.17449874686713" y="87.0">sif.model.Referenceable</node>
+    <node x="374.25" y="398.0">sif.model.tokens.Function</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.model.Referenceable" target="sif.model.Addressable">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.UnspecifiedToken" target="sif.model.Element">
+      <point x="-40.25" y="-18.5" />
+      <point x="120.5" y="184.0" />
+      <point x="551.5357142857143" y="184.0" />
+      <point x="-27.714285714285666" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.NumericValue" target="sif.model.values.AbstractValue">
+      <point x="0.0" y="-18.5" />
+      <point x="621.0" y="624.0" />
+      <point x="380.5" y="624.0" />
+      <point x="54.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.BooleanValue" target="sif.model.values.AbstractValue">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.AbstractValue" target="sif.model.values.Value">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.CellMatrix" target="sif.model.Element">
+      <point x="27.5" y="-18.5" />
+      <point x="82.5" y="174.0" />
+      <point x="537.6785714285714" y="174.0" />
+      <point x="-41.571428571428555" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.StringValue" target="sif.model.values.AbstractValue">
+      <point x="0.0" y="-18.5" />
+      <point x="473.5" y="634.0" />
+      <point x="353.5" y="634.0" />
+      <point x="27.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.Operator" target="sif.model.tokens.TokenContainerToken">
+      <point x="0.0" y="-18.5" />
+      <point x="302.75" y="373.0" />
+      <point x="380.9006892230576" y="373.0" />
+      <point x="-62.333333333333314" y="18.5" />
+    </edge>
+    <edge source="sif.model.Worksheet" target="sif.model.Safeable">
+      <point x="28.25" y="-18.5" />
+      <point x="776.984022556391" y="204.0" />
+      <point x="796.0" y="204.0" />
+      <point x="-12.625" y="18.5" />
+    </edge>
+    <edge source="sif.model.Worksheet" target="sif.model.Element">
+      <point x="-28.25" y="-18.5" />
+      <point x="720.484022556391" y="184.0" />
+      <point x="593.1071428571429" y="184.0" />
+      <point x="13.85714285714289" y="18.5" />
+    </edge>
+    <edge source="sif.model.Cell" target="sif.model.Referenceable">
+      <point x="-22.666666666666686" y="-18.5" />
+      <point x="448.5673558897243" y="164.0" />
+      <point x="119.67449874686713" y="164.0" />
+      <point x="34.5" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.TokenContainerToken" target="sif.model.TokenContainer">
+      <point x="46.75000000000006" y="-18.5" />
+      <point x="489.984022556391" y="286.0" />
+      <point x="561.984022556391" y="286.0" />
+      <point x="-36.75" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.ErrorValue" target="sif.model.values.AbstractValue">
+      <point x="0.0" y="-18.5" />
+      <point x="183.0" y="634.0" />
+      <point x="299.5" y="634.0" />
+      <point x="-27.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.ScalarConstant" target="sif.model.tokens.UnspecifiedToken">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.Cell" target="sif.model.Safeable">
+      <point x="22.666666666666686" y="-18.5" />
+      <point x="493.90068922305767" y="204.0" />
+      <point x="770.75" y="204.0" />
+      <point x="-37.875" y="18.5" />
+    </edge>
+    <edge source="sif.model.Formula" target="sif.model.TokenContainer">
+      <point x="0.0" y="-18.5" />
+      <point x="36.75" y="18.5" />
+    </edge>
+    <edge source="sif.model.TokenContainer" target="sif.model.Element">
+      <point x="0.0" y="-18.5" />
+      <point x="598.734022556391" y="194.0" />
+      <point x="579.25" y="194.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.Column" target="sif.model.Element">
+      <point x="-23.5" y="-18.5" />
+      <point x="940.7340225563909" y="154.0" />
+      <point x="620.8214285714286" y="154.0" />
+      <point x="41.571428571428555" y="18.5" />
+    </edge>
+    <edge source="sif.model.Column" target="sif.model.Safeable">
+      <point x="23.5" y="-18.5" />
+      <point x="987.7340225563909" y="144.0" />
+      <point x="846.5" y="144.0" />
+      <point x="37.875" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.UnspecifiedToken" target="sif.model.tokens.Token">
+      <point x="40.25" y="-18.5" />
+      <point x="201.0" y="286.0" />
+      <point x="354.984022556391" y="286.0" />
+      <point x="-20.75" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.Reference" target="sif.model.tokens.TokenContainerToken">
+      <point x="0.0" y="-18.5" />
+      <point x="547.75" y="373.0" />
+      <point x="505.56735588972424" y="373.0" />
+      <point x="62.333333333333314" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.TokenContainerToken" target="sif.model.tokens.Token">
+      <point x="-46.74999999999994" y="-18.5" />
+      <point x="20.75" y="18.5" />
+    </edge>
+    <edge source="sif.model.CellMatrixAddress" target="sif.model.Address">
+      <point x="0.0" y="-18.5" />
+      <point x="81.5" y="798.0" />
+      <point x="138.5" y="798.0" />
+      <point x="-24.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.CellMatrix" target="sif.model.Referenceable">
+      <point x="-27.5" y="-18.5" />
+      <point x="27.5" y="204.0" />
+      <point x="50.67449874686713" y="204.0" />
+      <point x="-34.5" y="18.5" />
+    </edge>
+    <edge source="sif.model.values.NullValue" target="sif.model.values.AbstractValue">
+      <point x="0.0" y="-18.5" />
+      <point x="53.5" y="624.0" />
+      <point x="272.5" y="624.0" />
+      <point x="-54.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.Row" target="sif.model.Element">
+      <point x="-18.0" y="-18.5" />
+      <point x="843.234022556391" y="174.0" />
+      <point x="606.9642857142857" y="174.0" />
+      <point x="27.714285714285666" y="18.5" />
+    </edge>
+    <edge source="sif.model.CellAddress" target="sif.model.Address">
+      <point x="0.0" y="-18.5" />
+      <point x="243.5" y="798.0" />
+      <point x="186.5" y="798.0" />
+      <point x="24.0" y="18.5" />
+    </edge>
+    <edge source="sif.model.Row" target="sif.model.Safeable">
+      <point x="18.0" y="-18.5" />
+      <point x="879.234022556391" y="164.0" />
+      <point x="821.25" y="164.0" />
+      <point x="12.625" y="18.5" />
+    </edge>
+    <edge source="sif.model.Cell" target="sif.model.Element">
+      <point x="0.0" y="-18.5" />
+      <point x="471.234022556391" y="194.0" />
+      <point x="565.3928571428571" y="194.0" />
+      <point x="-13.85714285714289" y="18.5" />
+    </edge>
+    <edge source="sif.model.tokens.Function" target="sif.model.tokens.TokenContainerToken">
+      <point x="0.0" y="-18.5" />
+      <point x="423.75" y="373.0" />
+      <point x="443.2340225563909" y="373.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="506.5" y="512.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

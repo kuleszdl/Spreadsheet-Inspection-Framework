@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.app</OriginalElement>
+  <nodes>
+    <node x="460.0" y="0.0">sif.app.TestcenterModule</node>
+    <node x="0.0" y="0.0">sif.app.ApiModule</node>
+    <node x="8.5" y="256.0">sif.app.ServletContainerProvider</node>
+    <node x="0.0" y="169.0">sif.app.ApplicationResourceConfig</node>
+    <node x="0.0" y="338.0">sif.app.GuiceServiceLocatorGenerator</node>
+    <node x="303.0" y="0.0">sif.app.ModelModule</node>
+    <node x="205.25000000000003" y="87.0">sif.app.ApplicationModule</node>
+    <node x="137.00000000000003" y="0.0">sif.app.ScannerModule</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.app.ApplicationModule" target="sif.app.ScannerModule">
+      <point x="-21.375" y="-18.5" />
+      <point x="269.375" y="57.0" />
+      <point x="210.00000000000003" y="57.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.app.ApplicationModule" target="sif.app.TestcenterModule">
+      <point x="64.125" y="-18.5" />
+      <point x="354.875" y="67.0" />
+      <point x="541.0" y="67.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.app.ApplicationModule" target="sif.app.ModelModule">
+      <point x="21.375" y="-18.5" />
+      <point x="312.125" y="57.0" />
+      <point x="371.5" y="57.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.app.ServletContainerProvider" target="sif.app.ApplicationResourceConfig">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.app.ApplicationModule" target="sif.app.ApiModule">
+      <point x="-64.125" y="-18.5" />
+      <point x="226.62500000000003" y="67.0" />
+      <point x="58.5" y="67.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="311.0" y="187.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

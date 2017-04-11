@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.api</OriginalElement>
+  <nodes>
+    <node x="0.0" y="256.0">sif.api.HeartbeatResource</node>
+    <node x="76.5" y="87.0">sif.api.BaseResource</node>
+    <node x="149.0" y="174.0">sif.api.OoxmlResource</node>
+    <node x="0.0" y="174.0">sif.api.OdsResource</node>
+    <node x="64.5" y="0.0">sif.api.InspectionService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.api.OoxmlResource" target="sif.api.BaseResource">
+      <point x="0.0" y="-18.5" />
+      <point x="222.5" y="149.0" />
+      <point x="177.0" y="149.0" />
+      <point x="33.5" y="18.5" />
+    </edge>
+    <edge source="sif.api.OdsResource" target="sif.api.BaseResource">
+      <point x="0.0" y="-18.5" />
+      <point x="64.5" y="149.0" />
+      <point x="110.0" y="149.0" />
+      <point x="-33.5" y="18.5" />
+    </edge>
+    <edge source="sif.api.BaseResource" target="sif.api.InspectionService">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="148.0" y="146.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

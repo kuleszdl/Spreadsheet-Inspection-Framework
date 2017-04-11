@@ -1,7 +1,0 @@
-FormulaComplexityPolicyRule
-NoConstantsInFormulasPolicyRule
-ReadingDirectionPolicyRule
-MultipleSameRefPolicyRule
-NonConsideredValuesPolicyRule
-OneAmongOthersPolicyRule
-RefToNullPolicyRule
