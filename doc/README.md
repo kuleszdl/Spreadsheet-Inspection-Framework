@@ -98,7 +98,7 @@ F.A.Q.
     Am Ende der Prüfung wird dieser dann mit <i>spreadsheetInventory.getInspectionResponse().add(validationReport)</i> an die HTTP-Response angehängt.</li>
     </ol>
     Man kann als Beispielimplementierung auch die NonConsideredValues-Prüfung verwenden, diese Prüfung ist sehr einfach aufgebaut,
-    nutzt aber bereits die Variable <i>checkStrings<i> zur Konfiguration der Prüfung.
+    nutzt aber bereits die Variable <i>checkStrings</i> zur Konfiguration der Prüfung.
     </dd>
 </dl>
 
