@@ -113,24 +113,13 @@ F.A.Q.
     <dd>Am besten die in der DA verwendeten Werkzeuge Sonarqube und Teamscale testen.
     Ich habe auch sehr gute Erfahrungen mit der "Code Inspection" von IntelliJ IDEA gemacht.
     Immer gleich Integrationstests für neue Prüfungen implementieren und schauen, dass die Anzahl der Probleme die von den Analysewerkzeugen gefunden wird gering bleibt und dass die Testabdeckung hoch ist.
-<<<<<<< HEAD
     <br />Bitte vorsichtig mit <i>copy&paste<i> zu Werke gehen und immer prüfen, ob die gewünschte Funktionalität nicht ohne Kopieren des Codes möglich ist.
     <br />Bitte die Java <a href="http://www.oracle.com/technetwork/java/codeconvtoc-136057.html">Code-Conventions</a> beachten und den gesunden Menschenverstand einsetzen :) </dd>
-=======
-    <br />Bitte vorsichtig mit *copy&paste* zu Werke gehen und immer prüfen, ob die gewünschte Funktionalität nicht ohne Kopieren des Codes möglich ist.
-    <br />Bitte die Java [Code-Conventions](http://www.oracle.com/technetwork/java/codeconvtoc-136057.html) beachten und den gesunden Menschenverstand einsetzen :) </dd>
->>>>>>> origin/master
 </dl>
 
 <dl>
     <dt>Wie kann ich meine Prüfung oder SIFCore "von Hand" testen?</dt>
-<<<<<<< HEAD
     <dd>Zum manuellen Testen von SIFCore können die Policies der Integrationstests verwendet werden (<i>src/test/resources/policies/</i>) und diese können dem gestarteten SIFCore mit einem einfachen HTTP-Client übergeben werden.
     Ich empfehle <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop">Postman</a> (ein standalone Google Chrome Plugin) das sehr einfach zu bedienen ist.
     Im Ordner <i>doc/postman/<i> befindet sich ein Screenshot der einem bei der Konfiguration hilft.</dd>
-=======
-    <dd>Zum manuellen Testen von SIFCore können die Policies der Integrationstests verwendet werden (src/test/resources/policies/) und diese können dem gestarteten SIFCore mit einem einfachen HTTP-Client übergeben werden.
-    Ich empfehle [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) (ein standalone Google Chrome Plugin) das sehr einfach zu bedienen ist.
-    Im Ordner *doc/postman/* befindet sich ein Screenshot der einem bei der Konfiguration hilft.</dd>
->>>>>>> origin/master
 </dl>
