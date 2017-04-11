@@ -122,4 +122,5 @@ F.A.Q.
     <dd>Zum manuellen Testen von SIFCore können die Policies der Integrationstests verwendet werden (<i>src/test/resources/policies/</i>) und diese können dem gestarteten SIFCore mit einem einfachen HTTP-Client übergeben werden.
     Ich empfehle <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop">Postman</a> (ein standalone Google Chrome Plugin) das sehr einfach zu bedienen ist.
     Im Ordner <i>doc/postman/</i> befindet sich ein Screenshot der einem bei der Konfiguration hilft.</dd>
+
 </dl>
