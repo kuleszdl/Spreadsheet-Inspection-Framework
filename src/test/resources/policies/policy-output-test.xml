@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inspectionRequest>
+    <ignoredCells>
+        <cell>Tabelle1!A1</cell>
+        <cell>Tabelle1!A2</cell>
+    </ignoredCells>
+    <ignoredWorksheets>
+        <worksheet>Tabelle2</worksheet>
+        <worksheet>Tabelle3</worksheet>
+    </ignoredWorksheets>
+    <policies>
+        <errorContainingCellPolicy>
+            <background>Fehler in Formeln führen zu ungültigen Werten in Zellen.</background>
+            <description>Es wird geprüft ob der Wert einer Zelle ungültig ist.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Fehler in Zellen</name>
+            <policyType>STATIC</policyType>
+            <solution>Bearbeiten Sie die Formel in der Zelle und stellen Sie sicher dass alle Verweise korrekte Werte liefern.</solution>
+        </errorContainingCellPolicy>
+        <formulaComplexityPolicy>
+            <background>Zu komplexe Formeln sind schwer zu verstehen und fehleranfällig bei der Wartung.</background>
+            <description>Es wird geprüft ob die Formelkomplexität einen gewissen Grad überschreitet (gemessen an der Schachtelungstiefe und der Anzahl von Operatoren)</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Formelkomplexität</name>
+            <policyType>STATIC</policyType>
+            <solution>Brechen sie zu komplexe Formeln in kleinere, weniger komplexe Formeln auf.</solution>
+            <maxNesting>2</maxNesting>
+            <maxOperations>3</maxOperations>
+        </formulaComplexityPolicy>
+        <multipleSameRefPolicy>
+            <background>Zwei oder mehr Verweise auf die gleiche Zelle, die direkt hintereinander in einer Formel verwendet werden sind meist unbeabsichtigt und können daher ein Indikator für eine potenziell fehlerhafte Formel sein.</background>
+            <description>Prüft ob eine Formel mehrere gleiche Verweise hintereinander enthält.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Gleiche Verweise hintereinander</name>
+            <policyType>STATIC</policyType>
+            <solution>Prüfen Sie die Formel und stellen Sie sicher, dass die Verwendung der Verweise tatsächlich so beabsichtigt ist.</solution>
+        </multipleSameRefPolicy>
+        <noConstantsInFormulasPolicy>
+            <background>Konstanten in Formeln erschweren später die Wartung: Sollten sich ihre Werte ändern kann es sehr aufwändig und fehlerträchtig werden, sie zu ersetzen.</background>
+            <description>Es wird geprüft ob Formeln Konstanten enthalten.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Konstanten in Formeln</name>
+            <policyType>STATIC</policyType>
+            <solution>Extrahieren Sie Konstanten in eigene Zellen und erstellen Sie einen Verweis auf diese Zellen.</solution>
+        </noConstantsInFormulasPolicy>
+        <nonConsideredValuesPolicy>
+            <background>Nicht genutzte Werte können Fehler in Spreadsheets sein, wenn etwa Verweise in Formeln geändert oder gelöscht werden.</background>
+            <description>Es wird geprüft ob Werte in Formeln genutzt werden.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Nicht genutzte Werte</name>
+            <policyType>STATIC</policyType>
+            <solution>Nutzen Sie die Werte in den betroffenen Zellen, oder ignorieren Sie diese Warnung für diese Zelle.</solution>
+        </nonConsideredValuesPolicy>
+        <oneAmongOthersPolicy>
+            <background>Einzelne Werte mit anderem Typ als die Umgebungszellen können auf einen Fehler hinweisen.</background>
+            <description>Es wird geprüft ob sich in der Umgebung eines Werts andere Werte mit dem gleichen Typ befinden.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Ein Wert unter Gleichen</name>
+            <policyType>STATIC</policyType>
+            <solution>Stellen Sie sicher dass der Typ des Zellenwerts korrekt ist oder ignorieren Sie diese Warnung.</solution>
+            <environmentLength>2</environmentLength>
+            <environmentStyle>vertical</environmentStyle>
+        </oneAmongOthersPolicy>
+        <readingDirectionPolicy>
+            <background>Zellen mit Formeln sollten nur auf Zellen links oder oberhalb von sich verweisen, weil das die übliche westliche Leserichtung ist.</background>
+            <description>Prüft, ob Zellen mit Formeln nur auf Zellen links oder oberhalb verweisen.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Leserichtung</name>
+            <policyType>STATIC</policyType>
+            <solution>Verschieben Sie die Zelle mit der Formel oder die Zellen, auf die sich die Zelle bezieht.</solution>
+            <leftToRight>true</leftToRight>
+            <topToBottom>true</topToBottom>
+        </readingDirectionPolicy>
+        <refToNullPolicy>
+            <background>Verweise auf leere Zellen sind oft Fehler in Spreadsheets.</background>
+            <description>Prüft ob Formeln auf leere Zellen verweisen.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Verweise auf leere Zellen</name>
+            <policyType>STATIC</policyType>
+            <solution>Stellen Sie sicher dass der Verweis auf die gewünschte Zelle zeigt und dass diese einen gültigen Wert besitzt.</solution>
+        </refToNullPolicy>
+        <stringDistancePolicy>
+            <background>Die Levenshtein-Distanz (auch Editierdistanz) zwischen zwei Zeichenketten ist die minimale Anzahl von Einfüge-, Lösch- und Ersetz-Operationen, um die erste Zeichenkette in die zweite Zeichenkette umzuwandeln.</background>
+            <description>Bestimmt die Levenshtein-Distanz zwischen einzelnen Zellen.</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Levenshtein-Distanz</name>
+            <policyType>STATIC</policyType>
+            <solution>Prüfen sie die Zellen mit Verstößen auf Tippfehler.</solution>
+            <minDistance>3</minDistance>
+        </stringDistancePolicy>
+        <dynamicTestingPolicy>
+            <background>Die Excel-Mappe wird mit den im Szenario angegebenen Eingabewerten befüllt und neu berechnet. Anschließend werden die tatsächlich erhaltenen Werte mit den Werten verglichen, die im Szenario als erwartete Werte hinterlegt sind.</background>
+            <description>Policy für dynamische Tests</description>
+            <ignoredCells/>
+            <ignoredWorksheets/>
+            <name>Dynamische Policy</name>
+            <policyType>DYNAMIC</policyType>
+            <solution>Stellen Sie sicher, dass die Formeln in der betroffenen Zelle sowie die darin enthaltenen Verweise korrekt sind. Prüfen Sie auch, ob die erwarteten Werte im Szenario plausibel sind.</solution>
+            <scenarios>
+                <scenario>
+                    <conditions>
+                        <condition>
+                            <operator>EQUALS</operator>
+                            <target>Tabelle1!C1</target>
+                            <type>NUMERIC</type>
+                            <value>20</value>
+                        </condition>
+                        <condition>
+                            <operator>GREATER</operator>
+                            <target>Tabelle1!B2</target>
+                            <type>NUMERIC</type>
+                            <value>20</value>
+                        </condition>
+                    </conditions>
+                    <inputs>
+                        <input>
+                            <target>Tabelle1!A1</target>
+                            <type>NUMERIC</type>
+                            <value>10</value>
+                        </input>
+                        <input>
+                            <target>Tabelle1!B2</target>
+                            <type>NUMERIC</type>
+                            <value>5</value>
+                        </input>
+                    </inputs>
+                    <invariants>
+                        <invariant>A2</invariant>
+                    </invariants>
+                    <name>Testszenario</name>
+                </scenario>
+            </scenarios>
+        </dynamicTestingPolicy>
+    </policies>
+</inspectionRequest>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.io</OriginalElement>
+  <nodes>
+    <node x="69.0" y="343.0">sif.io.policy.XmlPolicyIO</node>
+    <node x="0.0" y="87.0">sif.io.spreadsheet.OoxmlFormulaTransformer</node>
+    <node x="427.6510416666667" y="174.0">sif.io.spreadsheet.OdsSpreadsheetIO</node>
+    <node x="365.921875" y="0.0">sif.io.spreadsheet.SpreadsheetIO</node>
+    <node x="337.5677083333333" y="87.0">sif.io.spreadsheet.BaseSpreadsheetIO</node>
+    <node x="0.0" y="256.0">sif.io.policy.PolicyIO</node>
+    <node x="111.921875" y="0.0">sif.io.spreadsheet.InvalidSpreadsheetException</node>
+    <node x="117.0" y="256.0">sif.io.policy.InvalidPolicyException</node>
+    <node x="149.20833333333331" y="174.0">sif.io.spreadsheet.OoxmlSpreadsheetIO</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.io.spreadsheet.OoxmlFormulaTransformer" target="sif.io.spreadsheet.InvalidSpreadsheetException">
+      <point x="0.0" y="-18.5" />
+      <point x="110.5" y="67.0" />
+      <point x="150.921875" y="67.0" />
+      <point x="-78.0" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.OdsSpreadsheetIO" target="sif.io.spreadsheet.BaseSpreadsheetIO">
+      <point x="-41.5" y="-18.5" />
+      <point x="469.1510416666667" y="149.0" />
+      <point x="465.8177083333333" y="149.0" />
+      <point x="42.75" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.OoxmlSpreadsheetIO" target="sif.io.spreadsheet.OoxmlFormulaTransformer">
+      <point x="-61.33333333333334" y="-18.5" />
+      <point x="179.87499999999997" y="149.0" />
+      <point x="110.5" y="149.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.io.policy.XmlPolicyIO" target="sif.io.policy.InvalidPolicyException">
+      <point x="30.75" y="-18.5" />
+      <point x="161.25" y="318.0" />
+      <point x="212.5" y="318.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.OoxmlSpreadsheetIO" target="sif.io.spreadsheet.BaseSpreadsheetIO">
+      <point x="61.333333333333314" y="-18.5" />
+      <point x="302.54166666666663" y="149.0" />
+      <point x="380.3177083333333" y="149.0" />
+      <point x="-42.75" y="18.5" />
+    </edge>
+    <edge source="sif.io.policy.XmlPolicyIO" target="sif.io.policy.PolicyIO">
+      <point x="-30.75" y="-18.5" />
+      <point x="99.75" y="318.0" />
+      <point x="48.5" y="318.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.BaseSpreadsheetIO" target="sif.io.spreadsheet.SpreadsheetIO">
+      <point x="0.0" y="-18.5" />
+      <point x="423.0677083333333" y="67.0" />
+      <point x="435.921875" y="67.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.OdsSpreadsheetIO" target="sif.io.spreadsheet.InvalidSpreadsheetException">
+      <point x="41.5" y="-18.5" />
+      <point x="552.1510416666667" y="149.0" />
+      <point x="531.921875" y="149.0" />
+      <point x="531.921875" y="57.0" />
+      <point x="306.921875" y="57.0" />
+      <point x="77.99999999999997" y="18.5" />
+    </edge>
+    <edge source="sif.io.spreadsheet.OoxmlSpreadsheetIO" target="sif.io.spreadsheet.InvalidSpreadsheetException">
+      <point x="0.0" y="-18.5" />
+      <point x="241.20833333333331" y="149.0" />
+      <point x="231.5" y="149.0" />
+      <point x="231.5" y="67.0" />
+      <point x="228.921875" y="67.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="297.0" y="190.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

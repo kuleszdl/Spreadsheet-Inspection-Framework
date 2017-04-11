@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inspectionRequest>
+    <ignoredCells/>
+    <ignoredWorksheets/>
+    <policies>
+        <formulaComplexityPolicy>
+            <maxNesting>2</maxNesting>
+            <maxOperations>5</maxOperations>
+        </formulaComplexityPolicy>
+    </policies>
+</inspectionRequest>

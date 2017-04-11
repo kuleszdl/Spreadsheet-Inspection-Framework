@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inspectionRequest>
+    <ignoredCells/>
+    <ignoredWorksheets/>
+    <policies>
+        <readingDirectionPolicy>
+            <leftToRight>true</leftToRight>
+            <topToBottom>true</topToBottom>
+        </readingDirectionPolicy>
+    </policies>
+</inspectionRequest>

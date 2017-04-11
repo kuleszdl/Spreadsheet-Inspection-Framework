@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="inspectionResponse" type="inspectionResponse"/>
+
+    <xs:element name="policy" type="policy"/>
+
+    <xs:complexType name="inspectionResponse">
+        <xs:sequence>
+            <xs:element name="errors" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="error" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="validationReports" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="validationReport" type="validationReport" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="validationReport">
+        <xs:sequence>
+            <xs:element ref="policy" minOccurs="0"/>
+            <xs:element name="violations" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="violation" type="violation" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="policy" abstract="true">
+        <xs:sequence>
+            <xs:element name="background" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="ignoredCells" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="cell" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ignoredWorksheets" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="worksheet" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="policyType" type="policyType" minOccurs="0"/>
+            <xs:element name="severityWeight" type="xs:double" minOccurs="0"/>
+            <xs:element name="solution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="violation" abstract="true">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="location" type="xs:string" minOccurs="0"/>
+            <xs:element name="severity" type="xs:double" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="policyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STATIC"/>
+            <xs:enumeration value="DYNAMIC"/>
+            <xs:enumeration value="SANITY"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+

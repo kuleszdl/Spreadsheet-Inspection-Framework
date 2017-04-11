@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'jacoco'
+
+repositories {
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+    depVersions = [
+        jersey: '2.25',
+        guice: '4.1.0',
+        slf4j: '1.7.22'
+    ]
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Manifest-Version': '1.0',
+                'Main-Class': 'sif.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+jar.dependsOn fatJar
+
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/api"
+    into "${buildDir}/classes/test"
+}
+processTestResources.dependsOn copyTestResources
+
+mainClassName = 'sif.Main'
+
+dependencies {
+    compile "com.google.inject:guice:$depVersions.guice"
+    compile "com.google.inject.extensions:guice-servlet:$depVersions.guice"
+    compile "com.google.inject.extensions:guice-assistedinject:$depVersions.guice"
+    compile "org.glassfish.jersey.containers:jersey-container-servlet:$depVersions.jersey"
+    compile "org.glassfish.jersey.media:jersey-media-multipart:$depVersions.jersey"
+    compile 'com.squarespace.jersey2-guice:jersey2-guice-impl:1.0.6'
+    compile 'com.palominolabs.http:jetty-http-server-wrapper:1.1.2'
+    compile "org.apache.poi:poi:3.14"
+    compile 'org.apache.poi:poi-ooxml:3.14'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile "org.slf4j:jul-to-slf4j:$depVersions.slf4j"
+    compile "org.slf4j:log4j-over-slf4j:$depVersions.slf4j"
+    compile "org.slf4j:jcl-over-slf4j:$depVersions.slf4j"
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.scanner</OriginalElement>
+  <nodes>
+    <node x="174.0" y="87.0">sif.scanner.OutputCellScanner</node>
+    <node x="209.5" y="0.0">sif.scanner.Scanner</node>
+    <node x="360.0" y="87.0">sif.scanner.IntermediateCellScanner</node>
+    <node x="0.0" y="87.0">sif.scanner.InputCellScanner</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.scanner.InputCellScanner" target="sif.scanner.Scanner">
+      <point x="0.0" y="-18.5" />
+      <point x="77.0" y="62.0" />
+      <point x="225.33333333333334" y="62.0" />
+      <point x="-31.666666666666657" y="18.5" />
+    </edge>
+    <edge source="sif.scanner.OutputCellScanner" target="sif.scanner.Scanner">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.scanner.IntermediateCellScanner" target="sif.scanner.Scanner">
+      <point x="0.0" y="-18.5" />
+      <point x="462.5" y="62.0" />
+      <point x="288.6666666666667" y="62.0" />
+      <point x="31.666666666666686" y="18.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="282.5" y="62.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

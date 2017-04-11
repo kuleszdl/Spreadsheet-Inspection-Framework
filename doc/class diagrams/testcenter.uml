@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>sif.testcenter</OriginalElement>
+  <nodes>
+    <node x="311.0036231884058" y="174.0">sif.testcenter.ValidationReport</node>
+    <node x="188.6105072463768" y="522.0">sif.testcenter.multiple_same_ref</node>
+    <node x="227.6105072463768" y="435.0">sif.testcenter.AbstractFacility</node>
+    <node x="15.485507246376812" y="348.0">sif.testcenter.Facility</node>
+    <node x="43.25362318840581" y="261.0">sif.testcenter.InspectionRequest</node>
+    <node x="124.48550724637681" y="348.0">sif.testcenter.SpreadsheetInventory</node>
+    <node x="69.27898550724643" y="0.0">sif.testcenter.PolicyType</node>
+    <node x="85.27898550724643" y="87.0">sif.testcenter.Policy</node>
+    <node x="401.2536231884058" y="87.0">sif.testcenter.Violation</node>
+    <node x="227.2536231884058" y="261.0">sif.testcenter.InspectionResponse</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="sif.testcenter.InspectionResponse" target="sif.testcenter.ValidationReport">
+      <point x="0.0" y="-18.5" />
+      <point x="314.2536231884058" y="236.0" />
+      <point x="337.0036231884058" y="236.0" />
+      <point x="-52.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.ValidationReport" target="sif.testcenter.Violation">
+      <point x="39.0" y="-18.5" />
+      <point x="-25.75" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.multiple_same_ref" target="sif.testcenter.AbstractFacility">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.multiple_same_ref" target="sif.testcenter.Violation">
+      <point x="74.0" y="-18.5" />
+      <point x="373.6105072463768" y="497.0" />
+      <point x="477.5036231884058" y="497.0" />
+      <point x="25.75" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.SpreadsheetInventory" target="sif.testcenter.InspectionRequest">
+      <point x="-23.25" y="-18.5" />
+      <point x="194.2355072463768" y="323.0" />
+      <point x="166.2536231884058" y="323.0" />
+      <point x="41.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.AbstractFacility" target="sif.testcenter.SpreadsheetInventory">
+      <point x="-18.0" y="-18.5" />
+      <point x="281.6105072463768" y="405.0" />
+      <point x="217.4855072463768" y="405.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.Policy" target="sif.testcenter.PolicyType">
+      <point x="0.0" y="-18.5" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.AbstractFacility" target="sif.testcenter.ValidationReport">
+      <point x="18.0" y="-18.5" />
+      <point x="317.6105072463768" y="405.0" />
+      <point x="411.7536231884058" y="405.0" />
+      <point x="411.7536231884058" y="236.0" />
+      <point x="389.0036231884058" y="236.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.ValidationReport" target="sif.testcenter.Policy">
+      <point x="-39.0" y="-18.5" />
+      <point x="350.0036231884058" y="149.0" />
+      <point x="153.61231884057975" y="149.0" />
+      <point x="27.333333333333314" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.multiple_same_ref" target="sif.testcenter.Policy">
+      <point x="-74.0" y="-18.5" />
+      <point x="225.6105072463768" y="497.0" />
+      <point x="0.0" y="497.0" />
+      <point x="0.0" y="149.0" />
+      <point x="98.94565217391312" y="149.0" />
+      <point x="-27.333333333333314" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.AbstractFacility" target="sif.testcenter.Facility">
+      <point x="-54.0" y="-18.5" />
+      <point x="245.6105072463768" y="415.0" />
+      <point x="59.98550724637681" y="415.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.InspectionRequest" target="sif.testcenter.Policy">
+      <point x="0.0" y="-18.5" />
+      <point x="125.25362318840581" y="149.0" />
+      <point x="126.27898550724643" y="149.0" />
+      <point x="0.0" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.SpreadsheetInventory" target="sif.testcenter.InspectionResponse">
+      <point x="23.25" y="-18.5" />
+      <point x="240.7355072463768" y="323.0" />
+      <point x="270.7536231884058" y="323.0" />
+      <point x="-43.5" y="18.5" />
+    </edge>
+    <edge source="sif.testcenter.multiple_same_ref" target="sif.testcenter.multiple_same_ref">
+      <point x="-55.5" y="18.5" />
+      <point x="244.1105072463768" y="579.0" />
+      <point x="168.6105072463768" y="579.0" />
+      <point x="168.6105072463768" y="549.75" />
+      <point x="-111.0" y="9.25" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="440.0" y="350.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
