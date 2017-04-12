@@ -172,7 +172,7 @@ public class IntegrationTest {
         Files.copy(a, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         */
         InputStream b = new FileInputStream(SAMPLES_PATH + "all-in-one-xlsx.xml");
-		//Assert.assertTrue(isEqualInputStream(a, b));
+		Assert.assertTrue(isEqualInputStream(a, b));
     }
 
     @Test
