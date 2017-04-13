@@ -1,3 +1,11 @@
-/bin
-/dist
-/release
+/out/
+/bin/
+/build/
+/classes/
+/dist/
+/release/
+/sonargraph/
+/.settings/
+/.idea/
+/.gradle/
+/.directory

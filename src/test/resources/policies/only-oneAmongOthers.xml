@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inspectionRequest>
+    <ignoredCells/>
+    <ignoredWorksheets/>
+    <policies>
+        <oneAmongOthersPolicy>
+            <environmentLength>2</environmentLength>
+            <environmentStyle>3</environmentStyle>
+        </oneAmongOthersPolicy>
+    </policies>
+</inspectionRequest>

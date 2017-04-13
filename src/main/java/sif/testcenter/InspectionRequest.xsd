@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0">
+
+    <xs:element name="abstractCondition" type="abstractCondition"/>
+
+    <xs:element name="binaryCondition" type="binaryCondition"/>
+
+    <xs:element name="dynamicTestingPolicy" type="dynamicTestingPolicy"/>
+
+    <xs:element name="errorContainingCellPolicy" type="errorContainingCellPolicy"/>
+
+    <xs:element name="formulaComplexityPolicy" type="formulaComplexityPolicy"/>
+
+    <xs:element name="inspectionRequest" type="inspectionRequest"/>
+
+    <xs:element name="multipleSameRefPolicy" type="multipleSameRefPolicy"/>
+
+    <xs:element name="noConstantsInFormulasPolicy" type="noConstantsInFormulasPolicy"/>
+
+    <xs:element name="nonConsideredValuesPolicy" type="nonConsideredValuesPolicy"/>
+
+    <xs:element name="oneAmongOthersPolicy" type="oneAmongOthersPolicy"/>
+
+    <xs:element name="policy" type="policy"/>
+
+    <xs:element name="readingDirectionPolicy" type="readingDirectionPolicy"/>
+
+    <xs:element name="refToNullPolicy" type="refToNullPolicy"/>
+
+    <xs:element name="sanityChecksPolicy" type="sanityChecksPolicy"/>
+
+    <xs:element name="stringDistancePolicy" type="stringDistancePolicy"/>
+
+    <xs:element name="ternaryCondition" type="ternaryCondition"/>
+
+    <xs:element name="testInput" type="testInput"/>
+
+    <xs:complexType name="inspectionRequest">
+        <xs:sequence>
+            <xs:element name="ignoredCells" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="cell" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ignoredWorksheets" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="worksheet" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="policies" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element ref="errorContainingCellPolicy"/>
+                            <xs:element ref="formulaComplexityPolicy"/>
+                            <xs:element ref="multipleSameRefPolicy"/>
+                            <xs:element ref="noConstantsInFormulasPolicy"/>
+                            <xs:element ref="nonConsideredValuesPolicy"/>
+                            <xs:element ref="oneAmongOthersPolicy"/>
+                            <xs:element ref="readingDirectionPolicy"/>
+                            <xs:element ref="refToNullPolicy"/>
+                            <xs:element ref="stringDistancePolicy"/>
+                            <xs:element ref="sanityChecksPolicy"/>
+                            <xs:element ref="dynamicTestingPolicy"/>
+                        </xs:choice>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="errorContainingCellPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="policy" abstract="true">
+        <xs:sequence>
+            <xs:element name="background" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="ignoredCells" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="cell" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ignoredWorksheets" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="worksheet" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="policyType" type="policyType" minOccurs="0"/>
+            <xs:element name="severityWeight" type="xs:double" minOccurs="0"/>
+            <xs:element name="solution" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="formulaComplexityPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="maxNesting" type="xs:int" minOccurs="0"/>
+                    <xs:element name="maxOperations" type="xs:int" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multipleSameRefPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="noConstantsInFormulasPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="nonConsideredValuesPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="oneAmongOthersPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="environmentLength" type="xs:int" minOccurs="0"/>
+                    <xs:element name="environmentStyle" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="readingDirectionPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="leftToRight" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="topToBottom" type="xs:boolean" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="refToNullPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="stringDistancePolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="minDistance" type="xs:int" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="sanityChecksPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="sanityCheckingCells" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="sanityConstraintCells" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="sanityExplanationCells" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="sanityValueCells" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="sanityWarnings" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dynamicTestingPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="invariants" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                    <xs:element ref="binaryCondition"/>
+                                    <xs:element ref="ternaryCondition"/>
+                                </xs:choice>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="conditions" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                    <xs:element ref="binaryCondition"/>
+                                    <xs:element ref="ternaryCondition"/>
+                                </xs:choice>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="inputs" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="testInput" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="binaryCondition">
+        <xs:complexContent>
+            <xs:extension base="abstractCondition">
+                <xs:sequence>
+                    <xs:element name="relation" type="binaryRelation" minOccurs="0"/>
+                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="abstractCondition" abstract="true">
+        <xs:sequence>
+            <xs:element name="elementType" type="xs:string" minOccurs="0"/>
+            <xs:element name="property" type="xs:string" minOccurs="0"/>
+            <xs:element name="target" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ternaryCondition">
+        <xs:complexContent>
+            <xs:extension base="abstractCondition">
+                <xs:sequence>
+                    <xs:element name="relation" type="ternaryRelation" minOccurs="0"/>
+                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                    <xs:element name="value2" type="xs:double" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="testInput">
+        <xs:sequence>
+            <xs:element name="target" type="xs:string" minOccurs="0"/>
+            <xs:element name="type" type="valueType" minOccurs="0"/>
+            <xs:element name="value" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="policyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STATIC"/>
+            <xs:enumeration value="DYNAMIC"/>
+            <xs:enumeration value="SANITY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="binaryRelation">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="equals"/>
+            <xs:enumeration value="greaterThan"/>
+            <xs:enumeration value="lessThan"/>
+            <xs:enumeration value="lessOrEqual"/>
+            <xs:enumeration value="greaterOrEqual"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ternaryRelation">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="closed"/>
+            <xs:enumeration value="open"/>
+            <xs:enumeration value="openLeft"/>
+            <xs:enumeration value="openRight"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="valueType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BOOLEAN"/>
+            <xs:enumeration value="ERROR"/>
+            <xs:enumeration value="FLOAT"/>
+            <xs:enumeration value="INTEGER"/>
+            <xs:enumeration value="NULL"/>
+            <xs:enumeration value="TEXT"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+

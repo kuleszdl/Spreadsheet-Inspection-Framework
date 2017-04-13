@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inspectionRequest>
+    <ignoredCells/>
+    <ignoredWorksheets/>
+    <policies>
+        <stringDistancePolicy>
+            <minDistance>2</minDistance>
+        </stringDistancePolicy>
+    </policies>
+</inspectionRequest>
