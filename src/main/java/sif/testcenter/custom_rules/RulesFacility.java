@@ -23,7 +23,8 @@ public class RulesFacility extends AbstractFacility{
     private RulesPolicy policy;
     private Rule currentRule;
 
-    // Inject Conditionchecker
+    @Inject
+    private CustomChecker customChecker;
     @Inject
     private ValueHelper valueHelper;
     @Inject
@@ -52,34 +53,38 @@ public class RulesFacility extends AbstractFacility{
         spreadsheetInventory.getSpreadsheetIO().updateSpreadsheetValues();
         spreadsheetInventory.getSpreadsheetIO().calculateFormulaValues();
         spreadsheetInventory.getSpreadsheetIO().updateModelValues();
-        parseConditions(rule.getConditions());
+        parseConditions(rule.getRuleConditions());
 
         restoreCellBackupValues();
         spreadsheetInventory.getSpreadsheetIO().updateSpreadsheetValues();
 
     }
 
-    private void parseConditions(List<Condition> conditions) {
-        for (Condition condition: conditions) {
-            parseCondition(condition);
+    private void parseConditions(List<RuleCondition> ruleConditions) {
+        for (RuleCondition ruleCondition : ruleConditions) {
+            parseCondition(ruleCondition);
         }
     }
-    private void parseCondition (Condition condition){
-        CellAddress ca = addressFactory.createCellAddress(condition.getTarget());
-        if (ca.isValidAddress() && (condition.getType() != ValueType.BLANK)) {
-            checkCondition(ca.getCell(), condition);
+    private void parseCondition (RuleCondition ruleCondition){
+        CellAddress ca = addressFactory.createCellAddress(ruleCondition.getTarget());
+        if (ca.isValidAddress() && (ruleCondition.getType() != ValueType.BLANK)) {
+            checkCondition(ca.getCell(), ruleCondition);
         }
     }
 
-    private void checkCondition (Cell cell, Condition condition) {
-        if (!conditionChecker.ifFulfulled(condition, cell)) {
+    private void checkCondition (Cell cell, RuleCondition ruleCondition) {
+        for (int i = 0; i < currentRule.getRuleConditions().lastIndexOf(ruleCondition); i++) {
+
+        }
+
+        if (!customChecker.isFulfilled(ruleCondition, cell)) {
             validationReport.add(new CustomViolation(
                     cell,
                     currentRule.getName(),
                     cell.getValue().getValueString(),
-                    condition.getValue(),
-                    condition.getConditionType()
-            ))
+                    ruleCondition.getValue(),
+                    ruleCondition.getConditionType()
+            ));
         }
     }
 

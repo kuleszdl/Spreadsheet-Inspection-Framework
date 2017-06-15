@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import sif.testcenter.Facility;
 import sif.testcenter.SpreadsheetInventory;
+import sif.testcenter.custom_rules.CustomChecker;
+import sif.testcenter.custom_rules.RulesFacility;
 import sif.testcenter.dynamic_testing.ConditionChecker;
 import sif.testcenter.dynamic_testing.DynamicTestingFacility;
 import sif.testcenter.error_containing_cell.ErrorContainingCellFacility;
@@ -33,7 +35,9 @@ public class TestcenterModule extends AbstractModule {
         facilityBinder.addBinding().to(StringDistanceFacility.class);
         facilityBinder.addBinding().to(SanityChecksFacility.class);
         facilityBinder.addBinding().to(DynamicTestingFacility.class);
+        facilityBinder.addBinding().to(RulesFacility.class);
         bind(SpreadsheetInventory.class);
         bind(ConditionChecker.class);
+        bind(CustomChecker.class);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class Rule {
     private String name = "DEFAULT RULE_NAME";
     private List<RuleData> ruleData = new ArrayList<>();
-    private List<Condition> conditions = new ArrayList<>();
+    private List<RuleCondition> ruleConditions = new ArrayList<>();
 
     public Rule() {
 
@@ -38,12 +38,12 @@ public class Rule {
         this.ruleData = ruleData;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public List<RuleCondition> getRuleConditions() {
+        return ruleConditions;
     }
 
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+    public void setRuleConditions(List<RuleCondition> ruleConditions) {
+        this.ruleConditions = ruleConditions;
     }
 
 }
