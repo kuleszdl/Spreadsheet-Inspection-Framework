@@ -1,25 +1,23 @@
 package sif.testcenter.custom_rules;
 
-
-import org.apache.poi.ss.usermodel.ConditionType;
 import sif.model.values.ValueType;
 
-public class Condition {
+public class RuleCondition {
     private String target;
     private String value;
-    private ConditionType conditionType;
+    private RuleConditionType ruleConditionType;
     private ValueType type;
 
-    public Condition () {
+    public RuleCondition() {
         type = ValueType.BLANK;
     }
 
-    public  Condition(String target, String value, ConditionType conditionType, ValueType valueType) {
+    public RuleCondition(String target, String value, RuleConditionType conditionType, ValueType valueType) {
         this.target = target;
         this.value = value;
-        this.conditionType = conditionType;
+        this.ruleConditionType = conditionType;
         this.type = valueType;
-        }
+    }
 
 
     public String getTarget() {
@@ -39,13 +37,14 @@ public class Condition {
     }
 
 
+    public RuleConditionType getConditionType() {
+        return ruleConditionType;
+    }
 
-    public ConditionType getConditionType() {
-        return conditionType;
+    public void setConditionType(RuleConditionType conditionType) {
+        this.ruleConditionType = conditionType;
     }
-    public void setConditionType(ConditionType conditionType) {
-        this.conditionType = conditionType;
-    }
+
     public ValueType getType() {
         return type;
     }
