@@ -1,55 +1,38 @@
 package sif.testcenter.custom_rules;
 
-import sif.model.values.ValueType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@SuppressWarnings("unused")
+@XmlRootElement(name = "ruleCondition")
 public class RuleCondition {
-    private String target;
-    private String value;
-    private RuleConditionType ruleConditionType;
-    private ValueType type;
+    private String conditionValue;
+    private RuleConditionType conditionType;
 
     public RuleCondition() {
-        type = ValueType.BLANK;
+        conditionType = RuleConditionType.BLANK;
     }
 
-    public RuleCondition(String target, String value, RuleConditionType conditionType, ValueType valueType) {
-        this.target = target;
-        this.value = value;
-        this.ruleConditionType = conditionType;
-        this.type = valueType;
+    public RuleCondition(RuleConditionType conditionType, String conditionValue) {
+        this.conditionType = conditionType;
+        this.conditionValue = conditionValue;
     }
 
 
-    public String getTarget() {
-        return target;
+public String getConditionValue() {
+        return conditionValue;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setConditionValue(String conditionValue) {
+        this.conditionValue = conditionValue;
     }
 
 
     public RuleConditionType getConditionType() {
-        return ruleConditionType;
+        return conditionType;
     }
 
     public void setConditionType(RuleConditionType conditionType) {
-        this.ruleConditionType = conditionType;
+        this.conditionType = conditionType;
     }
 
-    public ValueType getType() {
-        return type;
-    }
-
-    public void setType(ValueType type) {
-        this.type = type;
-    }
 }

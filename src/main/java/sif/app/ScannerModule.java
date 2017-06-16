@@ -2,10 +2,7 @@ package sif.app;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import sif.scanner.InputCellScanner;
-import sif.scanner.IntermediateCellScanner;
-import sif.scanner.OutputCellScanner;
-import sif.scanner.Scanner;
+import sif.scanner.*;
 
 public class ScannerModule extends AbstractModule {
 
@@ -15,5 +12,6 @@ public class ScannerModule extends AbstractModule {
         scannerMultibinder.addBinding().to(InputCellScanner.class);
         scannerMultibinder.addBinding().to(IntermediateCellScanner.class);
         scannerMultibinder.addBinding().to(OutputCellScanner.class);
+        scannerMultibinder.addBinding().to(RuleCellScanner.class);
     }
 }

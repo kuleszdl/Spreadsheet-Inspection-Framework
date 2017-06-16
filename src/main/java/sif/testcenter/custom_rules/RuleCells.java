@@ -5,20 +5,20 @@ import sif.model.values.ValueType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("unused")
-@XmlRootElement(name = "ruleData")
-public class RuleData {
+@XmlRootElement(name = "ruleCell")
+public class RuleCells {
     private String value;
     private String target;
     private ValueType type;
 
-    public RuleData () {
+    public RuleCells() {
         type = ValueType.BLANK;
     }
 
-    public RuleData (String target, String value, ValueType valueType) {
+    public RuleCells(String target, String value, ValueType valueType) {
         this.target = target;
-        this.value = value;
         this.type = valueType;
+        this.value = value;
     }
 
     public String getTarget() {

@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @SuppressWarnings("unused")
-@XmlRootElement(name = "RulePolicy")
+@XmlRootElement(name = "customRulesPolicy")
 public class RulesPolicy  extends Policy{
     private List<Rule> rules = new ArrayList<>();
 
@@ -30,7 +30,6 @@ public class RulesPolicy  extends Policy{
     @XmlElements({
             @XmlElement(name = "rule", type = Rule.class),
     })
-
     public List<Rule> getRules() {
         return rules;
     }

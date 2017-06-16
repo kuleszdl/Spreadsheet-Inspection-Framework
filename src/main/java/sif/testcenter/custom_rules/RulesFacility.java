@@ -9,11 +9,11 @@ import sif.model.AddressFactory;
 import sif.model.Cell;
 import sif.model.CellAddress;
 import sif.model.values.ValueHelper;
-import sif.model.values.ValueType;
 import sif.testcenter.AbstractFacility;
 import sif.testcenter.Policy;
 import sif.testcenter.SpreadsheetInventory;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -48,7 +48,7 @@ public class RulesFacility extends AbstractFacility{
 
     private void evaluateRule(Rule rule) {
         // parse cells
-        parseRuleData(rule.getRuleData());
+        parseRuleCells(rule.getRuleCells());
 
         spreadsheetInventory.getSpreadsheetIO().updateSpreadsheetValues();
         spreadsheetInventory.getSpreadsheetIO().calculateFormulaValues();
@@ -66,23 +66,26 @@ public class RulesFacility extends AbstractFacility{
         }
     }
     private void parseCondition (RuleCondition ruleCondition){
-        CellAddress ca = addressFactory.createCellAddress(ruleCondition.getTarget());
-        if (ca.isValidAddress() && (ruleCondition.getType() != ValueType.BLANK)) {
-            checkCondition(ca.getCell(), ruleCondition);
+        for (Iterator<RuleCells> iter = this.currentRule.getRuleCells().iterator(); iter.hasNext();) {
+            RuleCells ruleCell = iter.next();
+            CellAddress ca = addressFactory.createCellAddress(ruleCell.getTarget());
+            if (ca.isValidAddress() && (ruleCondition.getConditionType() != RuleConditionType.BLANK)) {
+                checkCondition(ca.getCell(), ruleCondition);
+            }
         }
+
+
     }
 
     private void checkCondition (Cell cell, RuleCondition ruleCondition) {
-        for (int i = 0; i < currentRule.getRuleConditions().lastIndexOf(ruleCondition); i++) {
-
-        }
+        //for (int i = 0; i < currentRule.getRuleConditions().lastIndexOf(ruleCondition); i++) {}
 
         if (!customChecker.isFulfilled(ruleCondition, cell)) {
             validationReport.add(new CustomViolation(
                     cell,
                     currentRule.getName(),
                     cell.getValue().getValueString(),
-                    ruleCondition.getValue(),
+                    ruleCondition.getConditionValue(),
                     ruleCondition.getConditionType()
             ));
         }
@@ -97,21 +100,21 @@ public class RulesFacility extends AbstractFacility{
             }
     }
 
-    private void parseRuleData(List<RuleData> ruleData) {
-        for (RuleData ruleCells: ruleData) {
-            parseRuleData(ruleCells);
+    private void parseRuleCells(List<RuleCells> ruleData) {
+        for (RuleCells ruleCells: ruleData) {
+            parseRuleCell(ruleCells);
         }
     }
 
-    private void parseRuleData(RuleData ruleData) {
+    private void parseRuleCell(RuleCells ruleData) {
         CellAddress ca = addressFactory.createCellAddress(ruleData.getTarget());
-        if (ca.isValidAddress())
-            if ((ruleData.getType() == ValueType.BLANK)) {
+        //if (ca.isValidAddress())
+          //  if ((ruleData.getType() == ValueType.BLANK)) {
                 Cell cell = ca.getCell();
                 cell.setBackupValue(cell.getValue());
                 cell.setValue(valueHelper.importValue(ruleData.getValue(), ruleData.getType()));
                 cell.setDirty(true);
-            }
+            //}
 
     }
 

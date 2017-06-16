@@ -112,25 +112,25 @@
                             <operator>EQUALS</operator>
                             <target>Tabelle1!C1</target>
                             <type>NUMERIC</type>
-                            <value>20</value>
+                            <conditionValue>20</conditionValue>
                         </condition>
                         <condition>
                             <operator>GREATER</operator>
                             <target>Tabelle1!B2</target>
                             <type>NUMERIC</type>
-                            <value>20</value>
+                            <conditionValue>20</conditionValue>
                         </condition>
                     </conditions>
                     <inputs>
                         <input>
                             <target>Tabelle1!A1</target>
                             <type>NUMERIC</type>
-                            <value>10</value>
+                            <conditionValue>10</conditionValue>
                         </input>
                         <input>
                             <target>Tabelle1!B2</target>
                             <type>NUMERIC</type>
-                            <value>5</value>
+                            <conditionValue>5</conditionValue>
                         </input>
                     </inputs>
                     <invariants>

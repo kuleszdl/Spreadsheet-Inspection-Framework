@@ -10,25 +10,25 @@
                             <operator>EQUALS</operator>
                             <target>Tabelle1!A14</target>
                             <type>NUMERIC</type>
-                            <value>20</value>
+                            <conditionValue>20</conditionValue>
                         </condition>
                         <condition>
                             <operator>GREATER</operator>
                             <target>Tabelle1!A14</target>
                             <type>NUMERIC</type>
-                            <value>25</value>
+                            <conditionValue>25</conditionValue>
                         </condition>
                     </conditions>
                     <inputs>
                         <input>
                             <target>Tabelle1!A12</target>
                             <type>NUMERIC</type>
-                            <value>12</value>
+                            <conditionValue>12</conditionValue>
                         </input>
                         <input>
                             <target>Tabelle1!A13</target>
                             <type>NUMERIC</type>
-                            <value>8</value>
+                            <conditionValue>8</conditionValue>
                         </input>
                     </inputs>
                     <invariants>
@@ -42,20 +42,20 @@
                             <operator>LESS</operator>
                             <target>Tabelle1!A14</target>
                             <type>NUMERIC</type>
-                            <value>-9</value>
+                            <conditionValue>-9</conditionValue>
                         </condition>
                         <condition>
                             <operator>LESS_OR_EQUAL</operator>
                             <target>Tabelle1!A14</target>
                             <type>NUMERIC</type>
-                            <value>-9</value>
+                            <conditionValue>-9</conditionValue>
                         </condition>
                     </conditions>
                     <inputs>
                         <input>
                             <target>Tabelle1!A13</target>
                             <type>NUMERIC</type>
-                            <value>-10</value>
+                            <conditionValue>-10</conditionValue>
                         </input>
                     </inputs>
                     <invariants>

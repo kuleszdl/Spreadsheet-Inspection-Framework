@@ -40,6 +40,7 @@ public class InspectionRequest {
 
     @XmlElementWrapper(name = "policies")
     @XmlElements({
+            @XmlElement(name = "customRulesPolicy", type = RulesPolicy.class),
             @XmlElement(name = "errorContainingCellPolicy", type = ErrorContainingCellPolicy.class),
             @XmlElement(name = "formulaComplexityPolicy", type = FormulaComplexityPolicy.class),
             @XmlElement(name = "multipleSameRefPolicy", type = MultipleSameRefPolicy.class),
@@ -50,8 +51,7 @@ public class InspectionRequest {
             @XmlElement(name = "refToNullPolicy", type = RefToNullPolicy.class),
             @XmlElement(name = "stringDistancePolicy", type = StringDistancePolicy.class),
             @XmlElement(name = "sanityChecksPolicy", type = SanityChecksPolicy.class),
-            @XmlElement(name = "dynamicTestingPolicy", type = DynamicTestingPolicy.class),
-            @XmlElement(name = "customRulePolicy", type = RulesPolicy.class)
+            @XmlElement(name = "dynamicTestingPolicy", type = DynamicTestingPolicy.class)
     })
     public List<Policy> getPolicies() {
         return policies;

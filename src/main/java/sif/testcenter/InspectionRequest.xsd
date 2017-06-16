@@ -5,6 +5,12 @@
 
     <xs:element name="binaryCondition" type="binaryCondition"/>
 
+    <xs:element name="ruleCell" type="ruleCell"></xs:element>
+
+    <xs:element name="ruleCondition" type="ruleCondition"></xs:element>
+
+    <xs:element name="customRulesPolicy" type="dynamicTestingPolicy"/>
+
     <xs:element name="dynamicTestingPolicy" type="dynamicTestingPolicy"/>
 
     <xs:element name="errorContainingCellPolicy" type="errorContainingCellPolicy"/>
@@ -66,6 +72,7 @@
                             <xs:element ref="stringDistancePolicy"/>
                             <xs:element ref="sanityChecksPolicy"/>
                             <xs:element ref="dynamicTestingPolicy"/>
+                            <xs:element ref="customRulesPolicy"/>
                         </xs:choice>
                     </xs:sequence>
                 </xs:complexType>
@@ -231,12 +238,36 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="customRulesPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="ruleCells" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="ruleCell" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ruleConditions" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="ruleCondition" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
     <xs:complexType name="binaryCondition">
         <xs:complexContent>
             <xs:extension base="abstractCondition">
                 <xs:sequence>
                     <xs:element name="relation" type="binaryRelation" minOccurs="0"/>
-                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                    <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -255,7 +286,7 @@
             <xs:extension base="abstractCondition">
                 <xs:sequence>
                     <xs:element name="relation" type="ternaryRelation" minOccurs="0"/>
-                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                    <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
                     <xs:element name="value2" type="xs:double" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -266,46 +297,72 @@
         <xs:sequence>
             <xs:element name="target" type="xs:string" minOccurs="0"/>
             <xs:element name="type" type="valueType" minOccurs="0"/>
-            <xs:element name="value" type="xs:string" minOccurs="0"/>
+            <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="ruleCell">
+        <xs:sequence>
+                <xs:element name="target" type="xs:string" minOccurs="0"/>
+                <xs:element name="type" type="valueType" minOccurs="0"/>
+                <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ruleCondition">
+        <xs:sequence>
+            <xs:element name="conditionType" type="conditionType" minOccurs="0"/>
+            <xs:element name="conditionValue" type="xs:string" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="conditionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration conditionValue="Regex"></xs:enumeration>
+            <xs:enumeration conditionValue="CharacterCount"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+
     <xs:simpleType name="policyType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="STATIC"/>
-            <xs:enumeration value="DYNAMIC"/>
-            <xs:enumeration value="SANITY"/>
+            <xs:enumeration conditionValue="STATIC"/>
+            <xs:enumeration conditionValue="DYNAMIC"/>
+            <xs:enumeration conditionValue="SANITY"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="binaryRelation">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="equals"/>
-            <xs:enumeration value="greaterThan"/>
-            <xs:enumeration value="lessThan"/>
-            <xs:enumeration value="lessOrEqual"/>
-            <xs:enumeration value="greaterOrEqual"/>
+            <xs:enumeration conditionValue="equals"/>
+            <xs:enumeration conditionValue="greaterThan"/>
+            <xs:enumeration conditionValue="lessThan"/>
+            <xs:enumeration conditionValue="lessOrEqual"/>
+            <xs:enumeration conditionValue="greaterOrEqual"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="ternaryRelation">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="closed"/>
-            <xs:enumeration value="open"/>
-            <xs:enumeration value="openLeft"/>
-            <xs:enumeration value="openRight"/>
+            <xs:enumeration conditionValue="closed"/>
+            <xs:enumeration conditionValue="open"/>
+            <xs:enumeration conditionValue="openLeft"/>
+            <xs:enumeration conditionValue="openRight"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="valueType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="BOOLEAN"/>
-            <xs:enumeration value="ERROR"/>
-            <xs:enumeration value="FLOAT"/>
-            <xs:enumeration value="INTEGER"/>
-            <xs:enumeration value="NULL"/>
-            <xs:enumeration value="TEXT"/>
+            <xs:enumeration conditionValue="BOOLEAN"/>
+            <xs:enumeration conditionValue="ERROR"/>
+            <xs:enumeration conditionValue="FLOAT"/>
+            <xs:enumeration conditionValue="INTEGER"/>
+            <xs:enumeration conditionValue="NULL"/>
+            <xs:enumeration conditionValue="TEXT"/>
         </xs:restriction>
     </xs:simpleType>
+
+
+
 </xs:schema>
 
