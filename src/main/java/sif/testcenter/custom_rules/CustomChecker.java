@@ -16,12 +16,12 @@ public class CustomChecker {
 
         // convert to Regex, or check regex pattern
         switch (ruleCondition.getConditionType()) {
-            case REGEX:
+            case Regex:
                 if (checkRegex(ruleCondition.getConditionValue(), cell.getValue().getValueString())) {
                     return true;
                 }
                 return false;
-            case CHARACTER_COUNT:
+            case CharacterCount:
                 String regexValue = characterCountToRegex(ruleCondition.getConditionValue());
                 if (checkRegex(regexValue, cell.getValue().getValueString())) {
                     return true;

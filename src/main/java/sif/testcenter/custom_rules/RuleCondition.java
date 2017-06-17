@@ -9,7 +9,7 @@ public class RuleCondition {
     private RuleConditionType conditionType;
 
     public RuleCondition() {
-        conditionType = RuleConditionType.BLANK;
+        conditionType = RuleConditionType.Blank;
     }
 
     public RuleCondition(RuleConditionType conditionType, String conditionValue) {

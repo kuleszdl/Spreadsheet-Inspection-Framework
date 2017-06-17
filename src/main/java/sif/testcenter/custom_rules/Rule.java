@@ -11,7 +11,7 @@ import java.util.List;
 @XmlRootElement(name = "rule")
 public class Rule {
     private String name = "DEFAULT_RULE_NAME";
-    private List<RuleCells> ruleCells = new ArrayList<>();
+    private List<RuleCell> ruleCells = new ArrayList<>();
     private List<RuleCondition> ruleConditions = new ArrayList<>();
 
     public Rule() {
@@ -32,12 +32,12 @@ public class Rule {
 
     @XmlElementWrapper(name="ruleCells")
     @XmlElements({
-            @XmlElement(name = "ruleCell", type = RuleCells.class),
+            @XmlElement(name = "ruleCell", type = RuleCell.class),
     })
-    public List<RuleCells> getRuleCells() {
+    public List<RuleCell> getRuleCells() {
         return ruleCells;
     }
-    public void setRuleCells(List<RuleCells> ruleCells) {
+    public void setRuleCells(List<RuleCell> ruleCells) {
         this.ruleCells = ruleCells;
     }
 

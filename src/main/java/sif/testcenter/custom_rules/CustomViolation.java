@@ -41,8 +41,8 @@ public class CustomViolation extends Violation{
             vars.add(getCausingCell().getWorksheet().getKey());
             vars.add(actualValue);
         }
-        String start = Translator.tl("CustomRulePolicy.CustomViolation", vars);
-        String end = Translator.tl("CustomRulePolicy.CustomViolation." + ruleConditionType, expectedValue);
+        String start = Translator.tl("RulesPolicy.CustomViolation", vars);
+        String end = Translator.tl("RulesPolicy.CustomViolation." + ruleConditionType, expectedValue);
         return start + " " + end;
     }
 

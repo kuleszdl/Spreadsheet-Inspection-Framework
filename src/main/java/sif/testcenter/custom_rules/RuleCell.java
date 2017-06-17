@@ -6,16 +6,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("unused")
 @XmlRootElement(name = "ruleCell")
-public class RuleCells {
+public class RuleCell {
     private String value;
     private String target;
     private ValueType type;
 
-    public RuleCells() {
+    public RuleCell() {
         type = ValueType.BLANK;
     }
 
-    public RuleCells(String target, String value, ValueType valueType) {
+    public RuleCell(String target, String value, ValueType valueType) {
         this.target = target;
         this.type = valueType;
         this.value = value;

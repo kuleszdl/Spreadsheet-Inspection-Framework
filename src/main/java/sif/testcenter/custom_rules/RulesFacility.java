@@ -43,7 +43,7 @@ public class RulesFacility extends AbstractFacility{
             evaluateRule(rule);
         }
         spreadsheetInventory.getInspectionResponse().add(validationReport);
-        logger.debug("finished run() with " + validationReport.getViolationCount() + "new violations.");
+        logger.debug("finished run() with " + validationReport.getViolationCount() + " new violations.");
     }
 
     private void evaluateRule(Rule rule) {
@@ -66,10 +66,10 @@ public class RulesFacility extends AbstractFacility{
         }
     }
     private void parseCondition (RuleCondition ruleCondition){
-        for (Iterator<RuleCells> iter = this.currentRule.getRuleCells().iterator(); iter.hasNext();) {
-            RuleCells ruleCell = iter.next();
+        for (Iterator<RuleCell> iter = this.currentRule.getRuleCells().iterator(); iter.hasNext();) {
+            RuleCell ruleCell = iter.next();
             CellAddress ca = addressFactory.createCellAddress(ruleCell.getTarget());
-            if (ca.isValidAddress() && (ruleCondition.getConditionType() != RuleConditionType.BLANK)) {
+            if (ca.isValidAddress() && (ruleCondition.getConditionType() != RuleConditionType.Blank)) {
                 checkCondition(ca.getCell(), ruleCondition);
             }
         }
@@ -100,21 +100,21 @@ public class RulesFacility extends AbstractFacility{
             }
     }
 
-    private void parseRuleCells(List<RuleCells> ruleData) {
-        for (RuleCells ruleCells: ruleData) {
-            parseRuleCell(ruleCells);
+    private void parseRuleCells(List<RuleCell> ruleData) {
+        for (RuleCell ruleCell : ruleData) {
+            parseRuleCell(ruleCell);
         }
     }
 
-    private void parseRuleCell(RuleCells ruleData) {
-        CellAddress ca = addressFactory.createCellAddress(ruleData.getTarget());
-        //if (ca.isValidAddress())
+    private void parseRuleCell(RuleCell ruleCell) {
+        CellAddress ca = addressFactory.createCellAddress(ruleCell.getTarget());
+        if (ca.isValidAddress()) {
           //  if ((ruleData.getType() == ValueType.BLANK)) {
                 Cell cell = ca.getCell();
                 cell.setBackupValue(cell.getValue());
-                cell.setValue(valueHelper.importValue(ruleData.getValue(), ruleData.getType()));
+                cell.setValue(valueHelper.importValue(ruleCell.getValue(), ruleCell.getType()));
                 cell.setDirty(true);
-            //}
+            }
 
     }
 
