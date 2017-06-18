@@ -42,7 +42,7 @@ public class CustomChecker {
     }
 
     public boolean checkRegex (String pattern, String input) {
-        Pattern p = Pattern.compile(pattern);
+        Pattern p = Pattern.compile("(^|\\W)" + pattern + "($|\\W)");
         Matcher m = p.matcher(input);
         if (m.find()) {
             return true;
