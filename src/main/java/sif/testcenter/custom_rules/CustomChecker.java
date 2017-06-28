@@ -22,24 +22,20 @@ public class CustomChecker {
                 }
                 return false;
             case CharacterCount:
-                String regexValue = characterCountToRegex(ruleCondition.getConditionValue());
-                if (checkRegex(regexValue, cell.getValue().getValueString())) {
-                    return true;
+                try {
+                    if (cell.getValue().getValueString().length() <= Integer.parseInt(ruleCondition.getConditionValue())) {
+                        return true;
+                    }
+                } catch (Exception e) {
+
                 }
+
                 return false;
             default:
                 return false;
         }
     }
 
-    private String characterCountToRegex(String value) {
-        String regexValue = "";
-        // accepts arbitrary characters with the specified length
-        for (int i = 0; i< Integer.parseInt(value); i++) {
-            regexValue += regexValue + ".";
-        }
-        return regexValue;
-    }
 
     public boolean checkRegex (String pattern, String input) {
         Pattern p = Pattern.compile("(^|\\W)" + pattern + "($|\\W)");
