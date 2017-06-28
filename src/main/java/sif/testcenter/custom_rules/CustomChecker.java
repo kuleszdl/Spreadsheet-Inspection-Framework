@@ -23,7 +23,7 @@ public class CustomChecker {
                 return false;
             case CharacterCount:
                 try {
-                    if (cell.getValue().getValueString().length() <= Integer.parseInt(ruleCondition.getConditionValue())) {
+                    if (cell.getValue().getValueString().length() <= Integer.parseInt(ruleCondition.getConditionValue())+1) {
                         return true;
                     }
                 } catch (Exception e) {
