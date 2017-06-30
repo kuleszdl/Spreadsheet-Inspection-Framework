@@ -86,7 +86,8 @@ public class RulesFacility extends AbstractFacility{
                     currentRule.getName(),
                     cell.getValue().getValueString(),
                     ruleCondition.getConditionValue(),
-                    ruleCondition.getConditionType()
+                    ruleCondition.getConditionType(),
+                    ruleCondition.getConditionName()
             ));
         }
     }

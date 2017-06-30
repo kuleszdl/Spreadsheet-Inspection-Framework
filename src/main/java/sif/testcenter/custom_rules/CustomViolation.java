@@ -17,13 +17,16 @@ public class CustomViolation extends Violation{
     private final String actualValue;
     private final String expectedValue;
     private final RuleConditionType ruleConditionType;
+    private final String conditionName;
 
-    CustomViolation (Cell cell, String ruleName, String actualValue, String expectedValue, RuleConditionType ruleConditionType) {
+    CustomViolation (Cell cell, String ruleName, String actualValue, String expectedValue, RuleConditionType ruleConditionType, String conditionName) {
         super(cell);
         this.ruleName = ruleName;
         this.actualValue = actualValue;
         this.expectedValue = expectedValue;
         this.ruleConditionType = ruleConditionType;
+        this.conditionName = conditionName;
+        logger.trace("New CustomViolation at" + cell.getExcelNotation());
     }
 
     @Override
@@ -37,13 +40,15 @@ public class CustomViolation extends Violation{
         List<String> vars = new ArrayList<>();
         if (getCausingCell() != null) {
             vars.add(ruleName);
+            vars.add(conditionName);
             vars.add(getCausingCell().getSimpleNotation());
             vars.add(getCausingCell().getWorksheet().getKey());
             vars.add(actualValue);
         }
         String start = Translator.tl("RulesPolicy.CustomViolation", vars);
-        String end = Translator.tl("RulesPolicy.CustomViolation." + ruleConditionType, expectedValue);
-        return start + " " + end;
+        // 2. part unused
+        String end = Translator.tl("RulesPolicy.CustomViolation."+ ruleConditionType);
+        return start;
     }
 
     /*

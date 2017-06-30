@@ -311,6 +311,7 @@
 
     <xs:complexType name="ruleCondition">
         <xs:sequence>
+            <xs:element name="conditionName" type="xs:string" minOccurs="0"/>
             <xs:element name="conditionType" type="conditionType" minOccurs="0"/>
             <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
         </xs:sequence>
