@@ -3,6 +3,7 @@ package sif.testcenter.custom_rules;
 import com.google.inject.Inject;
 import sif.model.Cell;
 import sif.model.values.ValueHelper;
+import sif.model.values.ValueType;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +31,11 @@ public class CustomChecker {
 
                 }
 
+                return false;
+            case Empty:
+                if (cell.getValue().getType() == ValueType.BLANK) {
+                    return true;
+                }
                 return false;
             default:
                 return false;
