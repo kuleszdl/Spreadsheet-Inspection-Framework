@@ -4,6 +4,10 @@ import sif.model.values.ValueType;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/***
+ * The RuleCells belong to a Rule.
+ *
+ */
 @SuppressWarnings("unused")
 @XmlRootElement(name = "ruleCell")
 public class RuleCell {

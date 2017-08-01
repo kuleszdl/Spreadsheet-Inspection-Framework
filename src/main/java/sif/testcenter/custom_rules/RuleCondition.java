@@ -2,6 +2,9 @@ package sif.testcenter.custom_rules;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/***
+ * The RuleConditions belong to a Rule and will be checked with the CustomChecker
+ */
 @SuppressWarnings("unused")
 @XmlRootElement(name = "ruleCondition")
 public class RuleCondition {

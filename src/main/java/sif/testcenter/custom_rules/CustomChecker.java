@@ -8,7 +8,9 @@ import sif.model.values.ValueType;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/***
+ * The Regex Checker for the custom_rules Facility
+ */
 public class CustomChecker {
     @Inject
     private ValueHelper valueHelper;
@@ -42,7 +44,12 @@ public class CustomChecker {
         }
     }
 
-
+    /**
+     * Adds Checks to the pattern and matches it with the input while being greedy and lazy
+     * @param pattern
+     * @param input
+     * @return
+     */
     public boolean checkRegex (String pattern, String input) {
         Pattern p = Pattern.compile("(^|\\W)" + pattern + "($|\\W)");
         Matcher m = p.matcher(input);

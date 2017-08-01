@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * The Rule Object which contains the Conditions and the relavent RuleCells
+ */
 @SuppressWarnings("unused")
 @XmlRootElement(name = "rule")
 public class Rule {

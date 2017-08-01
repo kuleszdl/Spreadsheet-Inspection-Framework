@@ -9,6 +9,10 @@ import sif.utility.Translator;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * The custom_rules specific Violation
+ * Adds the ConditionName, Location, ConditionType and the Values to the ViolationReport
+ */
 public class CustomViolation extends Violation{
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -35,6 +39,10 @@ public class CustomViolation extends Violation{
                 ruleConditionType + "[" + expectedValue + "]" + "[" +  actualValue + "]";
     }
 
+    /**
+     * returns the relevant information TODO: RuleDescription not returned yet
+     * @return
+     */
     @Override
     public String getDescription() {
         List<String> vars = new ArrayList<>();

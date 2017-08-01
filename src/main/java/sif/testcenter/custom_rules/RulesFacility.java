@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
+/***
+ * The Facility run the custom_rules tests
+ */
 @RequestScoped
 public class RulesFacility extends AbstractFacility{
     private final Logger logger = LoggerFactory.getLogger(RulesFacility.class);
@@ -29,7 +32,6 @@ public class RulesFacility extends AbstractFacility{
     private ValueHelper valueHelper;
     @Inject
     private AddressFactory addressFactory;
-
 
 
     @Inject
@@ -46,6 +48,10 @@ public class RulesFacility extends AbstractFacility{
         logger.debug("finished run() with " + validationReport.getViolationCount() + " new violations.");
     }
 
+    /**
+     * Parses RuleCells and gets the Spreadsheet Information, then parses the conditions
+     * @param rule
+     */
     private void evaluateRule(Rule rule) {
         // parse cells
         parseRuleCells(rule.getRuleCells());
@@ -60,11 +66,20 @@ public class RulesFacility extends AbstractFacility{
 
     }
 
+    /**
+     * Parses all Conditions for a Rule
+     * @param ruleConditions
+     */
     private void parseConditions(List<RuleCondition> ruleConditions) {
         for (RuleCondition ruleCondition : ruleConditions) {
             parseCondition(ruleCondition);
         }
     }
+
+    /**
+     * Parses through every RuleCell of a Rule for each Condition
+     * @param ruleCondition
+     */
     private void parseCondition (RuleCondition ruleCondition){
         for (Iterator<RuleCell> iter = this.currentRule.getRuleCells().iterator(); iter.hasNext();) {
             RuleCell ruleCell = iter.next();
@@ -73,10 +88,13 @@ public class RulesFacility extends AbstractFacility{
                 checkCondition(ca.getCell(), ruleCondition);
             }
         }
-
-
     }
 
+    /**
+     * Checks a Cell against a Condition and adds a CustomViolation to the ValidationReport if it isn't
+     * @param cell
+     * @param ruleCondition
+     */
     private void checkCondition (Cell cell, RuleCondition ruleCondition) {
         //for (int i = 0; i < currentRule.getRuleConditions().lastIndexOf(ruleCondition); i++) {}
 
@@ -101,12 +119,20 @@ public class RulesFacility extends AbstractFacility{
             }
     }
 
+    /**
+     * Parses all RuleCells for a Rule
+     * @param ruleData
+     */
     private void parseRuleCells(List<RuleCell> ruleData) {
         for (RuleCell ruleCell : ruleData) {
             parseRuleCell(ruleCell);
         }
     }
 
+    /**
+     * Checks CellAddress and sets Values
+     * @param ruleCell
+     */
     private void parseRuleCell(RuleCell ruleCell) {
         CellAddress ca = addressFactory.createCellAddress(ruleCell.getTarget());
         if (ca.isValidAddress()) {

@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/***
+ * The RulesPolicy checks for the Elements in the InspectionRequest and if the Policy is enabled
+ */
 @SuppressWarnings("unused")
 @XmlRootElement(name = "customRulesPolicy")
 public class RulesPolicy  extends Policy{
