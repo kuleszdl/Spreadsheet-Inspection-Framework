@@ -1,7 +1,7 @@
 package sif.testcenter;
 
 /**
- * Enum for the types of the policy rules
+ * Enum for the types of the policy custom_rules
  */
 public enum PolicyType {
     

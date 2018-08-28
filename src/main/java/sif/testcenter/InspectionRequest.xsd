@@ -5,6 +5,12 @@
 
     <xs:element name="binaryCondition" type="binaryCondition"/>
 
+    <xs:element name="ruleCell" type="ruleCell"/>
+
+    <xs:element name="ruleCondition" type="ruleCondition"/>
+
+    <xs:element name="customRulesPolicy" type="dynamicTestingPolicy"/>
+
     <xs:element name="dynamicTestingPolicy" type="dynamicTestingPolicy"/>
 
     <xs:element name="errorContainingCellPolicy" type="errorContainingCellPolicy"/>
@@ -66,6 +72,7 @@
                             <xs:element ref="stringDistancePolicy"/>
                             <xs:element ref="sanityChecksPolicy"/>
                             <xs:element ref="dynamicTestingPolicy"/>
+                            <xs:element ref="customRulesPolicy"/>
                         </xs:choice>
                     </xs:sequence>
                 </xs:complexType>
@@ -231,12 +238,36 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="customRulesPolicy">
+        <xs:complexContent>
+            <xs:extension base="policy">
+                <xs:sequence>
+                    <xs:element name="ruleCell" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="ruleCell" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ruleConditions" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element ref="ruleCondition" minOccurs="0" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
     <xs:complexType name="binaryCondition">
         <xs:complexContent>
             <xs:extension base="abstractCondition">
                 <xs:sequence>
                     <xs:element name="relation" type="binaryRelation" minOccurs="0"/>
-                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                    <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -255,7 +286,7 @@
             <xs:extension base="abstractCondition">
                 <xs:sequence>
                     <xs:element name="relation" type="ternaryRelation" minOccurs="0"/>
-                    <xs:element name="value" type="xs:string" minOccurs="0"/>
+                    <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
                     <xs:element name="value2" type="xs:double" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -266,9 +297,33 @@
         <xs:sequence>
             <xs:element name="target" type="xs:string" minOccurs="0"/>
             <xs:element name="type" type="valueType" minOccurs="0"/>
-            <xs:element name="value" type="xs:string" minOccurs="0"/>
+            <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:complexType name="ruleCell">
+        <xs:sequence>
+                <xs:element name="target" type="xs:string" minOccurs="0"/>
+                <xs:element name="type" type="valueType" minOccurs="0"/>
+                <xs:element name="value" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ruleCondition">
+        <xs:sequence>
+            <xs:element name="conditionName" type="xs:string" minOccurs="0"/>
+            <xs:element name="conditionType" type="conditionType" minOccurs="0"/>
+            <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="conditionType">
+        <xs:sequence>
+            <xs:element name="Regex"/>
+            <xs:element name="CharacterCount"/>
+        </xs:sequence>
+    </xs:complexType>
+
 
     <xs:simpleType name="policyType">
         <xs:restriction base="xs:string">
@@ -307,5 +362,8 @@
             <xs:enumeration value="TEXT"/>
         </xs:restriction>
     </xs:simpleType>
+
+
+
 </xs:schema>
 

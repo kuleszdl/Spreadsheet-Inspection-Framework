@@ -1,5 +1,6 @@
 package sif.testcenter;
 
+import sif.testcenter.custom_rules.RulesPolicy;
 import sif.testcenter.dynamic_testing.DynamicTestingPolicy;
 import sif.testcenter.error_containing_cell.ErrorContainingCellPolicy;
 import sif.testcenter.formula_complexity.FormulaComplexityPolicy;
@@ -39,6 +40,7 @@ public class InspectionRequest {
 
     @XmlElementWrapper(name = "policies")
     @XmlElements({
+            @XmlElement(name = "customRulesPolicy", type = RulesPolicy.class),
             @XmlElement(name = "errorContainingCellPolicy", type = ErrorContainingCellPolicy.class),
             @XmlElement(name = "formulaComplexityPolicy", type = FormulaComplexityPolicy.class),
             @XmlElement(name = "multipleSameRefPolicy", type = MultipleSameRefPolicy.class),
